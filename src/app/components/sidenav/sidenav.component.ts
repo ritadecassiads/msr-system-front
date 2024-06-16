@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
+import { ProductRegisterComponent } from "../../pages/products/product-register/product-register.component";
 
 @Component({
     selector: 'app-sidenav',
@@ -14,10 +15,11 @@ import { MenuComponent } from '../menu/menu.component';
     templateUrl: './sidenav.component.html',
     styleUrl: './sidenav.component.css',
     imports: [
-      MatSidenavModule, 
-      MatButtonModule, 
-      MatIconModule,
-      MenuComponent
+        MatSidenavModule,
+        MatButtonModule,
+        MatIconModule,
+        MenuComponent,
+        ProductRegisterComponent
     ]
 })
 export class SidenavComponent {

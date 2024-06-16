@@ -1,0 +1,23 @@
+.product-form-register{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+}
+
+.product-form-input{
+    width: 100vh;
+}
+
+.product-form-dat {
+    margin-left: 15px;
+}
+
+.product-form-tree{
+    display: flex;
+    flex-direction: row;
+    max-width: 100vh;
+}
+
+.product-form-price, .product-form-quantity{
+    margin-right: 10px;
+}
