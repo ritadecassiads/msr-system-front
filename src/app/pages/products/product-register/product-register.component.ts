@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 //import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -16,7 +17,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule, 
     FormsModule, 
     MatDatepickerModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ]
 })
 export class ProductRegisterComponent {

@@ -1,14 +1,72 @@
-<mat-drawer-container class="sidenav-container">
-    <mat-drawer #drawer class="sidenav-content" mode="side" opened>
-        <app-menu></app-menu>
-    </mat-drawer>
+<div *ngIf="!isLoggedIn">
+    <mat-toolbar class="toolbar" color="primary">
+        <button class="menu" mat-icon-button>
+            <mat-icon> menu </mat-icon>
+        </button>
+        <span>MSR</span>
 
-    <div class="sidenav-content-button">
-        <button mat-icon-button (click)="drawer.toggle()">
-            <mat-icon>menu</mat-icon> </button>
-    </div>
 
-    <mat-drawer-content>
-        <app-product-register></app-product-register>
-    </mat-drawer-content>
-</mat-drawer-container>
+        <span class="example-spacer"></span>
+        <span>Register</span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon>person_add_alt</mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <!-- renderiza a tela de login -->
+    <router-outlet> </router-outlet>
+</div>
+
+<div *ngIf="isLoggedIn">
+    <mat-toolbar class="toolbar" color="primary">
+        <div>
+            <button class="menu" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon> menu </mat-icon>
+            </button>
+            <span>MSR</span>
+        </div>
+
+        <button mat-icon-button class="example-icon favorite-icon" (click)="logout();" aria-label="Example icon-button with heart icon">
+            <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout" [ariaSetSize]="50"
+                color="warn"></mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav class="sidenav-inside-container" #sidenav [opened]="true" mode="side">
+            <mat-nav-list class="sidenav-list">
+                <a mat-list-item routerLink="">
+                    <div class="item">
+                        <mat-icon class="icon"> list </mat-icon>
+                        <span> Listar produtos </span>
+                    </div>
+                </a>
+                <a mat-list-item routerLink="/product/register">
+                    <div class="item">
+                        <mat-icon class="icon"> add </mat-icon>
+                        <span> Cadastrar produto </span>
+                    </div>
+                </a>
+
+                <a mat-list-item routerLink="/client/register">
+                    <div class="item">
+                        <mat-icon class="icon"> add </mat-icon>
+                        <span> Cadastrar cliente </span>
+                    </div>
+                </a>
+
+                <a mat-list-item routerLink="/login">
+                    <div class="item">
+                        <mat-icon class="icon"> add </mat-icon>
+                        <span> Login </span>
+                    </div>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content class="content">
+            <!-- Conteúdo -->
+            <router-outlet> </router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

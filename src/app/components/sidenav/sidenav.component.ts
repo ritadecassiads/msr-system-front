@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -8,6 +8,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
 import { ProductRegisterComponent } from "../../pages/products/product-register/product-register.component";
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { LoginComponent } from "../../pages/auth/login/login.component";
 
 @Component({
     selector: 'app-sidenav',
@@ -19,18 +24,23 @@ import { ProductRegisterComponent } from "../../pages/products/product-register/
         MatButtonModule,
         MatIconModule,
         MenuComponent,
-        ProductRegisterComponent
+        ProductRegisterComponent,
+        MatToolbarModule,
+        MatListModule,
+        RouterOutlet,
+        RouterLink,
+        CommonModule,
+        LoginComponent
     ]
 })
 export class SidenavComponent {
-  onSidenavChange(event: boolean) {
-    // Check if the sidenav is open
-    if (event) {
-      console.log('Sidenav opened');
-      // Perform actions when sidenav is open (e.g., adjust UI elements)
-    } else {
-      console.log('Sidenav closed');
-      // Perform actions when sidenav is closed (e.g., reset UI elements)
-    }
+  authService = inject(AuthService);
+  router = inject(Router);
+  
+  isLoggedIn = this.authService.isLoggedIn();
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

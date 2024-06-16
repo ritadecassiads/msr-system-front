@@ -1,1 +1,62 @@
-<p>client-register works!</p>
+<div class="product-form-register">
+    <h3>
+      Cadastrar cliente
+    </h3>
+  
+    <mat-form-field appearance="outline" class="product-form-input">
+      <mat-label>Nome</mat-label>
+      <input matInput name="nome" required [(ngModel)]="client.name" placeholder="Digite o nome do produto">
+    </mat-form-field>
+  
+  
+  
+    <mat-form-field appearance="outline" class="product-form-input">
+      <mat-label>Descrição</mat-label>
+      <input matInput name="descricao" [(ngModel)]="client.cpf" placeholder="Alguma descrição...">
+    </mat-form-field>
+  
+  
+    <div class="product-form-tree">
+      <mat-form-field appearance="outline" class="product-form-price">
+        <mat-label>Preço</mat-label>
+        <input matInput name="preco" name="preco" [(ngModel)]="client.rg" placeholder="R$ 00,00">
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="product-form-quantity">
+        <mat-label>Quantidade</mat-label>
+        <input matInput name="quantidade" name="quantidade" placeholder="">
+      </mat-form-field>
+  
+  
+      <mat-form-field appearance="outline" class="product-form-date">
+        <mat-label>Data de Inclusão</mat-label>
+        <input matInput [matDatepicker]="picker" name="concluirEm" [(ngModel)]="client.birthDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+  
+    <!-- <div>
+        <mat-form-field>
+          <mat-label>Equipe</mat-label>
+          <mat-select (selectionChange)="salvaEquipesSelecionadas($event)">
+            <mat-option *ngFor="let equipe of equipes" [value]="equipe.equipeId">{{ equipe.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <div>
+        <mat-form-field>
+          <mat-label>Usuário</mat-label>
+          <mat-select (selectionChange)="salvaUsuariosSelecionados($event)">
+            <mat-option *ngFor="let usuario of usuarios" [value]="usuario.usuarioId">{{ usuario.nome }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+  
+  
+    <div class="product-div-button">
+      <button class="product-button" routerLink="" type="submit" mat-raised-button>Salvar</button>
+    </div>
+  </div>

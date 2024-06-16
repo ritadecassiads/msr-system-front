@@ -1,10 +1,37 @@
-.sidenav-content {
+/* .sidenav-content {
   width: auto;
   flex-direction: column;
   background-color: #FFCCBC;
   padding: 0 16px;
-}
+} */
 
 .sidenav-container {
+  width: auto;
   height: 100vh;
 }
+
+.sidenav-inside-container {
+  width: auto;
+  background: #f7f2f2;
+}
+
+.example-spacer {
+  flex:1 1 auto;
+}
+
+.toolbar {
+  background-color: #fbd0c3;
+  display: flex;
+  justify-content: space-between;
+}
+
+.item{
+  display: flex;
+  align-items: center;
+}
+
+
+
+/* .sidenav-list{
+  width: auto;
+} */

@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin: 10px 20px;
+    width: 100vh;
 }
 
 .product-form-input{
@@ -21,3 +22,12 @@
 .product-form-price, .product-form-quantity{
     margin-right: 10px;
 }
+
+.product-div-button{
+    display: flex;
+    justify-content: flex-end; 
+}
+
+/* .product-button{
+    background-color: #fbd0c3;
+} */
