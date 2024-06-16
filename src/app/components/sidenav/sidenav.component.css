@@ -1,0 +1,10 @@
+.sidenav-content {
+  width: auto;
+  flex-direction: column;
+  background-color: #FFCCBC;
+  padding: 0 16px;
+}
+
+.sidenav-container {
+  height: 100vh;
+}

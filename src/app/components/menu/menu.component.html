@@ -1,0 +1,25 @@
+<button mat-button [matMenuTriggerFor]="acessos">Acessar</button>
+<mat-menu #acessos="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="mercadoria">Mercadoria</button>
+  <button mat-menu-item [matMenuTriggerFor]="clientes">Clientes</button>
+  <button mat-menu-item [matMenuTriggerFor]="funcionarios">Funcionarios</button>
+</mat-menu>
+
+<mat-menu #mercadoria="matMenu">
+  <!-- <button mat-menu-item [matMenuTriggerFor]="fish">Fishes</button>
+  <button mat-menu-item [matMenuTriggerFor]="amphibians">Amphibians</button>
+  <button mat-menu-item [matMenuTriggerFor]="reptiles">Reptiles</button> -->
+  <button mat-menu-item>Consultar</button>
+  <button mat-menu-item>Cadastrar</button>
+</mat-menu>
+
+<mat-menu #clientes="matMenu">
+    <button mat-menu-item>Consultar</button>
+    <button mat-menu-item>Cadastrar</button>
+</mat-menu>
+
+<mat-menu #funcionarios="matMenu">
+    <button mat-menu-item>Consultar</button>
+    <button mat-menu-item>Cadastrar</button>
+</mat-menu>
+

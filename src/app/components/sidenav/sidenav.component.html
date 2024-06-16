@@ -1,0 +1,10 @@
+<mat-drawer-container class="sidenav-container">
+    <mat-drawer #drawer class="sidenav-content" mode="side" opened>
+        <app-menu></app-menu>
+    </mat-drawer>
+
+    <div class="sidenav-content-button">
+        <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon> </button>
+    </div>
+</mat-drawer-container>

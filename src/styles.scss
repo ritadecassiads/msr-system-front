@@ -1,0 +1,26 @@
+// @use '@angular/material' as mat;
+
+// $theme: mat.define-theme((
+//   color: (
+//     theme-type: dark,
+//     primary: mat.$violet-palette,
+//   ),
+//   typography: (
+//     brand-family: 'Comic Sans',
+//     bold-weight: 900
+//   )
+// ));
+
+
+// $custom-app-primary: mat-palette($mat-blue);
+// $custom-app-secondary: mat-palette($mat-indigo);
+// $custom-app-warn: mat-palette($mat-red);
+
+// $custom-theme: mat-light-theme($custom-app-primary, $custom-app-secondary, $custom-app-warn);
+
+// @include angular-material-theme($custom-theme);
+// @include mat-core($custom-theme);
+// @include mat-core();
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
