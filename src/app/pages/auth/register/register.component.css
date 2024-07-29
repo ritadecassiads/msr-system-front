@@ -8,14 +8,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(253, 101, 133, 1);
+    background-color: #fbd0c3;
 }
 
 .signup-card {
     border-radius: 10px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-    width: 40%;
-    height: 450px;
+    width: 50%;
+    height: auto;
     background-color: #ffffff;
     padding: 10px 30px;
 }
@@ -59,4 +59,15 @@
 .card-terms span {
     margin: 5px;
     font-size: 13px;
+}
+
+.login-div-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.login-button {
+  width: 50%;
+  margin-bottom: 15px;
 }

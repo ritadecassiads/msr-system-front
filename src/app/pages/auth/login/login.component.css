@@ -26,6 +26,12 @@
   margin-bottom: 15px;
 }
 
+.toolbar {
+  background-color: #fbd0c3;
+  display: flex;
+  justify-content: space-between;
+}
+
 /* .teste{
     background: #f7f2f2; 
 } */

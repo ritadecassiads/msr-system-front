@@ -1,47 +1,74 @@
-<div class="teste">
-    <mat-card class="login-card" appearance="outlined">
-        <mat-card-header class="login-title">
-            <mat-card-title>Login</mat-card-title>
-        </mat-card-header>
-    
-        <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-    
-            <mat-card-content class="login-form">
-                <mat-form-field appearance="outline" class="product-form-input">
-                    <mat-label>Usuário</mat-label>
-                    <input matInput name="name" required [(ngModel)]="user.username" placeholder="Username">
-                </mat-form-field>
-    
-                <mat-form-field appearance="outline">
-                    <mat-label>Senha</mat-label>
-                    <input name="password" [(ngModel)]="user.password" matInput [type]="hide() ? 'password' : 'text'"/>
-                    <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide()">
-                        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
-            </mat-card-content>
-    
-            <div class="login-div-button">
-                <button class="login-button" routerLink="" type="submit" mat-flat-button>Entrar</button>
-            </div>
-    
-        </form>
-    
-    </mat-card>
+<mat-toolbar class="toolbar" color="primary">
+  <span>MSR</span>
 
-</div>
+  <span class="example-spacer"></span>
 
-<!-- <div class="login-card">
-
-    <div class="card-title">
-        <h1>Login</h1>
-        <span>You don't have an account? <a routerLink="/signup">Sign up</a></span>
+  <a mat-list-item routerLink="/register">
+    <div class="item">
+      <mat-icon class="icon"> person_add_alt</mat-icon>
+      <span> Cadastrar </span>
     </div>
-    <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <input name="email" type="email" formControlName="email" placeholder="Email">
-        <input type="password" formControlName="password" placeholder="Password">
-        <button>Submit</button>
-    </form>
+  </a>
 
-</div> -->
+  <!-- <button
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+  >
+    <span>Cadastrar</span>
+    <mat-icon>person_add_alt</mat-icon>
+  </button> -->
+</mat-toolbar>
+
+<div class="teste">
+  <mat-card class="login-card" appearance="outlined">
+    <mat-card-header class="login-title">
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <mat-card-content class="login-form">
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Usuário</mat-label>
+          <input
+            matInput
+            name="name"
+            required
+            [(ngModel)]="user.username"
+            placeholder="Username"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input
+            name="password"
+            [(ngModel)]="user.password"
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-card-content>
+
+      <div class="login-div-button">
+        <button
+          class="login-button"
+          routerLink=""
+          type="submit"
+          mat-flat-button
+        >
+          Entrar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

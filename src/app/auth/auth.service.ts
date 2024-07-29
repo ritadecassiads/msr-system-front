@@ -8,10 +8,10 @@ import { tap } from "rxjs/operators";
 import { User } from "../models/user";
 
 @Injectable({ providedIn: "root" })
-
 export class AuthService {
   httpClient = inject(HttpClient);
-  private apiUrl = "http://localhost:3000/auth";
+  //private apiUrl = "http://localhost:3000/auth"; express
+  private apiUrl = "http://localhost:3000"; // nest
 
   constructor(private http: HttpClient) {}
 
@@ -45,6 +45,6 @@ export class AuthService {
 
   // mudar para user: User
   register(data: any) {
-    return this.httpClient.post(`${this.apiUrl}/register`, data);
+    return this.httpClient.post(`${this.apiUrl}/users`, data);
   }
 }

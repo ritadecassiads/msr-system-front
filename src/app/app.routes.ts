@@ -4,32 +4,52 @@ import { ClientRegisterComponent } from "./pages/clients/client-register/client-
 import { LoginComponent } from "./pages/auth/login/login.component";
 import { authGuard } from "./auth/auth.guard";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { RegisterComponent } from "./pages/auth/register/register.component";
 
 export const routes: Routes = [
+  {
+    path: "login",
+    component: LoginComponent,
+  },
   {
     path: "",
     redirectTo: "/login",
     pathMatch: "full",
   },
   {
-    path: "login",
-    component: LoginComponent,
+    path: "register",
+    component: RegisterComponent,
   },
   {
-    path: "dashboard",
-    canActivate: [authGuard],
+    path: "",
     component: SidenavComponent,
+    children: [
+      {
+        path: "dashboard",
+        component: ProductRegisterComponent,
+      },
+      {
+        path: "product/register",
+        canActivate: [authGuard],
+        component: ProductRegisterComponent,
+      },
+      {
+        path: "client/register",
+        canActivate: [authGuard],
+        component: ClientRegisterComponent,
+      },
+    ],
   },
-  {
-    path: "product/register",
-    canActivate: [authGuard],
-    component: ProductRegisterComponent,
-  },
-  {
-    path: "client/register",
-    canActivate: [authGuard],
-    component: ClientRegisterComponent,
-  },
+  // {
+  //   path: "product/register",
+  //   canActivate: [authGuard],
+  //   component: ProductRegisterComponent,
+  // },
+  // {
+  //   path: "client/register",
+  //   canActivate: [authGuard],
+  //   component: ClientRegisterComponent,
+  // },
 ];
 
 RouterModule.forRoot(routes, { useHash: true });

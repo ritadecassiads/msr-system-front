@@ -17,6 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 @Component({
   selector: "app-login",
@@ -31,7 +32,8 @@ import {
     MatChipsModule,
     MatProgressBarModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule
   ],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
@@ -56,9 +58,9 @@ export class LoginComponent {
 
   // entender
   protected loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
-  })
+    username: new FormControl("", [Validators.required]),
+    password: new FormControl("", [Validators.required]),
+  });
 
   // entender
   // onSubmit(){
@@ -78,13 +80,13 @@ export class LoginComponent {
 
   onSubmit() {
     // procurar formas melhores de validar campos
-    if(this.user.username != '' && this.user.password != ''){
+    if (this.user.username != "" && this.user.password != "") {
       this.authService.login(this.user.username, this.user.password).subscribe({
         next: (response) => {
           console.log("Login successful!", response);
 
-          if(this.authService.isLoggedIn()){
-            this.router.navigate(['/dashboard']);
+          if (this.authService.isLoggedIn()) {
+            this.router.navigate(["/dashboard"]);
           }
         },
         error: (error) => {
