@@ -29,6 +29,7 @@ export class ClientRegisterComponent {
     rg: "",
     address: {
       street: "",
+      number: "",
       city: "",
       state: "",
       postalCode: ""

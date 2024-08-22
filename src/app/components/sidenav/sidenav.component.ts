@@ -8,8 +8,8 @@ import { ProductRegisterComponent } from "../../pages/products/product-register/
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
-import { LoginComponent } from "../../pages/auth/login/login.component";
+import { AuthService } from '../../services/auth.service';
+import { LoginComponent } from "../../pages/login/login.component";
 
 @Component({
     selector: 'app-sidenav',

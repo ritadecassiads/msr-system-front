@@ -1,0 +1,44 @@
+.employee-form-register {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 20px;
+  width: 100vh;
+}
+
+.employee-form-input {
+  width: 100vh;
+  margin-bottom: 15px;
+}
+
+.employee-form-tree {
+  display: flex;
+  flex-direction: row;
+  max-width: 100vh;
+}
+
+.employee-form-name, .employee-form-username, .employee-form-password {
+  margin-right: 10px;
+}
+
+.employee-form-cpf, .employee-form-email, .employee-form-phone {
+  margin-right: 10px;
+}
+
+.employee-form-address {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.employee-form-address-street, .employee-form-address-number, .employee-form-address-complement {
+  margin-right: 10px;
+}
+
+.employee-div-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.employee-button {
+  background-color: #fbd0c3; /* Exemplo de cor de botão */
+}

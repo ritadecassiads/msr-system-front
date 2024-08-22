@@ -1,23 +1,12 @@
 <mat-toolbar class="toolbar" color="primary">
   <span>MSR</span>
-
-  <span class="example-spacer"></span>
-
+  <!-- <span class="example-spacer"></span>
   <a mat-list-item routerLink="/register">
     <div class="item">
       <mat-icon class="icon"> person_add_alt</mat-icon>
       <span> Cadastrar </span>
     </div>
-  </a>
-
-  <!-- <button
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <span>Cadastrar</span>
-    <mat-icon>person_add_alt</mat-icon>
-  </button> -->
+  </a> -->
 </mat-toolbar>
 
 <div class="teste">
@@ -26,35 +15,32 @@
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
 
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card-content class="login-form">
         <mat-form-field appearance="outline" class="product-form-input">
           <mat-label>Usuário</mat-label>
           <input
             matInput
-            name="name"
+            formControlName="username"
             required
-            [(ngModel)]="user.username"
-            placeholder="Username"
           />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Senha</mat-label>
           <input
-            name="password"
-            [(ngModel)]="user.password"
+            formControlName="password"
             matInput
-            [type]="hide() ? 'password' : 'text'"
+            [type]="hidePassword ? 'password' : 'text'"
           />
           <button
             mat-icon-button
             matSuffix
             (click)="clickEvent($event)"
             [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()"
+            [attr.aria-pressed]="hidePassword"
           >
-            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+            <mat-icon>{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
         </mat-form-field>
       </mat-card-content>
@@ -62,7 +48,6 @@
       <div class="login-div-button">
         <button
           class="login-button"
-          routerLink=""
           type="submit"
           mat-flat-button
         >

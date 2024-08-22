@@ -1,4 +1,3 @@
 export interface TokenJwt {
-    message: string,
-    token_jwt: string
+  access_token: string;
 }

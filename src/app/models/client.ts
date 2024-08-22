@@ -1,5 +1,5 @@
 import { Address } from "./address";
-import { User } from "./user";
+import { Employee } from "./employee";
 
 export interface Client {
     code?: number;
@@ -13,7 +13,7 @@ export interface Client {
     createdAt?: Date;
     purchaseLimit?: number;
     observations?: string;
-    createdByUser?: User; // tirar a interrogação depois
+    createdByUser?: Employee; // tirar a interrogação depois
     fathersName?: string;
     mothersName?: string;
     peopleAuthorized?: string;
