@@ -1,39 +1,61 @@
-import { Component } from '@angular/core';
-import { Product } from '../../../models/products';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-//import { HttpClient } from '@angular/common/http';
+import { Component } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from "@angular/material/card";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { Router, RouterModule } from "@angular/router";
+import { ProductService } from "../../../services/product.service";
 
 @Component({
-  selector: 'app-product-register',
+  selector: "app-product-register",
   standalone: true,
-  templateUrl: './product-register.component.html',
-  styleUrl: './product-register.component.css',
+  templateUrl: "./product-register.component.html",
+  styleUrl: "./product-register.component.css",
   imports: [
-    MatFormFieldModule, 
-    FormsModule, 
+    MatFormFieldModule,
+    FormsModule,
     MatDatepickerModule,
     MatInputModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
 })
 export class ProductRegisterComponent {
+  productForm: FormGroup;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private fb: FormBuilder,
+    private router: Router,
+    private productService: ProductService
+  ) {
+    this.productForm = this.fb.group({
+      name: "",
+      description: "",
+      price: "",
+      stock: "",
+      supplierId: "",
+      category: "",
+    });
+  }
 
-  product: Product = {
-    name: "",
-    description: "",
-    price: 0,
-    quantity: 0,
-    createdAt: new Date()
-  };
-
+  onSubmit() {
+    
+  }
 }

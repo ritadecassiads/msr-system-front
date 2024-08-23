@@ -13,7 +13,6 @@ export const JwtInterceptor: HttpInterceptorFn = (
 ): Observable<HttpEvent<unknown>> => {
   // Adicione a lógica do seu interceptor aqui
   const token = sessionStorage.getItem("access_token");
-  console.log("token --->", token);
   
   if (token) {
     const cloned = req.clone({

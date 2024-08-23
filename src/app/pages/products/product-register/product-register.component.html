@@ -1,42 +1,71 @@
-<div class="product-form-register">
-  <h3>
-    Cadastrar produto
-  </h3>
+<mat-card class="product-form-register">
+  <mat-card-header>
+    <mat-card-title>Cadastro de Produto</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <!-- Nome -->
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Nome</mat-label>
+        <input
+          matInput
+          placeholder="Nome"
+          formControlName="name"
+          name="name"
+          required
+        />
+      </mat-form-field>
 
-  <mat-form-field appearance="outline" class="product-form-input">
-    <mat-label>Nome</mat-label>
-    <input matInput name="nome" required [(ngModel)]="product.name" placeholder="Digite o nome do produto">
-  </mat-form-field>
+      <!-- Descrição -->
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Descrição</mat-label>
+        <textarea
+          matInput
+          placeholder="Descrição"
+          formControlName="description"
+          name="description"
+          required
+        ></textarea>
+      </mat-form-field>
 
+      <!-- Preço -->
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Preço</mat-label>
+        <input
+          matInput
+          formControlName="price"
+          type="number"
+          name="price"
+          required
+        />
+      </mat-form-field>
 
+      <!-- Quantidade em Estoque -->
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Quantidade em Estoque</mat-label>
+        <input
+          matInput
+          formControlName="stock"
+          type="number"
+          name="stock"
+          required
+        />
+      </mat-form-field>
 
-  <mat-form-field appearance="outline" class="product-form-input">
-    <mat-label>Descrição</mat-label>
-    <input matInput name="descricao" [(ngModel)]="product.description" placeholder="Alguma descrição...">
-  </mat-form-field>
+      <!-- Categoria -->
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Categoria</mat-label>
+        <input
+          matInput
+          formControlName="category"
+          name="category"
+          required
+        />
+      </mat-form-field>
 
-
-  <div class="product-form-tree">
-    <mat-form-field appearance="outline" class="product-form-price">
-      <mat-label>Preço</mat-label>
-      <input matInput name="preco" name="preco" [(ngModel)]="product.price" placeholder="R$ 00,00">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="product-form-quantity">
-      <mat-label>Quantidade</mat-label>
-      <input matInput name="quantidade" name="quantidade" [(ngModel)]="product.quantity" placeholder="">
-    </mat-form-field>
-
-
-    <mat-form-field appearance="outline" class="product-form-date">
-      <mat-label>Data de Inclusão</mat-label>
-      <input matInput [matDatepicker]="picker" name="concluirEm" [(ngModel)]="product.createdAt">
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-
-  <div class="product-div-button">
-    <button class="product-button" routerLink="" type="submit" mat-raised-button>Salvar</button>
-  </div>
-</div>
+      <div class="product-div-button">
+        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

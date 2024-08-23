@@ -1,0 +1,40 @@
+.client-form-register {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 20px;
+  width: 100vh;
+}
+
+.client-form-input {
+  width: 100vh;
+  margin-bottom: 15px;
+}
+
+.client-form-tree {
+  display: flex;
+  flex-direction: row;
+  max-width: 100vh;
+}
+
+.client-form-name, .client-form-username, .client-form-password {
+  margin-right: 10px;
+}
+
+.client-form-address {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.client-form-address-street, .client-form-address-number, .client-form-address-complement {
+  margin-right: 10px;
+}
+
+.client-div-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.client-button {
+  background-color: #fbd0c3; /* Exemplo de cor de botão */
+}

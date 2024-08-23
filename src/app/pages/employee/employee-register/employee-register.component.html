@@ -62,6 +62,8 @@
         Esse usuário deve ter acesso de administrador?
       </mat-checkbox>
 
+      <div class="text-alert" *ngIf="isAdminControl.value">Esse usuário terá acesso de administrador.</div>
+
       <h3>Endereço</h3>
 
       <div formGroupName="address">

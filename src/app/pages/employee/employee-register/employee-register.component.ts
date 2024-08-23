@@ -53,96 +53,55 @@ import { Employee } from "../../../models/employee";
   styleUrls: ["./employee-register.component.css"],
 })
 export class EmployeeRegisterComponent {
-  // employeeForm: FormGroup;
-  fb = inject(FormBuilder);
-  employeeService = inject(EmployeeService);
-  router = inject(Router);
+  employeeForm: FormGroup;
+  isAdminControl: FormControl = new FormControl(false);
 
-  readonly isAdminControl = new FormControl(false);
-
-  public employeeForm = new FormGroup({
-    name: new FormControl("", [Validators.required]),
-    username: new FormControl("", [Validators.required]),
-    password: new FormControl("", [Validators.required]),
-    cpf: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.required, Validators.email]),
-    phone: new FormControl("", [Validators.required]),
-    isAdmin: new FormControl(false, [Validators.required]),
-    address: new FormGroup({
-      street: new FormControl("", [Validators.required]),
-      number: new FormControl("", [Validators.required]),
-      complement: new FormControl(""),
-      city: new FormControl("", [Validators.required]),
-      state: new FormControl("", [Validators.required]),
-      postalCode: new FormControl("", [Validators.required]),
-    }),
-  });
-
-  constructor() {
-    // this.employeeForm = this.fb.group({
-    //   name: ["", Validators.required],
-    //   username: ["", Validators.required],
-    //   password: ["", Validators.required],
-    //   cpf: ["", Validators.required],
-    //   email: ["", [Validators.required, Validators.email]],
-    //   phone: ["", Validators.required],
-    //   isAdmin: [false], // Checkbox para Administrador
-    //   street: ["", Validators.required],
-    //   number: ["", Validators.required],
-    //   complement: [""],
-    //   city: ["", Validators.required],
-    //   state: ["", Validators.required],
-    //   postalCode: ["", Validators.required],
-    // });
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {
+    this.employeeForm = this.fb.group({
+      name: ["", Validators.required],
+      username: ["", Validators.required],
+      password: ["", Validators.required],
+      cpf: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", Validators.required],
+      isAdmin: [false],
+      address: this.fb.group({
+        street: ["", Validators.required],
+        number: ["", Validators.required],
+        complement: [""],
+        city: ["", Validators.required],
+        state: ["", Validators.required],
+        postalCode: ["", Validators.required],
+      }),
+    });
   }
 
   onSubmit() {
     if (this.employeeForm.valid) {
-      if (this.employeeForm) {
-        const employee = this.initForm();
+      const employee: Employee = this.employeeForm.value;
 
-        this.employeeService.saveEmployee(employee).subscribe({
-          next: (response) => {
-            console.log("Employee registered!", response);
-            this.router.navigate(["/dashboard"]);
-          },
-          error: (error) => {
-            console.error("Error registering employee:", error);
-            alert("Error registering employee. Please check your data.");
-          },
-        });
-      }
+      this.employeeService.saveEmployee(employee).subscribe({
+        next: () => {
+          alert("Employee registered!");
+          this.router.navigate(["/dashboard"]);
+        },
+        error: (error) => {
+          console.error("Error registering employee:", error);
+          alert("Error registering employee. Please check your data.");
+        },
+      });
     }
   }
 
   isAdminChange() {
     // valuesChanges é um Observable e subscribe é usado para reagir a esses eventos
-    this.isAdminControl.valueChanges.subscribe((value) => {
+    this.isAdminControl.valueChanges.subscribe((value: boolean) => {
       this.employeeForm.get("isAdmin")?.setValue(value);
+      console.log("isAdminControl value: ", value);
     });
-  }
-
-  initForm() {
-    const formValue = this.employeeForm.value;
-
-    const employee: Employee = {
-      name: formValue.name ?? "",
-      username: formValue.username ?? "",
-      password: formValue.password ?? "",
-      cpf: formValue.cpf ?? "",
-      email: formValue.email ?? "",
-      phone: formValue.phone ?? "",
-      isAdmin: formValue.isAdmin ?? false,
-      address: {
-        street: formValue.address?.street ?? "",
-        number: formValue.address?.number ?? "",
-        complement: formValue.address?.complement ?? "",
-        city: formValue.address?.city ?? "",
-        state: formValue.address?.state ?? "",
-        postalCode: formValue.address?.postalCode ?? "",
-      },
-    };
-
-    return employee;
   }
 }

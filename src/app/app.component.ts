@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ToolbarComponent } from "./components/toolbar/toolbar.component";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.scss',
   imports: [
     RouterOutlet,
-    ToolbarComponent,
     SidenavComponent
   ]
 })

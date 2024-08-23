@@ -10,4 +10,3 @@
 -> Map: é um operador que transforma os dados emitidos pelo Observable
 
 ## Fazer
--> Pensar numa forma diferente de criar um usuário, ja que só será criado um novo usuário através de um admin

@@ -1,0 +1,95 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Birth Date Column -->
+    <ng-container matColumnDef="birthDate">
+      <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.birthDate}} </td>
+    </ng-container>
+
+    <!-- CPF Column -->
+    <ng-container matColumnDef="cpf">
+      <th mat-header-cell *matHeaderCellDef> CPF </th>
+      <td mat-cell *matCellDef="let element"> {{element.cpf}} </td>
+    </ng-container>
+
+    <!-- RG Column -->
+    <ng-container matColumnDef="rg">
+      <th mat-header-cell *matHeaderCellDef> RG </th>
+      <td mat-cell *matCellDef="let element"> {{element.rg}} </td>
+    </ng-container>
+
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <!-- Purchase Limit Column -->
+    <ng-container matColumnDef="purchaseLimit">
+      <th mat-header-cell *matHeaderCellDef> Purchase Limit </th>
+      <td mat-cell *matCellDef="let element"> {{element.purchaseLimit}} </td>
+    </ng-container>
+
+    <!-- Observations Column -->
+    <ng-container matColumnDef="observations">
+      <th mat-header-cell *matHeaderCellDef> Observations </th>
+      <td mat-cell *matCellDef="let element"> {{element.observations}} </td>
+    </ng-container>
+
+    <!-- Created By Employee Column -->
+    <ng-container matColumnDef="createdByEmployee">
+      <th mat-header-cell *matHeaderCellDef> Created By Employee </th>
+      <td mat-cell *matCellDef="let element"> {{element.createdByEmployee}} </td>
+    </ng-container>
+
+    <!-- Father's Name Column -->
+    <ng-container matColumnDef="fathersName">
+      <th mat-header-cell *matHeaderCellDef> Father's Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.fathersName}} </td>
+    </ng-container>
+
+    <!-- Mother's Name Column -->
+    <ng-container matColumnDef="mothersName">
+      <th mat-header-cell *matHeaderCellDef> Mother's Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.mothersName}} </td>
+    </ng-container>
+
+    <!-- People Authorized Column -->
+    <ng-container matColumnDef="peopleAuthorized">
+      <th mat-header-cell *matHeaderCellDef> People Authorized </th>
+      <td mat-cell *matCellDef="let element"> {{element.peopleAuthorized}} </td>
+    </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> 
+        {{element.address.street}}, {{element.address.number}}, 
+        {{element.address.complement ? element.address.complement + ', ' : ''}} 
+        {{element.address.city}} - {{element.address.state}}, 
+        {{element.address.postalCode}} 
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of clients">
+  </mat-paginator> -->
+</div>

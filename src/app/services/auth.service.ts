@@ -17,8 +17,6 @@ export class AuthService {
       "Content-Type": "application/json",
     });
 
-    console.log("login -->", username, password)
-
     return this.http
       .post<TokenJwt>(
         `${this.apiUrl}/login`,
@@ -51,7 +49,16 @@ export class AuthService {
     return sessionStorage.getItem("access_token") !== null;
   }
 
-  register(data: any) {
-    return this.httpClient.post(`${this.apiUrl}/users`, data);
+  getLoggedUser() {
+    const token = sessionStorage.getItem("access_token");
+    if (!token) {
+      return null;
+    }
+    const [, payload] = token.split("."); // composto por três partes separadas por pontos (.): header, payload, e signature
+    const decodedPayload = atob(payload); // decodifica a string base64
+    const jsonUser = JSON.parse(decodedPayload);
+    const idUserLogged = jsonUser.sub;
+    console.log("idUserLogged ---> ", idUserLogged);
+    return idUserLogged;
   }
 }

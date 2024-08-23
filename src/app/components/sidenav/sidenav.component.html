@@ -30,16 +30,17 @@
     mode="side"
   >
     <mat-nav-list class="sidenav-list">
-      <a mat-list-item routerLink="/product/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar produtos </span>
-        </div>
-      </a>
+      
       <a mat-list-item routerLink="/product/register">
         <div class="item">
           <mat-icon class="icon"> add </mat-icon>
           <span> Cadastrar produto </span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="/product/list">
+        <div class="item">
+          <mat-icon class="icon"> list </mat-icon>
+          <span> Listar produtos </span>
         </div>
       </a>
 
@@ -49,11 +50,23 @@
           <span> Cadastrar cliente </span>
         </div>
       </a>
+      <a mat-list-item routerLink="/client/list">
+        <div class="item">
+          <mat-icon class="icon"> list </mat-icon>
+          <span> Listar cliente </span>
+        </div>
+      </a>
 
       <a mat-list-item routerLink="employee/register">
         <div class="item">
           <mat-icon class="icon"> add </mat-icon>
           <span> Cadastrar funcionário </span>
+        </div>
+      </a>
+      <a mat-list-item routerLink="employee/list">
+        <div class="item">
+          <mat-icon class="icon"> list </mat-icon>
+          <span> Listar funcionário </span>
         </div>
       </a>
     </mat-nav-list>

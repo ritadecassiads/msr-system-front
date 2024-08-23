@@ -1,62 +1,123 @@
-<div class="product-form-register">
-    <h3>
-      Cadastrar cliente
-    </h3>
-  
-    <mat-form-field appearance="outline" class="product-form-input">
-      <mat-label>Nome</mat-label>
-      <input matInput name="nome" required [(ngModel)]="client.name" placeholder="Digite o nome do produto">
-    </mat-form-field>
-  
-  
-  
-    <mat-form-field appearance="outline" class="product-form-input">
-      <mat-label>Descrição</mat-label>
-      <input matInput name="descricao" [(ngModel)]="client.cpf" placeholder="Alguma descrição...">
-    </mat-form-field>
-  
-  
-    <div class="product-form-tree">
-      <mat-form-field appearance="outline" class="product-form-price">
-        <mat-label>Preço</mat-label>
-        <input matInput name="preco" name="preco" [(ngModel)]="client.rg" placeholder="R$ 00,00">
+<mat-card class="client-form-register">
+  <mat-card-header>
+    <mat-card-title>Cadastro de Cliente</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+      <!-- Nome -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" name="name" required />
       </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="product-form-quantity">
-        <mat-label>Quantidade</mat-label>
-        <input matInput name="quantidade" name="quantidade" placeholder="">
+
+      <!-- Data de Nascimento -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput formControlName="birthDate" name="birthDate" type="date" required />
       </mat-form-field>
-  
-  
-      <mat-form-field appearance="outline" class="product-form-date">
-        <mat-label>Data de Inclusão</mat-label>
-        <input matInput [matDatepicker]="picker" name="concluirEm" [(ngModel)]="client.birthDate">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+
+      <!-- CPF -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" name="cpf" required />
       </mat-form-field>
-    </div>
-  
-  
-    <!-- <div>
-        <mat-form-field>
-          <mat-label>Equipe</mat-label>
-          <mat-select (selectionChange)="salvaEquipesSelecionadas($event)">
-            <mat-option *ngFor="let equipe of equipes" [value]="equipe.equipeId">{{ equipe.nome }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+
+      <!-- RG -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>RG</mat-label>
+        <input matInput formControlName="rg" name="rg" required />
+      </mat-form-field>
+
+      <!-- Telefone -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" name="phone" required />
+      </mat-form-field>
+
+      <!-- E-mail -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" name="email" type="email" />
+      </mat-form-field>
+
+      <!-- Limite de Compra -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Limite de Compra</mat-label>
+        <input matInput formControlName="purchaseLimit" name="purchaseLimit" type="number"  />
+      </mat-form-field>
+
+      <!-- Observações -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Observações</mat-label>
+        <textarea matInput formControlName="observations" name="observations"></textarea>
+      </mat-form-field>
+
+      <!-- Nome do Pai -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Nome do Pai</mat-label>
+        <input matInput formControlName="fathersName" name="fathersName" />
+      </mat-form-field>
+
+      <!-- Nome da Mãe -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Nome da Mãe</mat-label>
+        <input matInput formControlName="mothersName" name="mothersName" />
+      </mat-form-field>
+
+      <!-- Pessoas Autorizadas -->
+      <mat-form-field appearance="outline" class="client-form-input">
+        <mat-label>Pessoas autorizadas a comprar</mat-label>
+        <input matInput formControlName="peopleAuthorized" name="peopleAuthorized" />
+      </mat-form-field>
+
+      <h3>Endereço</h3>
+
+      <div formGroupName="address">
+        <div class="client-form-address">
+          <!-- Rua -->
+          <mat-form-field appearance="outline" class="client-form-address-street">
+            <mat-label>Rua</mat-label>
+            <input matInput formControlName="street" name="street" required />
+          </mat-form-field>
+
+          <!-- Número -->
+          <mat-form-field appearance="outline" class="client-form-address-number">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="number" name="number" required />
+          </mat-form-field>
+
+          <!-- Complemento -->
+          <mat-form-field appearance="outline" class="client-form-address-complement">
+            <mat-label>Complemento</mat-label>
+            <input matInput formControlName="complement" name="complement" />
+          </mat-form-field>
+        </div>
+
+        <div class="client-form-tree">
+          <!-- Cidade -->
+          <mat-form-field appearance="outline" class="client-form-name">
+            <mat-label>Cidade</mat-label>
+            <input matInput formControlName="city" name="city" required />
+          </mat-form-field>
+
+          <!-- Estado -->
+          <mat-form-field appearance="outline" class="client-form-username">
+            <mat-label>Estado</mat-label>
+            <input matInput formControlName="state" name="state" required />
+          </mat-form-field>
+
+          <!-- CEP -->
+          <mat-form-field appearance="outline" class="client-form-password">
+            <mat-label>CEP</mat-label>
+            <input matInput formControlName="postalCode" name="postalCode" required />
+          </mat-form-field>
+        </div>
       </div>
-    
-      <div>
-        <mat-form-field>
-          <mat-label>Usuário</mat-label>
-          <mat-select (selectionChange)="salvaUsuariosSelecionados($event)">
-            <mat-option *ngFor="let usuario of usuarios" [value]="usuario.usuarioId">{{ usuario.nome }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div> -->
-  
-  
-    <div class="product-div-button">
-      <button class="product-button" routerLink="" type="submit" mat-raised-button>Salvar</button>
-    </div>
-  </div>
+
+      <div class="client-div-button">
+        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
