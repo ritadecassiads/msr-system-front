@@ -1,0 +1,48 @@
+.supplier-form-register {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 20px;
+  width: 100vh;
+}
+
+.supplier-form-input {
+  width: 100vh;
+  margin-bottom: 15px;
+}
+
+.supplier-form-tree {
+  display: flex;
+  flex-direction: row;
+  max-width: 100vh;
+}
+
+.supplier-form-name, .supplier-form-username, .supplier-form-password {
+  margin-right: 10px;
+}
+
+.supplier-form-cpf, .supplier-form-email, .supplier-form-phone {
+  margin-right: 10px;
+}
+
+.supplier-form-address {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.supplier-form-address-street, .supplier-form-address-number, .supplier-form-address-complement {
+  margin-right: 10px;
+}
+
+.supplier-div-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.supplier-button {
+  background-color: #fbd0c3; /* Exemplo de cor de botão */
+}
+
+.text-alert {
+    color: rgb(179, 1, 1);
+}

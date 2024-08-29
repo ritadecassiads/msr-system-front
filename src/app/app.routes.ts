@@ -7,6 +7,13 @@ import { SidenavComponent } from "./components/sidenav/sidenav.component";
 import { EmployeeRegisterComponent } from "./pages/employee/employee-register/employee-register.component";
 import { EmployeeListComponent } from "./pages/employee/employee-list/employee-list.component";
 import { ClientListComponent } from "./pages/clients/client-list/client-list.component";
+import { ProductListComponent } from "./pages/products/product-list/product-list.component";
+import { CategoryRegisterComponent } from "./pages/category/category-register/category-register.component";
+import { CategoryListComponent } from "./pages/category/category-list/category-list.component";
+import { SupplierRegisterComponent } from "./pages/supplier/supplier-register/supplier-register.component";
+import { SupplierListComponent } from "./pages/supplier/supplier-list/supplier-list.component";
+import { SaleRegisterComponent } from "./pages/sale/sale-register/sale-register.component";
+import { SaleListComponent } from "./pages/sale/sale-list/sale-list.component";
 
 export const routes: Routes = [
   {
@@ -32,6 +39,11 @@ export const routes: Routes = [
         component: ProductRegisterComponent,
       },
       {
+        path: "product/list",
+        canActivate: [authGuard],
+        component: ProductListComponent,
+      },
+      {
         path: "client/register",
         canActivate: [authGuard],
         component: ClientRegisterComponent,
@@ -48,6 +60,30 @@ export const routes: Routes = [
       {
         path: "employee/list",
         component: EmployeeListComponent,
+      },
+      {
+        path: "category/register",
+        component: CategoryRegisterComponent,
+      },
+      {
+        path: "category/list",
+        component: CategoryListComponent,
+      },
+      {
+        path: "supplier/register",
+        component: SupplierRegisterComponent,
+      },
+      {
+        path: "supplier/list",
+        component: SupplierListComponent,
+      },
+      {
+        path: "sale/register",
+        component: SaleRegisterComponent,
+      },
+      {
+        path: "sale/list",
+        component: SaleListComponent,
       },
     ],
   },

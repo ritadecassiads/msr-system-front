@@ -3,18 +3,25 @@
     <mat-card-title>Cadastro de Produto</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <!-- Nome -->
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          placeholder="Nome"
-          formControlName="name"
-          name="name"
-          required
-        />
+    <form [formGroup]="saleForm" (ngSubmit)="onSubmit()">
+      <!-- Produtos -->
+      <!-- <mat-form-field class="product-form-input">
+        <mat-label>Produtos</mat-label>
+        <mat-select [formControl]="categoriesControl" multiple>
+          <mat-option
+            *ngFor="let category of categoryList"
+            [value]="category._id"
+            >{{ category.name }}</mat-option
+          >
+        </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Cliente</mat-label>
+        <mat-select [formControl]="supplierControl">
+          <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">{{ supplier.name }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
 
       <!-- Descrição -->
       <mat-form-field appearance="outline" class="product-form-input">
@@ -49,25 +56,6 @@
           name="stock"
           required
         />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Fornecedor</mat-label>
-        <mat-select [formControl]="supplierControl">
-          <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">{{ supplier.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- Categoria -->
-      <mat-form-field class="product-form-input">
-        <mat-label>Categorias</mat-label>
-        <mat-select [formControl]="categoriesControl" multiple>
-          <mat-option
-            *ngFor="let category of categoryList"
-            [value]="category._id"
-            >{{ category.name }}</mat-option
-          >
-        </mat-select>
       </mat-form-field>
 
       <div class="product-div-button">

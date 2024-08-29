@@ -1,0 +1,33 @@
+.category-form-register{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+    width: 100vh;
+}
+
+.category-form-input{
+    width: 100vh;
+}
+
+.category-form-dat {
+    margin-left: 15px;
+}
+
+.category-form-tree{
+    display: flex;
+    flex-direction: row;
+    max-width: 100vh;
+}
+
+.category-form-price, .category-form-quantity{
+    margin-right: 10px;
+}
+
+.category-div-button{
+    display: flex;
+    justify-content: flex-end; 
+}
+
+/* .category-button{
+    background-color: #fbd0c3;
+} */
