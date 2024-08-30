@@ -3,10 +3,10 @@ import { Supplier } from "./supplier";
 export interface Invoice {
   id?: string;
   code?: number;
-  supplierId: Supplier;
+  amount: number;
   issueDate: Date; // emissão
   dueDate: Date; // vencimento
-  amount: number;
+  supplierId: string;
   installments: number; // parcelas
   status: "open" | "paid" | "overdue";
   notes?: string;

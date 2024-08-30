@@ -1,1 +1,85 @@
-<p>invoice-register works!</p>
+<mat-card class="product-form-register">
+  <mat-card-header>
+    <mat-card-title>Cadastro de Categoria</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Valor</mat-label>
+        <input
+          matInput
+          placeholder="Valor"
+          formControlName="amount"
+          name="amount"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Data de emissão</mat-label>
+        <input
+          matInput
+          placeholder="Descrição"
+          formControlName="issueDate"
+          name="issueDate"
+          type="date"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Data de vencimento</mat-label>
+        <input
+          matInput
+          placeholder="Data de vencimento"
+          formControlName="dueDate"
+          name="dueDate"
+          type="date"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Fornecedor</mat-label>
+        <mat-select [formControl]="supplierControl">
+          <mat-option
+            *ngFor="let supplier of supplierList"
+            [value]="supplier._id"
+            >{{ supplier.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Parcelas</mat-label>
+        <input
+          matInput
+          placeholder="Parcelas"
+          formControlName="installments"
+          name="installments"
+        />
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Status</mat-label>
+        <mat-select [formControl]="statusControl">
+          <mat-option *ngFor="let status of statusList" [value]="status">{{
+            status
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Observações</mat-label>
+        <input
+          matInput
+          placeholder="Observações"
+          formControlName="notes"
+          name="notes"
+        />
+      </mat-form-field>
+
+      <div class="product-div-button">
+        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

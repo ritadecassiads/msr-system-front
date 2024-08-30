@@ -14,6 +14,8 @@ import { SupplierRegisterComponent } from "./pages/supplier/supplier-register/su
 import { SupplierListComponent } from "./pages/supplier/supplier-list/supplier-list.component";
 import { SaleRegisterComponent } from "./pages/sale/sale-register/sale-register.component";
 import { SaleListComponent } from "./pages/sale/sale-list/sale-list.component";
+import { InvoiceRegisterComponent } from "./pages/invoice/invoice-register/invoice-register.component";
+import { InvoiceListComponent } from "./pages/invoice/invoice-list/invoice-list.component";
 
 export const routes: Routes = [
   {
@@ -84,6 +86,14 @@ export const routes: Routes = [
       {
         path: "sale/list",
         component: SaleListComponent,
+      },
+      {
+        path: "invoice/register",
+        component: InvoiceRegisterComponent,
+      },
+      {
+        path: "invoice/list",
+        component: InvoiceListComponent,
       },
     ],
   },
