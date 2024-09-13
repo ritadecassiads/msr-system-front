@@ -30,103 +30,96 @@
     mode="side"
   >
     <mat-nav-list class="sidenav-list">
-      <a mat-list-item routerLink="/product/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar produto </span>
+          <mat-icon class="icon"> credit_card </mat-icon>
+          
+          <span mat-button [matMenuTriggerFor]="menuSale">Venda</span>
+          <mat-menu #menuSale="matMenu">
+            <button mat-menu-item (click)="openDialog()">Abrir</button>
+            <button mat-menu-item routerLink="sale/list">Consultar</button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="/product/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar produtos </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="/client/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar cliente </span>
+          <mat-icon class="icon"> inventory </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuProduct">Produto</span>
+          <mat-menu #menuProduct="matMenu">
+            <button mat-menu-item routerLink="/product/list">Consultar</button>
+            <button mat-menu-item routerLink="/product/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="/client/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar clientes </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="employee/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar funcionário </span>
+          <mat-icon class="icon"> person </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuClient">Cliente</span>
+          <mat-menu #menuClient="matMenu">
+            <button mat-menu-item routerLink="/client/list">Consultar</button>
+            <button mat-menu-item routerLink="/client/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="employee/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar funcionários </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="category/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar categoria </span>
+          <mat-icon class="icon"> badge </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuEmployee">Funcionário</span>
+          <mat-menu #menuEmployee="matMenu">
+            <button mat-menu-item routerLink="employee/list">Consultar</button>
+            <button mat-menu-item routerLink="employee/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="category/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar categorias </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="supplier/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar fornecedor </span>
+          <mat-icon class="icon"> description </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuInvoice">Duplicata</span>
+          <mat-menu #menuInvoice="matMenu">
+            <button mat-menu-item routerLink="invoice/list">Consultar</button>
+            <button mat-menu-item routerLink="invoice/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="supplier/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar fornecedores </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="sale/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar venda </span>
+          <mat-icon class="icon"> label </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuCategory">Categoria</span>
+          <mat-menu #menuCategory="matMenu">
+            <button mat-menu-item routerLink="category/list">Consultar</button>
+            <button mat-menu-item routerLink="category/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="sale/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar vendas </span>
-        </div>
-      </a>
-      <br />
 
-      <a mat-list-item routerLink="invoice/register">
+      <a mat-list-item>
         <div class="item">
-          <mat-icon class="icon"> add </mat-icon>
-          <span> Cadastrar duplicata </span>
+          <mat-icon class="icon"> local_shipping </mat-icon>
+          <span mat-button [matMenuTriggerFor]="menuSupplier">Fornecedor</span>
+          <mat-menu #menuSupplier="matMenu">
+            <button mat-menu-item routerLink="supplier/list">Consultar</button>
+            <button mat-menu-item routerLink="supplier/register">
+              Cadastrar
+            </button>
+          </mat-menu>
         </div>
       </a>
-      <a mat-list-item routerLink="invoice/list">
-        <div class="item">
-          <mat-icon class="icon"> list </mat-icon>
-          <span> Listar duplicatas </span>
-        </div>
-      </a>
-      <br />
+
     </mat-nav-list>
   </mat-sidenav>
 

@@ -11,7 +11,7 @@ export const JwtInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  // Adicione a lógica do seu interceptor aqui
+
   const token = sessionStorage.getItem("access_token");
   
   if (token) {
