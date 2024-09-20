@@ -16,6 +16,7 @@ import { SaleRegisterComponent } from "./pages/sale/sale-register/sale-register.
 import { SaleListComponent } from "./pages/sale/sale-list/sale-list.component";
 import { InvoiceRegisterComponent } from "./pages/invoice/invoice-register/invoice-register.component";
 import { InvoiceListComponent } from "./pages/invoice/invoice-list/invoice-list.component";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 
 export const routes: Routes = [
   {
@@ -33,7 +34,7 @@ export const routes: Routes = [
     children: [
       {
         path: "dashboard",
-        component: ProductRegisterComponent,
+        component: DashboardComponent,
       },
       {
         path: "product/register",

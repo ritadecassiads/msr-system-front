@@ -10,4 +10,5 @@ export interface Invoice {
   installments: number; // parcelas
   status: "open" | "paid" | "overdue";
   notes?: string;
+  installmentAmounts?: number[];
 }

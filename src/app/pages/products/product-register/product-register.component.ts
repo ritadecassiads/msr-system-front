@@ -85,7 +85,6 @@ export class ProductRegisterComponent implements OnInit {
 
   onChangeSupplierControl(): void {
     this.supplierControl.valueChanges.subscribe((selectedSupplier) => {
-      console.log("selectedSupplier: ", selectedSupplier);
       this.productForm.get("supplierId")?.setValue(selectedSupplier);
     });
   }

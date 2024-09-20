@@ -31,15 +31,14 @@
       <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
     </ng-container>
 
-    <!-- Email Column -->
     <ng-container matColumnDef="supplierId">
       <th mat-header-cell *matHeaderCellDef> Fornecedor </th>
-      <td mat-cell *matCellDef="let element"> {{element.supplierId.name ? element.supplierId.name : ""}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.supplierId ? element.supplierId.name : ""}} </td>
     </ng-container>
 
         <ng-container matColumnDef="categories">
       <th mat-header-cell *matHeaderCellDef> Categorias </th>
-      <td mat-cell *matCellDef="let element"> {{element.categories.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.categories ? element.categories.name : ""}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

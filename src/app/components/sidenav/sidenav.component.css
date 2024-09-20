@@ -12,7 +12,7 @@
 
 .sidenav-inside-container {
   width: auto;
-  background: #f7f2f2;
+  background: #e1d6d6aa;
 }
 
 .example-spacer {
@@ -20,7 +20,7 @@
 }
 
 .toolbar {
-  background-color: #fbd0c3;
+  background-color: #fbc6c3;
   display: flex;
   justify-content: space-between;
 }

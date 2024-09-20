@@ -24,6 +24,7 @@ import { Supplier } from "../../../models/supplier";
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
 import { Invoice } from "../../../models/invoice";
+import { debounceTime } from "rxjs";
 
 @Component({
   selector: "app-invoice-register",
@@ -51,6 +52,10 @@ export class InvoiceRegisterComponent implements OnInit {
   invoiceForm: FormGroup = new FormGroup({});
   supplierControl = new FormControl("");
   supplierList: Supplier[] = [];
+  installmentValue: number = 0;
+
+  installmentControl = new FormControl("");
+  installmentList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   statusControl = new FormControl("");
   statusList = ["Aberta", "Paga", "Atrasada"];
@@ -69,29 +74,61 @@ export class InvoiceRegisterComponent implements OnInit {
     this.getSuppliers();
   }
 
+  get installments() {
+    return this.invoiceForm.get("installments");
+  }
+
   initForm() {
     this.invoiceForm = this.fb.group({
-      amount: ["", Validators.required],
+      amount: [
+        0,
+        [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+      ],
       issueDate: ["", Validators.required],
       dueDate: ["", Validators.required],
       supplierId: this.supplierControl,
-      installments: [""],
-      status: this.statusControl,
+      installments: [0, Validators.pattern(/^\d+$/)],
+      installmentValue: [0],
       notes: [""],
     });
   }
 
+  onChangeInstallmentControl(): void {
+    this.installmentControl.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((selectedInstallment) => {
+        this.installments?.setValue(selectedInstallment, { emitEvent: false });
+        this.updateInstallmentValue();
+      });
+  }
+
+  updateInstallmentValue(): void {
+    const amount = parseFloat(this.invoiceForm.get("amount")?.value);
+    const installments = parseInt(
+      this.invoiceForm.get("installments")?.value,
+      10
+    );
+
+    if (!isNaN(amount) && !isNaN(installments) && installments > 0) {
+      this.installmentValue = amount / installments;
+    } else {
+      this.installmentValue = 0;
+    }
+  }
+
   onSubmit() {
+    const invoice: Invoice = this.invoiceForm.value;
+
+    this.convertStringToNumber(invoice);
+
     if (this.invoiceForm.valid) {
-      const invoice: Invoice = this.invoiceForm.value;
-      console.log("invoiceForm: ", invoice);
       this.invoiceService.saveInvoice(this.invoiceForm.value).subscribe({
         next: () => {
           alert("Invoice saved successfully");
-          this.router.navigate(["dashboard"]);
+          //this.router.navigate(["dashboard"]);
         },
-        error: () => {
-          alert("An error occurred while saving the invoice");
+        error: (err) => {
+          console.error(err);
         },
       });
     } else {
@@ -111,17 +148,21 @@ export class InvoiceRegisterComponent implements OnInit {
     });
   }
 
-  // onChangeSupplierControl(): void {
-  //   this.supplierControl.valueChanges.subscribe((selectedSupplier) => {
-  //     console.log("selectedSupplier: ", selectedSupplier);
-  //     this.invoiceForm.get("supplierId")?.setValue(selectedSupplier);
-  //   });
-  // }
+  convertStringToNumber(invoice: Invoice) {
+    invoice.amount = parseFloat(invoice.amount.toString());
+    invoice.installments = parseInt(invoice.installments.toString());
+  }
 
-  // onChangeStatusControl(): void {
-  //   this.statusControl.valueChanges.subscribe((selectedSupplier) => {
-  //     console.log("selectedStatus: ", selectedSupplier);
-  //     this.invoiceForm.get("status")?.setValue(selectedSupplier);
-  //   });
+  // calculateInstallmentValue() {
+  //   const amount = parseFloat(this.invoiceForm.get("amount")?.value);
+  //   const installments = parseInt(this.invoiceForm.get("installments")?.value);
+  //   console.log("amount + installments", amount, installments);
+
+  //   if (!isNaN(amount) && !isNaN(installments) && installments > 0) {
+  //     this.installmentValue = amount / installments;
+  //   } else {
+  //     this.installmentValue = 0;
+  //   }
+  //   console.log("calculateInstallmentValue", this.installmentValue);
   // }
 }

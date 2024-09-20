@@ -1,1 +1,99 @@
-<p>dashboard works!</p>
+<mat-grid-list
+  class="spaced-grid-list"
+  cols="5"
+  rowHeight="100px"
+  gutterSize="15px"
+>
+  <mat-grid-tile *ngFor="let tile of tiles" [colspan]="1" [rowspan]="1">
+    <button
+      mat-button
+      class="full-width-button menu-buttons"
+      [routerLink]="tile.link"
+    >
+      <div class="item">
+        <mat-icon class="icon">{{ tile.icon }}</mat-icon>
+        <span>{{ tile.text }}</span>
+      </div>
+    </button>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list
+  class="spaced-grid-list"
+  cols="2"
+  rowHeight="100px"
+  gutterSize="15px"
+>
+  <mat-grid-tile [colspan]="1" [rowspan]="4">
+    <div class="full-width-button sale-list">
+      <table class="sales-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>R$ 150,00</td>
+            <td>Aberta</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Aberta</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Aberta</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Aberta</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Fechada</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Fechada</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Fechada</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>R$ 200,00</td>
+            <td>Fechada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="1" [rowspan]="2">
+    <div class="full-width-button sale-list">
+      <div>Pensar no que vai ser aqui
+      </div>
+      <div>a disposição vai ser essa?</div>
+      <div>testar dividir em 2 linhas</div>
+    </div>
+  </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="2">
+    <div class="full-width-button sale-list">
+      <div>Pensar no que vai ser aqui
+      </div>
+      <div>a disposição vai ser essa?</div>
+      <div>testar dividir em 2 linhas</div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
