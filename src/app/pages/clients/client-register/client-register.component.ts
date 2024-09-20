@@ -59,7 +59,7 @@ export class ClientRegisterComponent {
       phone: "",
       email: "",
       purchaseLimit: 10000,
-      observations: "",
+      notes: "",
       createdByEmployee: "", // fazer logica para pegar o usuario logado
       fathersName: "",
       mothersName: "",

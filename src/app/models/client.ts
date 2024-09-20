@@ -2,7 +2,7 @@ import { Address } from "./address";
 import { Employee } from "./employee";
 
 export interface Client {
-  id?: number;
+  _id?: string;
   code?: number;
   name: string;
   birthDate: Date;
@@ -13,7 +13,7 @@ export interface Client {
   email?: string;
   createdAt?: Date;
   purchaseLimit?: number;
-  observations?: string;
+  notes?: string;
   createdByEmployee?: Employee; // tirar a interrogação depois
   fathersName?: string;
   mothersName?: string;

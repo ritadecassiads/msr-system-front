@@ -22,7 +22,7 @@ export class ClientListComponent implements OnInit {
     "phone",
     "email",
     "purchaseLimit",
-    "observations",
+    "notes",
     "createdByEmployee",
     "fathersName",
     "mothersName",

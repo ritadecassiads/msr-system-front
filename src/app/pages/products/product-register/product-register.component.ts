@@ -92,7 +92,6 @@ export class ProductRegisterComponent implements OnInit {
 
   initializeCategoryControl(): void {
     this.categoriesControl.valueChanges.subscribe((selectedCategories) => {
-      console.log("selectedCategories: ", selectedCategories);
       return this.setCategories(selectedCategories || []);
     });
   }

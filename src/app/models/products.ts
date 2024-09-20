@@ -2,7 +2,7 @@ import { Category } from "./category";
 import { Supplier } from "./supplier";
 
 export interface Product {
-  id?: number;
+  _id?: string;
   code?: number;
   name: string;
   description: string;

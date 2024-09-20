@@ -25,7 +25,7 @@ export class InvoiceService {
   }
 
   updateInvoice(invoice: Invoice) {
-    return this.http.put<Invoice>(`${this.apiUrl}/${invoice.id}`, invoice);
+    return this.http.put<Invoice>(`${this.apiUrl}/${invoice._id}`, invoice);
   }
 
   deleteInvoice(id: number) {

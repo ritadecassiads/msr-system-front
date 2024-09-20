@@ -1,7 +1,7 @@
 import { Supplier } from "./supplier";
 
 export interface Invoice {
-  id?: string;
+  _id?: string;
   code?: number;
   amount: number;
   issueDate: Date; // emissão

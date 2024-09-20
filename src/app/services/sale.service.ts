@@ -25,7 +25,7 @@ export class SaleService {
   }
 
   updateSale(sale: Sale) {
-    return this.http.put<Sale>(`${this.apiUrl}/${sale.id}`, sale);
+    return this.http.put<Sale>(`${this.apiUrl}/${sale._id}`, sale);
   }
 
   deleteSale(id: number) {

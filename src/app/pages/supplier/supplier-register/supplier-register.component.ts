@@ -50,7 +50,7 @@ export class SupplierRegisterComponent implements OnInit {
       phone: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
       contactPerson: [""],
-      observations: [""],
+      notes: [""],
       address: this.fb.group({
         street: ["", Validators.required],
         number: ["", Validators.required],
