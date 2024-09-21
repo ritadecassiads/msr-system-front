@@ -30,8 +30,8 @@
     mode="side"
   >
     <mat-nav-list class="sidenav-list">
-      <a mat-list-item>
-        <div class="item" routerLink="/dashboard">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+        <div class="item">
           <mat-icon class="icon">dashboard</mat-icon>
           <span mat-button>Painel</span>
         </div>
@@ -40,7 +40,6 @@
       <a mat-list-item>
         <div class="item">
           <mat-icon class="icon"> credit_card </mat-icon>
-
           <span mat-button [matMenuTriggerFor]="menuSale">Venda</span>
           <mat-menu #menuSale="matMenu">
             <button mat-menu-item (click)="openDialog()">Abrir</button>

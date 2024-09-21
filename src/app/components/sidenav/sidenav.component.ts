@@ -7,7 +7,7 @@ import { MenuComponent } from "../menu/menu.component";
 import { ProductRegisterComponent } from "../../pages/products/product-register/product-register.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatListModule } from "@angular/material/list";
-import { Router, RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterModule, RouterOutlet } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { LoginComponent } from "../../pages/login/login.component";
 import { MatMenuModule, MatMenuPanel, MatMenuTrigger } from "@angular/material/menu";
@@ -35,17 +35,17 @@ import { SharedService } from "../../shared/services/shared.service";
     MatMenuModule,
     MatIcon,
     DialogComponent,
+    RouterModule,
   ],
 })
 export class SidenavComponent {
   authService = inject(AuthService);
-  router = inject(Router);
+  //router = inject(Router);
 
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   readonly dialog = inject(MatDialog);
 
-  constructor(private sharedService: SharedService) {
-  }
+  constructor(private sharedService: SharedService, private router: Router) {}
 
   isLoggedIn = this.authService.isLoggedIn();
 
@@ -67,4 +67,9 @@ export class SidenavComponent {
       }
     });
   }
+
+  // isRouteActive(route: string): boolean {
+  //   console.log("route: ", route);
+  //   return this.router.url.includes(route);
+  // }
 }

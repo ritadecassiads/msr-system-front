@@ -30,8 +30,8 @@
   align-items: center;
 }
 
-
-
-/* .sidenav-list{
-  width: auto;
-} */
+.active-link {
+  background-color: #e0e0e0; /* Cor de fundo para o item selecionado */
+  font-weight: bold; /* Texto em negrito para o item selecionado */
+  color: #1976d2; /* Cor do texto para o item selecionado */
+}

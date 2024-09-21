@@ -1,26 +1,77 @@
-// @use '@angular/material' as mat;
+/* Paleta de cores */
+:root {
+  --primary-color: #1976d2;
+  --secondary-color: #ff4081;
+  --background-color: #f9f9f9;
+  --text-color: #333;
+}
 
-// $theme: mat.define-theme((
-//   color: (
-//     theme-type: dark,
-//     primary: mat.$violet-palette,
-//   ),
-//   typography: (
-//     brand-family: 'Comic Sans',
-//     bold-weight: 900
-//   )
-// ));
+/* Estilo global */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
 
+/* Estilo para títulos */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+  margin: 0 0 10px 0;
+}
 
-// $custom-app-primary: mat-palette($mat-blue);
-// $custom-app-secondary: mat-palette($mat-indigo);
-// $custom-app-warn: mat-palette($mat-red);
+/* Estilo para botões */
+button, .mat-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-transform: none;
+  transition: background-color 0.3s;
+}
 
-// $custom-theme: mat-light-theme($custom-app-primary, $custom-app-secondary, $custom-app-warn);
+button:hover, .mat-button:hover {
+  background-color: var(--secondary-color);
+}
 
-// @include angular-material-theme($custom-theme);
-// @include mat-core($custom-theme);
-// @include mat-core();
+/* Estilo para links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para contêineres */
+.container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+// /* Estilo para tabelas */
+// table {
+//   width: 100%;
+//   border-collapse: collapse;
+//   margin-bottom: 15px;
+// }
+
+// table th, table td {
+//   padding: 10px;
+//   border-bottom: 1px solid #ddd;
+// }
+
+// table th {
+//   background-color: var(--primary-color);
+//   color: white;
+// }
+
+// table tr:hover {
+//   background-color: #f1f1f1;
+// }

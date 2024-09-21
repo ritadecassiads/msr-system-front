@@ -4,7 +4,7 @@
   rowHeight="100px"
   gutterSize="15px"
 >
-  <mat-grid-tile *ngFor="let tile of tiles" [colspan]="1" [rowspan]="1">
+  <mat-grid-tile *ngFor="let tile of buttonTiles" [colspan]="1" [rowspan]="1">
     <button
       mat-button
       class="full-width-button menu-buttons"
@@ -26,7 +26,45 @@
 >
   <mat-grid-tile [colspan]="1" [rowspan]="4">
     <div class="full-width-button sale-list">
+      <h6>Vendas Abertas</h6>
+
       <table class="sales-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sale of salesList.slice(0, 5)">
+            <td>{{ sale.code }}</td>
+            <td>{{ sale.totalPrice | currency : "BRL" }}</td>
+            <td>{{ sale.status == "open" ? "Aberta" : "Fechada" }}</td>
+            <td><mat-icon class="icon">arrow_forward</mat-icon></td>
+          </tr>
+        </tbody>
+      </table>
+      <button mat-button class="view-all-button">Ver todas as vendas</button>
+    </div>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="1" [rowspan]="4">
+    <div class="full-width-button sale-list">
+      <h6>Contas a pagar</h6>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> 450,00 - 30/09/24 </mat-panel-title>
+            <mat-panel-description>
+              Fornecedor Fulano de tal
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>Parcela 2 de 5</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <!-- <table class="sales-table">
         <thead>
           <tr>
             <th>Código</th>
@@ -36,64 +74,23 @@
         </thead>
         <tbody>
           <tr>
-            <td>001</td>
-            <td>R$ 150,00</td>
-            <td>Aberta</td>
+            <td>101</td>
+            <td>R$ 500,00</td>
+            <td>Pendente</td>
           </tr>
           <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Aberta</td>
+            <td>102</td>
+            <td>R$ 750,00</td>
+            <td>Paga</td>
           </tr>
           <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Aberta</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Aberta</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Fechada</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Fechada</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Fechada</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>R$ 200,00</td>
-            <td>Fechada</td>
+            <td>103</td>
+            <td>R$ 300,00</td>
+            <td>Pendente</td>
           </tr>
         </tbody>
-      </table>
-    </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile [colspan]="1" [rowspan]="2">
-    <div class="full-width-button sale-list">
-      <div>Pensar no que vai ser aqui
-      </div>
-      <div>a disposição vai ser essa?</div>
-      <div>testar dividir em 2 linhas</div>
-    </div>
-  </mat-grid-tile>
-    <mat-grid-tile [colspan]="1" [rowspan]="2">
-    <div class="full-width-button sale-list">
-      <div>Pensar no que vai ser aqui
-      </div>
-      <div>a disposição vai ser essa?</div>
-      <div>testar dividir em 2 linhas</div>
+      </table> -->
+      <button mat-button class="view-all-button">Ver todas as contas</button>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
