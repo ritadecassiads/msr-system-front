@@ -20,7 +20,7 @@ export class SaleService {
     return this.http.get<Sale[]>(this.apiUrl);
   }
 
-  getSale(id: number): Observable<Sale> {
+  getSale(id: string): Observable<Sale> {
     return this.http.get<Sale>(`${this.apiUrl}/${id}`);
   }
 

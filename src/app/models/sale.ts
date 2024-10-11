@@ -7,7 +7,7 @@ export interface Sale {
   code?: number;
   products: Product[];
   clientId?: Client;
-  sellerId: Employee;
+  openedByEmployee: Employee;
   quantity: number;
   totalPrice: number;
   notes?: string;

@@ -78,7 +78,7 @@ export class SaleRegisterComponent {
     private employeeService: EmployeeService
   ) {}
 
-  displayedColumns: string[] = ["code", "name", "price", "quantity", "delete"];
+  displayedColumns: string[] = ["code", "name", "quantity", "price", "delete"];
 
   ngOnInit() {
     this.getProducts();
@@ -118,7 +118,7 @@ export class SaleRegisterComponent {
   formInit() {
     this.saleForm = this.fb.group({
       products: this.fb.array([], Validators.required),
-      sellerId: ["", Validators.required],
+      openedByEmployee: ["", Validators.required],
       quantity: ["", Validators.required],
       totalPrice: ["", Validators.required],
     });
@@ -217,7 +217,7 @@ export class SaleRegisterComponent {
     if (this.usernameShared) {
       this.employeeService.getEmployeeByUsername(username).subscribe({
         next: (employee) => {
-          this.saleForm.get("sellerId")?.setValue(employee._id);
+          this.saleForm.get("openedByEmployee")?.setValue(employee._id);
           //this.usernameShared = employee.name;
         },
         error: (err) => {

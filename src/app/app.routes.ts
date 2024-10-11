@@ -17,6 +17,7 @@ import { SaleListComponent } from "./pages/sale/sale-list/sale-list.component";
 import { InvoiceRegisterComponent } from "./pages/invoice/invoice-register/invoice-register.component";
 import { InvoiceListComponent } from "./pages/invoice/invoice-list/invoice-list.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { CloseSaleComponent } from "./pages/sale/close-sale/close-sale.component";
 
 export const routes: Routes = [
   {
@@ -87,6 +88,10 @@ export const routes: Routes = [
       {
         path: "sale/list",
         component: SaleListComponent,
+      },
+      {
+        path: "sale/close/:_id",
+        component: CloseSaleComponent,
       },
       {
         path: "invoice/register",

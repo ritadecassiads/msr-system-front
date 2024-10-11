@@ -1,54 +1,36 @@
 <mat-grid-list
   class="spaced-grid-list"
-  cols="5"
-  rowHeight="100px"
-  gutterSize="15px"
->
-  <mat-grid-tile *ngFor="let tile of buttonTiles" [colspan]="1" [rowspan]="1">
-    <button
-      mat-button
-      class="full-width-button menu-buttons"
-      [routerLink]="tile.link"
-    >
-      <div class="item">
-        <mat-icon class="icon">{{ tile.icon }}</mat-icon>
-        <span>{{ tile.text }}</span>
-      </div>
-    </button>
-  </mat-grid-tile>
-</mat-grid-list>
-
-<mat-grid-list
-  class="spaced-grid-list"
   cols="2"
   rowHeight="100px"
   gutterSize="15px"
 >
   <mat-grid-tile [colspan]="1" [rowspan]="4">
     <div class="full-width-button sale-list">
-      <h6>Vendas Abertas</h6>
+      <h6>Resumo da venda</h6>
 
       <table class="sales-table">
         <thead>
-          <tr>
-            <th>Código</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sale of salesList.slice(0, 5)">
-            <td>{{ sale.code }}</td>
-            <td>{{ sale.totalPrice | currency : "BRL" }}</td>
-            <td>{{ sale.status == "open" ? "Aberta" : "Fechada" }}</td>
-            <td>
-              <mat-icon class="icon" (click)="navigateToCloseSale(sale._id!)"
-                >arrow_forward</mat-icon
-              >
-            </td>
-          </tr>
-        </tbody>
+      <tr>
+        <th>Código</th>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Valor Unitário</th>
+        <th>Valor Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of sale.products">
+        <td>{{ product.code }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ sale.quantity }}</td>
+        <td>{{ product.price | currency:'BRL' }}</td>
+        <td>{{ (product.price * sale.quantity) | currency:'BRL' }}</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="total-label">Valor Total da Venda</td>
+        <td>{{ sale.totalPrice | currency:'BRL' }}</td>
+      </tr>
+    </tbody>
       </table>
       <button mat-button class="view-all-button">Ver todas as vendas</button>
     </div>

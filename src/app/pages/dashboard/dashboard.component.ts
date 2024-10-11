@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SaleListComponent } from "../sale/sale-list/sale-list.component";
 import { SaleService } from '../../services/sale.service';
 import { Sale } from '../../models/sale';
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
       text: "Abrir venda",
       color: "lightblue",
       icon: "shopping_cart",
-      link: "/product/list",
+      link: "/sale/register",
     },
     {
       text: "Fechar venda",
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
       text: "Acessar conta do cliente",
       color: "#DDBDF1",
       icon: "account_circle",
-      link: "/product/list",
+      link: "/client/list",
     },
     {
       text: "Fechar caixa",
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
-  constructor(private saleService: SaleService) {}
+  constructor(private saleService: SaleService, private router: Router) {}
 
   ngOnInit(): void {
     this.getSales();
@@ -74,5 +74,9 @@ export class DashboardComponent implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  navigateToCloseSale(saleId: string): void {
+    this.router.navigate(["/sale/close", saleId]);
   }
 }

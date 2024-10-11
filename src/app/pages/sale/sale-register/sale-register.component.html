@@ -30,7 +30,6 @@
             <td mat-cell *matCellDef="let product">
               {{ product.code }}
             </td>
-            <td mat-footer-cell *matFooterCellDef>Total</td>
           </ng-container>
 
           <ng-container matColumnDef="name">
@@ -40,17 +39,17 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef>Preço</th>
-            <td mat-cell *matCellDef="let product">
-              {{ product.price | currency }}
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Quantidade</th>
             <td mat-cell *matCellDef="let product">
               {{ product.quantity }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Preço</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.price | currency }}
             </td>
           </ng-container>
 
