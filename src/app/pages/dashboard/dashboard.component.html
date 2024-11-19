@@ -40,7 +40,7 @@
         <tbody>
           <tr *ngFor="let sale of salesList.slice(0, 5)">
             <td>{{ sale.code }}</td>
-            <td>{{ sale.totalPrice | currency : "BRL" }}</td>
+            <td>{{ sale.total | currency : "BRL" }}</td>
             <td>{{ sale.status == "open" ? "Aberta" : "Fechada" }}</td>
             <td>
               <mat-icon class="icon" (click)="navigateToCloseSale(sale._id!)"

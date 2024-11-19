@@ -41,6 +41,7 @@ import { SharedService } from "../../shared/services/shared.service";
 export class SidenavComponent {
   authService = inject(AuthService);
   //router = inject(Router);
+  isCollapsed = false;
 
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   readonly dialog = inject(MatDialog);
@@ -68,8 +69,8 @@ export class SidenavComponent {
     });
   }
 
-  // isRouteActive(route: string): boolean {
-  //   console.log("route: ", route);
-  //   return this.router.url.includes(route);
-  // }
+  toggleSidenav() {
+    // sidenav.toggle();
+    this.isCollapsed = !this.isCollapsed;
+  }
 }

@@ -6,12 +6,12 @@
 } */
 
 .sidenav-container {
-  width: auto;
+  margin: auto;
   height: 100vh;
 }
 
 .sidenav-inside-container {
-  width: auto;
+  /* width: auto !important; */
   background: #e1d6d6aa;
 }
 
@@ -34,4 +34,52 @@
   background-color: #e0e0e0; /* Cor de fundo para o item selecionado */
   font-weight: bold; /* Texto em negrito para o item selecionado */
   color: #1976d2; /* Cor do texto para o item selecionado */
+}
+
+/* styles.css ou o arquivo de estilos do seu componente */
+/* .sidenav-collapsed .menu-text {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidenav-expanded .menu-text {
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.sidenav-collapsed .icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.sidenav-expanded .icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+} */
+
+.sidenav-collapsed {
+  width: 4vw;
+  transition: width 0.3s ease; 
+}
+
+.sidenav-expanded {
+  width: 12vw; /* Largura quando expandida */
+  transition: width 0.2s ease-out; /* Transição suave para a largura */
+}
+
+.sidenav-collapsed .menu-text {
+  display: none;
+  opacity: 0;
+}
+
+.sidenav-expanded .menu-text {
+  display: inline-block;
+  opacity: 1;
+}
+
+.sidenav-collapsed .icon,
+.sidenav-expanded .icon {
+  display: inline-block;
 }

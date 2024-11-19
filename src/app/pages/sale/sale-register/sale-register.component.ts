@@ -91,12 +91,12 @@ export class SaleRegisterComponent {
     return this.saleForm.get("products") as FormArray;
   }
 
-  get totalPrice(): number {
-    return this.saleForm.get("totalPrice")?.value;
+  get total(): number {
+    return this.saleForm.get("total")?.value;
   }
 
-  set totalPrice(value: number) {
-    this.saleForm.get("totalPrice")?.setValue(value);
+  set total(value: number) {
+    this.saleForm.get("total")?.setValue(value);
   }
 
   set quantity(value: number) {
@@ -120,7 +120,7 @@ export class SaleRegisterComponent {
       products: this.fb.array([], Validators.required),
       openedByEmployee: ["", Validators.required],
       quantity: ["", Validators.required],
-      totalPrice: ["", Validators.required],
+      total: ["", Validators.required],
     });
   }
 
@@ -171,7 +171,7 @@ export class SaleRegisterComponent {
   }
 
   updateTotal(): void {
-    this.totalPrice = this.selectedProducts.controls.reduce(
+    this.total = this.selectedProducts.controls.reduce(
       (totalAccumulator, productControl) => {
         const productQuantity = productControl.get("quantity")?.value || 0;
         const productPrice = productControl.get("price")?.value || 0;

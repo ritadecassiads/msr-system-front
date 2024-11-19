@@ -1,23 +1,7 @@
 import { Routes, RouterModule } from "@angular/router";
-import { ProductRegisterComponent } from "./pages/products/product-register/product-register.component";
-import { ClientRegisterComponent } from "./pages/clients/client-register/client-register.component";
 import { LoginComponent } from "./pages/login/login.component";
-import { authGuard } from "./guards/auth.guard";
+import { AuthGuard } from "./guards/auth.guard";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
-import { EmployeeRegisterComponent } from "./pages/employee/employee-register/employee-register.component";
-import { EmployeeListComponent } from "./pages/employee/employee-list/employee-list.component";
-import { ClientListComponent } from "./pages/clients/client-list/client-list.component";
-import { ProductListComponent } from "./pages/products/product-list/product-list.component";
-import { CategoryRegisterComponent } from "./pages/category/category-register/category-register.component";
-import { CategoryListComponent } from "./pages/category/category-list/category-list.component";
-import { SupplierRegisterComponent } from "./pages/supplier/supplier-register/supplier-register.component";
-import { SupplierListComponent } from "./pages/supplier/supplier-list/supplier-list.component";
-import { SaleRegisterComponent } from "./pages/sale/sale-register/sale-register.component";
-import { SaleListComponent } from "./pages/sale/sale-list/sale-list.component";
-import { InvoiceRegisterComponent } from "./pages/invoice/invoice-register/invoice-register.component";
-import { InvoiceListComponent } from "./pages/invoice/invoice-list/invoice-list.component";
-import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-import { CloseSaleComponent } from "./pages/sale/close-sale/close-sale.component";
 
 export const routes: Routes = [
   {
@@ -31,75 +15,125 @@ export const routes: Routes = [
   },
   {
     path: "",
-    component: SidenavComponent,
+    loadComponent: () =>
+      import("./components/sidenav/sidenav.component").then(
+        (m) => SidenavComponent
+      ),
     children: [
       {
         path: "dashboard",
-        component: DashboardComponent,
+        loadComponent: () =>
+          import("./pages/dashboard/dashboard.component").then(
+            (m) => m.DashboardComponent
+          ),
       },
       {
         path: "product/register",
-        canActivate: [authGuard],
-        component: ProductRegisterComponent,
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import(
+            "./pages/products/product-register/product-register.component"
+          ).then((m) => m.ProductRegisterComponent),
       },
       {
         path: "product/list",
-        canActivate: [authGuard],
-        component: ProductListComponent,
+        // canActivate: [AuthGuard],
+        loadComponent: () =>
+          import("./pages/products/product-list/product-list.component").then(
+            (m) => m.ProductListComponent
+          ),
       },
       {
         path: "client/register",
-        canActivate: [authGuard],
-        component: ClientRegisterComponent,
+        loadComponent: () =>
+          import(
+            "./pages/clients/client-register/client-register.component"
+          ).then((m) => m.ClientRegisterComponent),
       },
       {
         path: "client/list",
-        canActivate: [authGuard],
-        component: ClientListComponent,
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import("./pages/clients/client-list/client-list.component").then(
+            (m) => m.ClientListComponent
+          ),
       },
       {
         path: "employee/register",
-        component: EmployeeRegisterComponent,
+        loadComponent: () =>
+          import(
+            "./pages/employee/employee-register/employee-register.component"
+          ).then((m) => m.EmployeeRegisterComponent),
       },
       {
         path: "employee/list",
-        component: EmployeeListComponent,
+        loadComponent: () =>
+          import(
+            "./pages/employee/employee-list/employee-list.component"
+          ).then((m) => m.EmployeeListComponent),
       },
       {
         path: "category/register",
-        component: CategoryRegisterComponent,
+        loadComponent: () =>
+          import(
+            "./pages/category/category-register/category-register.component"
+          ).then((m) => m.CategoryRegisterComponent),
       },
       {
         path: "category/list",
-        component: CategoryListComponent,
+        loadComponent: () =>
+          import(
+            "./pages/category/category-list/category-list.component"
+          ).then((m) => m.CategoryListComponent),
       },
       {
         path: "supplier/register",
-        component: SupplierRegisterComponent,
+        loadComponent: () =>
+          import(
+            "./pages/supplier/supplier-register/supplier-register.component"
+          ).then((m) => m.SupplierRegisterComponent),
       },
       {
         path: "supplier/list",
-        component: SupplierListComponent,
+        loadComponent: () =>
+          import(
+            "./pages/supplier/supplier-list/supplier-list.component"
+          ).then((m) => m.SupplierListComponent),
       },
       {
         path: "sale/register",
-        component: SaleRegisterComponent,
+        loadComponent: () =>
+          import("./pages/sale/sale-register/sale-register.component").then(
+            (m) => m.SaleRegisterComponent
+          ),
       },
       {
         path: "sale/list",
-        component: SaleListComponent,
+        loadComponent: () =>
+          import("./pages/sale/sale-list/sale-list.component").then(
+            (m) => m.SaleListComponent
+          ),
       },
       {
         path: "sale/close/:_id",
-        component: CloseSaleComponent,
+        loadComponent: () =>
+          import("./pages/sale/close-sale/close-sale.component").then(
+            (m) => m.CloseSaleComponent
+          ),
       },
       {
         path: "invoice/register",
-        component: InvoiceRegisterComponent,
+        loadComponent: () =>
+          import(
+            "./pages/invoice/invoice-register/invoice-register.component"
+          ).then((m) => m.InvoiceRegisterComponent),
       },
       {
         path: "invoice/list",
-        component: InvoiceListComponent,
+        loadComponent: () =>
+          import("./pages/invoice/invoice-list/invoice-list.component").then(
+            (m) => m.InvoiceListComponent
+          ),
       },
     ],
   },

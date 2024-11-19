@@ -17,7 +17,7 @@ import { MatIcon } from "@angular/material/icon";
 export class SaleListComponent implements OnInit {
   displayedColumns: string[] = [
     "code",
-    "totalPrice",
+    "total",
     "quantity",
     "openedByEmployee",
     "navigate"

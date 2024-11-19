@@ -1,68 +1,94 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIcon } from '@angular/material/icon';
-import { Router, RouterLink, ActivatedRoute } from '@angular/router';
-import { SaleListComponent } from '../sale-list/sale-list.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { SaleService } from '../../../services/sale.service';
-import { Sale } from '../../../models/sale';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SaleService } from "../../../services/sale.service";
+import { Sale } from "../../../models/sale";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { SaleListComponent } from "../sale-list/sale-list.component";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { ProductService } from "../../../services/product.service";
+import { Product } from "../../../models/products";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-close-sale",
   standalone: true,
   imports: [
     MatGridListModule,
-    MatIcon,
-    RouterLink,
     CommonModule,
-    SaleListComponent,
     MatExpansionModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatTableModule,
   ],
+  providers: [MatTableDataSource],
   templateUrl: "./close-sale.component.html",
-  styleUrl: "./close-sale.component.css",
+  styleUrls: ["./close-sale.component.css"],
 })
 export class CloseSaleComponent implements OnInit {
   saleId!: string;
   sale: Sale = {} as Sale;
-  products: any[] = [];
+  selectedPaymentMethod: string = "cash";
+  amountReceived: number = 0;
+  change: number = 0;
+  displayedColumns: string[] = ["name", "quantity", "price", "total"];
+
+  dataSource = new MatTableDataSource<Product>();
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
-    this.recoverSaleId();
-    this.getSale();
-  }
-
-  recoverSaleId() {
     this.saleId = this.route.snapshot.paramMap.get("_id")!;
-    console.log("Sale ID:", this.saleId);
-    // Aqui você pode buscar os detalhes da venda usando o saleId
+    this.loadSaleDetails();
   }
 
-  getSale() {
-    this.saleService.getSale(this.saleId).subscribe({
-      next: (sale) => {
-        this.sale = sale;
-        this.addMockProducts();
-        console.log("Venda:", sale);
-      },
-      error: (err) => {
-        console.error(err);
-      },
+  loadSaleDetails(): void {
+    this.saleService.getSale(this.saleId).subscribe((sale) => {
+      this.sale = sale;
+      this.loadProducts(sale.products);
     });
   }
 
-  addMockProducts(): void {
-    this.products = [
-      { id: "p1", code: 1, name: "Produto 1", price: 100, quantity: 2 },
-      { id: "p2", code: 2, name: "Produto 2", price: 200, quantity: 1 },
-      { id: "p3", code: 3, name: "Produto 3", price: 150, quantity: 2 },
-    ];
-    this.sale.products = this.products;
+  loadProducts(productIds: string[]): void {
+    const productObservables = productIds.map((productId) =>
+      this.productService.getProduct(productId)
+    );
+
+    forkJoin(productObservables).subscribe((products) => {
+      this.dataSource.data = products;
+    });
+  }
+
+  calculateChange(): void {
+    this.change = this.amountReceived - this.sale.total;
+  }
+
+  confirmSale(): void {
+    this.sale.status = "close";
+    console.log("venda: ", this.sale);
+    this.saleService.updateSale({ ...this.sale }).subscribe(() => {
+      alert("Venda finalizada!");
+      this.router.navigate(["/sales"]);
+    });
+  }
+
+  cancelSale(): void {
+    
   }
 }

@@ -1,82 +1,90 @@
-<mat-grid-list
-  class="spaced-grid-list"
-  cols="2"
-  rowHeight="100px"
-  gutterSize="15px"
->
-  <mat-grid-tile [colspan]="1" [rowspan]="4">
-    <div class="full-width-button sale-list">
-      <h6>Resumo da venda</h6>
+<div class="close-sale-container">
+  <h2>Fechamento de Venda</h2>
 
-      <table class="sales-table">
-        <thead>
-      <tr>
-        <th>Código</th>
-        <th>Produto</th>
-        <th>Quantidade</th>
-        <th>Valor Unitário</th>
-        <th>Valor Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of sale.products">
-        <td>{{ product.code }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ sale.quantity }}</td>
-        <td>{{ product.price | currency:'BRL' }}</td>
-        <td>{{ (product.price * sale.quantity) | currency:'BRL' }}</td>
-      </tr>
-      <tr>
-        <td colspan="4" class="total-label">Valor Total da Venda</td>
-        <td>{{ sale.totalPrice | currency:'BRL' }}</td>
-      </tr>
-    </tbody>
-      </table>
-      <button mat-button class="view-all-button">Ver todas as vendas</button>
-    </div>
-  </mat-grid-tile>
+  <div class="sale-header">
+    <p>Data: 18/11</p>
+  </div>
 
-  <mat-grid-tile [colspan]="1" [rowspan]="4">
-    <div class="full-width-button sale-list">
-      <h6>Contas a pagar</h6>
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> 450,00 - 30/09/24 </mat-panel-title>
-            <mat-panel-description>
-              Fornecedor Fulano de tal
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <p>Parcela 2 de 5</p>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <!-- <table class="sales-table">
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>101</td>
-            <td>R$ 500,00</td>
-            <td>Pendente</td>
-          </tr>
-          <tr>
-            <td>102</td>
-            <td>R$ 750,00</td>
-            <td>Paga</td>
-          </tr>
-          <tr>
-            <td>103</td>
-            <td>R$ 300,00</td>
-            <td>Pendente</td>
-          </tr>
-        </tbody>
-      </table> -->
-      <button mat-button class="view-all-button">Ver todas as contas</button>
+  <div class="sale-content">
+
+    <div class="sale-products-summary">
+      <div class="sale-products">
+        <h3>Produtos</h3>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Code</th>
+            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Preço</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.price | currency }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+            <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.quantity * product.price | currency }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+
+      <div class="sale-summary">
+        <h3>Resumo da Venda</h3>
+        <p>Subtotal: {{ sale.total | currency }}</p>
+        <p>Descontos: 0,00</p>
+        <p>Total: {{ sale.total | currency }}</p>
+      </div>
     </div>
-  </mat-grid-tile>
-</mat-grid-list>
+
+    <div class="sale-details">
+      <div class="payment-methods">
+        <h3>Formas de Pagamento</h3>
+        <mat-radio-group [(ngModel)]="selectedPaymentMethod">
+          <mat-radio-button value="cash">Dinheiro</mat-radio-button>
+          <mat-radio-button value="card">Cartão</mat-radio-button>
+          <mat-radio-button value="other">Outro</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="payment-details">
+        <h3>Pagamento</h3>
+        <mat-form-field>
+          <mat-label>Valor Recebido</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="amountReceived"
+            (input)="calculateChange()"
+          />
+        </mat-form-field>
+        <p>Troco: {{ change | currency }}</p>
+      </div>
+
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="confirmSale()">
+          Confirmar Venda
+        </button>
+        <button mat-raised-button color="warn" (click)="cancelSale()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

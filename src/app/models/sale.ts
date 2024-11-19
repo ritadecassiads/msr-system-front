@@ -5,12 +5,14 @@ import { Product } from "./products";
 export interface Sale {
   _id?: string;
   code?: number;
-  products: Product[];
+  products: string[];
   clientId?: Client;
   openedByEmployee: Employee;
   quantity: number;
-  totalPrice: number;
+  total: number;
   notes?: string;
   status?: "open" | "close";
   paymentMethod?: "credit" | "debit" | "cash" | "pix" | "bankTransfer";
+  discount: number;
+  createdAt: Date;
 }
