@@ -17,6 +17,10 @@
   margin-bottom: 20px;
 }
 
+.sale-summary{
+  display: flex; 
+}
+
 .sale-header p, .sale-summary p {
   margin: 5px 0;
 }

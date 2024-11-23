@@ -14,6 +14,7 @@ import { MatMenuModule, MatMenuPanel, MatMenuTrigger } from "@angular/material/m
 import { DialogComponent } from "../dialog/dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SharedService } from "../../shared/services/shared.service";
+import { StorageUtils } from "../../shared/utils/storage-utils";
 
 @Component({
   selector: "app-sidenav",
@@ -42,6 +43,7 @@ export class SidenavComponent {
   authService = inject(AuthService);
   //router = inject(Router);
   isCollapsed = false;
+  showFiller = false;
 
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   readonly dialog = inject(MatDialog);
@@ -64,6 +66,7 @@ export class SidenavComponent {
       if (result) {
         console.log("Username salvo:", result);
         this.sharedService.setUsername(result);
+        StorageUtils.setUserSale(result);
         this.router.navigate(["/sale/register"]);
       }
     });

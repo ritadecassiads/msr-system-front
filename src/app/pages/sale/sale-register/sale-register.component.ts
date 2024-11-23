@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -33,6 +33,9 @@ import { EmployeeService } from "../../../services/employee.service";
 import { Employee } from "../../../models/employee";
 import { catchError, map, Observable } from "rxjs";
 import { MatIcon } from "@angular/material/icon";
+import { StorageUtils } from "../../../shared/utils/storage-utils";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogComponent } from "../../../components/dialog/dialog.component";
 
 @Component({
   selector: "app-sale-register",
@@ -50,9 +53,8 @@ import { MatIcon } from "@angular/material/icon";
     RouterModule,
     MatFormFieldModule,
     CommonModule,
-    MatOption,
     MatSelectModule,
-    MatList,
+
     MatListItem,
     CurrencyPipe,
     MatTableModule,
@@ -69,6 +71,8 @@ export class SaleRegisterComponent {
   selectedProducts: FormArray = this.fb.array([]);
   usernameShared: string = "";
 
+  readonly dialog = inject(MatDialog);
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -78,17 +82,28 @@ export class SaleRegisterComponent {
     private employeeService: EmployeeService
   ) {}
 
-  displayedColumns: string[] = ["code", "name", "quantity", "price", "delete"];
+  displayedColumns: string[] = [
+    "code",
+    "name",
+    "itensQuantity",
+    "unitPrice",
+    "totalPrice",
+    "delete",
+  ];
 
   ngOnInit() {
     this.getProducts();
-    this.formInit();
+    this.saleFormInit();
     this.recoverUser();
-    this.getSellerByUsername(this.usernameShared);
+    this.getSellerByUsername();
   }
 
   get products(): FormArray {
     return this.saleForm.get("products") as FormArray;
+  }
+
+  set products(products: FormArray) {
+    this.saleForm.setControl("products", products);
   }
 
   get total(): number {
@@ -99,8 +114,12 @@ export class SaleRegisterComponent {
     this.saleForm.get("total")?.setValue(value);
   }
 
-  set quantity(value: number) {
-    this.saleForm.get("quantity")?.setValue(value);
+  get itensQuantity(): number {
+    return this.saleForm.get("itensQuantity")?.value;
+  }
+
+  set itensQuantity(value: number) {
+    this.saleForm.get("itensQuantity")?.setValue(value);
   }
 
   getProducts() {
@@ -115,17 +134,18 @@ export class SaleRegisterComponent {
     });
   }
 
-  formInit() {
+  saleFormInit() {
     this.saleForm = this.fb.group({
       products: this.fb.array([], Validators.required),
       openedByEmployee: ["", Validators.required],
-      quantity: ["", Validators.required],
+      itensQuantity: ["", Validators.required],
       total: ["", Validators.required],
     });
   }
 
   recoverUser() {
-    this.usernameShared = this.sharedService.getUsername();
+    this.usernameShared = StorageUtils.getUserSale() ?? "";
+    console.log("Username shared: ", this.usernameShared);
   }
 
   applyFilter(event: Event): void {
@@ -148,48 +168,75 @@ export class SaleRegisterComponent {
   }
 
   addProduct(product: Product): void {
-    this.products.push(this.fb.control(product._id, Validators.required));
-
     const productGroup = this.fb.group({
       _id: [product._id, Validators.required],
-      code: [product.code],
-      name: [product.name],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      price: [product.price],
+      code: [product.code, Validators.required],
+      name: [product.name, Validators.required],
+      quantity: [1, Validators.required],
+      unitPrice: [product.price, Validators.required],
+      totalPrice: [product.price, Validators.required],
     });
 
-    this.selectedProducts.push(productGroup);
-    this.updateTotal();
+    this.products.push(productGroup);
 
-    console.log("Selected products ids: ", this.selectedProducts);
+    console.log("Product added: ", productGroup.value);
+
+    this.updateTotal();
   }
 
   removeProduct(index: number): void {
     this.products.removeAt(index);
-    this.selectedProducts.removeAt(index);
+    // this.selectedProducts.removeAt(index);
     this.updateTotal();
   }
 
   updateTotal(): void {
-    this.total = this.selectedProducts.controls.reduce(
+    this.total = this.products.controls.reduce(
       (totalAccumulator, productControl) => {
         const productQuantity = productControl.get("quantity")?.value || 0;
-        const productPrice = productControl.get("price")?.value || 0;
-        return totalAccumulator + productQuantity * productPrice;
+        const unitPrice = productControl.get("unitPrice")?.value || 0;
+        const totalPrice = productQuantity * unitPrice;
+
+        // Atualize o campo totalPrice de cada item
+        productControl.get("totalPrice")?.setValue(totalPrice);
+
+        return totalAccumulator + totalPrice;
       },
       0
     );
-    this.updateQuantity();
+
+    this.updateItensQuantity();
   }
 
-  updateQuantity(): void {
-    this.quantity = this.selectedProducts.controls.reduce(
+  updateItensQuantity(): void {
+    const totalQuantity = this.products.controls.reduce(
       (quantityAccumulator, productControl) => {
         const productQuantity = productControl.get("quantity")?.value || 0;
         return quantityAccumulator + productQuantity;
       },
       0
     );
+
+    this.itensQuantity = totalQuantity;
+
+    console.log("Quantidade total: ", this.itensQuantity);
+  }
+
+  updateUnitQuantity(index: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const quantity = parseInt(inputElement.value, 10);
+
+    if (!isNaN(quantity) && quantity > 0) {
+      this.products.at(index).get("quantity")?.setValue(quantity);
+      this.updateTotal();
+    }
+
+    console.log(
+      "Quantidade do item atualizada: ",
+      this.products.at(index).value
+    );
+
+    this.updateItensQuantity();
   }
 
   onSubmit() {
@@ -213,17 +260,35 @@ export class SaleRegisterComponent {
     }
   }
 
-  getSellerByUsername(username: string): void {
-    if (this.usernameShared) {
-      this.employeeService.getEmployeeByUsername(username).subscribe({
-        next: (employee) => {
-          this.saleForm.get("openedByEmployee")?.setValue(employee._id);
-          //this.usernameShared = employee.name;
-        },
-        error: (err) => {
-          console.log("Error loading employee. Please try again.");
-        },
+  openModalToColectUsername(): void {
+    if(!this.usernameShared){
+      const dialogRef = this.dialog.open(DialogComponent, {
+        restoreFocus: false,
       });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log("Username salvo:", result);
+          StorageUtils.setUserSale(result);
+        }
+      });
+    }
+  }
+
+  getSellerByUsername(): void {
+  console.log("recuperando user do banco: ", this.usernameShared);
+    if (this.usernameShared) {
+      this.employeeService
+        .getEmployeeByUsername(this.usernameShared)
+        .subscribe({
+          next: (employee) => {
+            this.saleForm.get("openedByEmployee")?.setValue(employee._id);
+            //this.usernameShared = employee.name;
+          },
+          error: (err) => {
+            console.log("Error loading employee. Please try again.");
+          },
+        });
     } else {
       // abrir a modal para coletar o username
     }

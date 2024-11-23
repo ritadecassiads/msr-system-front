@@ -27,9 +27,14 @@
 }
 
 .toolbar {
-  background-color: #fbd0c3;
+  background-color: #005cbb;
   display: flex;
   justify-content: space-between;
+}
+
+.toolbar-tittle{
+  color: white;
+  margin-left: 20px;
 }
 
 /* .teste{

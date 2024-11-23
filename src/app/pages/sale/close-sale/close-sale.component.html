@@ -6,11 +6,10 @@
   </div>
 
   <div class="sale-content">
-
     <div class="sale-products-summary">
       <div class="sale-products">
         <h3>Produtos</h3>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef>Code</th>
             <td mat-cell *matCellDef="let element">{{ element.code }}</td>
@@ -21,23 +20,23 @@
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef>Preço</th>
+          <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.price | currency }}
+              {{ element.unitPrice | currency }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>Valor total por item</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalPrice | currency }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Quantidade</th>
             <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="total">
-            <th mat-header-cell *matHeaderCellDef>Total</th>
-            <td mat-cell *matCellDef="let product">
-              {{ product.quantity * product.price | currency }}
-            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -58,12 +57,15 @@
         <h3>Formas de Pagamento</h3>
         <mat-radio-group [(ngModel)]="selectedPaymentMethod">
           <mat-radio-button value="cash">Dinheiro</mat-radio-button>
-          <mat-radio-button value="card">Cartão</mat-radio-button>
+          <mat-radio-button value="card">Cartão de debito</mat-radio-button>
+          <mat-radio-button value="card">Cartão de crédito</mat-radio-button>
+          <mat-radio-button value="card">Pix</mat-radio-button>
+          <mat-radio-button value="card">Transferência</mat-radio-button>
           <mat-radio-button value="other">Outro</mat-radio-button>
         </mat-radio-group>
       </div>
 
-      <div class="payment-details">
+      <div class="payment-details" *ngIf="selectedPaymentMethod == 'cash'">
         <h3>Pagamento</h3>
         <mat-form-field>
           <mat-label>Valor Recebido</mat-label>

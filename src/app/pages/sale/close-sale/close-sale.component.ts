@@ -17,6 +17,7 @@ import { ProductService } from "../../../services/product.service";
 import { Product } from "../../../models/products";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { forkJoin } from "rxjs";
+import { SaleProduct } from "../../../models/sale-product";
 
 @Component({
   selector: "app-close-sale",
@@ -42,7 +43,7 @@ export class CloseSaleComponent implements OnInit {
   selectedPaymentMethod: string = "cash";
   amountReceived: number = 0;
   change: number = 0;
-  displayedColumns: string[] = ["name", "quantity", "price", "total"];
+  displayedColumns: string[] = ["name", "quantity", "unitPrice", "totalPrice"];
 
   dataSource = new MatTableDataSource<Product>();
 
@@ -60,31 +61,38 @@ export class CloseSaleComponent implements OnInit {
 
   loadSaleDetails(): void {
     this.saleService.getSale(this.saleId).subscribe((sale) => {
+      if(sale.status === "closed") {
+        alert("Venda já finalizada!");
+        // this.router.navigate(["/dashboard"]);
+        return;
+      }
       this.sale = sale;
-      this.loadProducts(sale.products);
+      // this.loadProducts(sale.products);
     });
   }
 
-  loadProducts(productIds: string[]): void {
-    const productObservables = productIds.map((productId) =>
-      this.productService.getProduct(productId)
-    );
+  // ver necessidade de refatorar essa parte
+  // loadProducts(productIds: SaleProduct[]): void {
+  //   const productObservables = productIds
+  //     .filter((productId) => productId._id !== undefined)
+  //     .map((productId) => this.productService.getProduct(productId._id!));
 
-    forkJoin(productObservables).subscribe((products) => {
-      this.dataSource.data = products;
-    });
-  }
+  //   forkJoin(productObservables).subscribe((products) => {
+  //     this.dataSource.data = products;
+  //   });
+  // }
 
   calculateChange(): void {
     this.change = this.amountReceived - this.sale.total;
   }
 
   confirmSale(): void {
-    this.sale.status = "close";
+    this.sale.status = "closed";
+    this.sale.paymentMethod = this.selectedPaymentMethod as any;
+
     console.log("venda: ", this.sale);
     this.saleService.updateSale({ ...this.sale }).subscribe(() => {
       alert("Venda finalizada!");
-      this.router.navigate(["/sales"]);
     });
   }
 

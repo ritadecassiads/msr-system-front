@@ -1,18 +1,25 @@
 import { Client } from "./client";
 import { Employee } from "./employee";
 import { Product } from "./products";
+import { SaleProduct } from "./sale-product";
 
 export interface Sale {
   _id?: string;
   code?: number;
-  products: string[];
+  products: SaleProduct[];
   clientId?: Client;
   openedByEmployee: Employee;
-  quantity: number;
+  itensQuantity: number;
   total: number;
   notes?: string;
-  status?: "open" | "close";
-  paymentMethod?: "credit" | "debit" | "cash" | "pix" | "bankTransfer";
+  status?: "open" | "closed" | "canceled";
+  paymentMethod?:
+    | "credit"
+    | "debit"
+    | "cash"
+    | "pix"
+    | "bankTransfer"
+    | "other";
   discount: number;
   createdAt: Date;
 }

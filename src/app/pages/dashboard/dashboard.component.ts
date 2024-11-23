@@ -1,12 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { MatIcon } from '@angular/material/icon';
-import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { Router, RouterLink } from "@angular/router";
 import { SaleListComponent } from "../sale/sale-list/sale-list.component";
-import { SaleService } from '../../services/sale.service';
-import { Sale } from '../../models/sale';
+import { SaleService } from "../../services/sale.service";
+import { Sale } from "../../models/sale";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "app-dashboard",
@@ -16,14 +18,24 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatIcon,
     RouterLink,
     CommonModule,
-    SaleListComponent,
     MatExpansionModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
   ],
+  providers: [MatTableDataSource],
   templateUrl: "./dashboard.component.html",
   styleUrl: "./dashboard.component.css",
 })
 export class DashboardComponent implements OnInit {
   salesList: Sale[] = [];
+  displayedColumns: string[] = [
+    "employeeName",
+    "quantity",
+    "total",
+    "status",
+    "arrow",
+  ];
 
   buttonTiles = [
     {
@@ -36,7 +48,7 @@ export class DashboardComponent implements OnInit {
       text: "Fechar venda",
       color: "lightgreen",
       icon: "check_circle",
-      link: "/product/list",
+      link: "/sale/list",
     },
     {
       text: "Acessar conta do cliente",
@@ -67,12 +79,23 @@ export class DashboardComponent implements OnInit {
   getSales() {
     this.saleService.getSales().subscribe({
       next: (sales) => {
-        this.salesList = sales;
-        console.log("vendas: ", sales);
+        this.salesList = this.orderSalesByStatus(sales);
       },
       error: (err) => {
         console.error(err);
       },
+    });
+  }
+
+  orderSalesByStatus(sales: Sale[]): Sale[] {
+    return sales.sort((a, b) => {
+      if (a.status === "closed" && b.status !== "closed") {
+        return 1;
+      } else if (a.status !== "closed" && b.status === "closed") {
+        return -1;
+      } else {
+        return 0;
+      }
     });
   }
 

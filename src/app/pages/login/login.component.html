@@ -1,5 +1,5 @@
 <mat-toolbar class="toolbar" color="primary">
-  <span>MSR</span>
+  <span class="toolbar-tittle">MSR</span>
   <!-- <span class="example-spacer"></span>
   <a mat-list-item routerLink="/register">
     <div class="item">
@@ -36,7 +36,8 @@
           <button
             mat-icon-button
             matSuffix
-            (click)="clickEvent($event)"
+            type="button"
+            (click)="togglePasswordVisibility($event)"
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hidePassword"
           >

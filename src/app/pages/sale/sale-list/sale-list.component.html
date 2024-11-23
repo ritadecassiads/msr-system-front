@@ -1,28 +1,120 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-</mat-form-field>
+<mat-card class="">
+  <mat-card-header>
+    <mat-card-title>Consultar vendas</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <br />
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- Position Column -->
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="sale-filter">
+      <mat-label>Filtrar por situação</mat-label>
+      <mat-select [formControl]="statusFilter" multiple>
+        <mat-select-trigger>
+          {{ getStatusFilterText() }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let status of statusList" [value]="status">{{
+          statusMap[status]
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-list *ngIf="filteredSales.length > 0">
+      <mat-list-item *ngFor="let sale of filteredSales">
+        <h4 mat-line>
+          Situação: {{ sale.status == "open" ? "aberta" : "fechada" }}
+        </h4>
+        <p mat-line>Aberta por {{ sale.openedByEmployee.name }}</p>
+        <p mat-line>Aberta em {{ sale.createdAt | date : "dd/MM/yyyy" }}</p>
+        <p mat-line>Qtde itens: {{ sale.itensQuantity }}</p>
+        <p mat-line>Total: {{ sale.total | currency }}</p>
+      </mat-list-item>
+    </mat-list> -->
+
+    <mat-accordion
+      class="example-headers-align"
+      multi
+      *ngIf="filteredSales.length > 0"
+    >
+      <mat-expansion-panel *ngFor="let sale of filteredSales">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Situação: {{ sale.status == "open" ? "aberta" : "fechada" }}
+          </mat-panel-title>
+
+          <mat-panel-description>
+            Aberta por {{ sale.openedByEmployee.name }}
+          </mat-panel-description>
+
+          <mat-panel-description>
+            Aberta em {{ sale.createdAt | date : "dd/MM/yyyy" }}
+          </mat-panel-description>
+
+          <mat-panel-description>
+            Qtde itens: {{ sale.itensQuantity }}
+          </mat-panel-description>
+
+          <mat-panel-description>
+            Total: {{ sale.total | currency }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <hr />
+        <br />
+
+        <h6>Produtos incluídos</h6>
+
+        <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
+            <td mat-cell *matCellDef="let element">{{ element.unitPrice }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">{{ element.totalPrice }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <button *ngIf="sale.status == 'open'"
+          mat-flat-button
+          (click)="navigateToCloseSale(sale._id!)"
+        >Fechar venda</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
+
+<!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
   <ng-container matColumnDef="code">
     <th mat-header-cell *matHeaderCellDef>Código</th>
     <td mat-cell *matCellDef="let element">{{ element.code }}</td>
   </ng-container>
 
-  <!-- Name Column -->
+
   <ng-container matColumnDef="total">
     <th mat-header-cell *matHeaderCellDef>Valor total</th>
     <td mat-cell *matCellDef="let element">{{ element.total }}</td>
   </ng-container>
 
-  <!-- Weight Column -->
+
   <ng-container matColumnDef="quantity">
     <th mat-header-cell *matHeaderCellDef>Qtdo produtos</th>
     <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
   </ng-container>
 
-  <!-- Symbol Column -->
+
   <ng-container matColumnDef="openedByEmployee">
     <th mat-header-cell *matHeaderCellDef>Aberta por:</th>
     <td mat-cell *matCellDef="let element">{{ element.openedByEmployee }}</td>
@@ -38,10 +130,9 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-  <!-- Row shown when there is no matching data. -->
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" colspan="4">
       No data matching the filter "{{ input.value }}"
     </td>
   </tr>
-</table>
+</table> -->

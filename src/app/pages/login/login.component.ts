@@ -41,7 +41,7 @@ export class LoginComponent {
 
   hidePassword = true;
 
-  clickEvent(event: MouseEvent) {
+  togglePasswordVisibility(event: MouseEvent) {
     this.hidePassword = !this.hidePassword;
     event.stopPropagation();
   }

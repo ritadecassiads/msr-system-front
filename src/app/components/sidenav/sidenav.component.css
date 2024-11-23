@@ -1,72 +1,31 @@
-/* .sidenav-content {
-  width: auto;
-  flex-direction: column;
-  background-color: #FFCCBC;
-  padding: 0 16px;
-} */
+.content {
+  padding: 16px;
+  transition: margin-left 0.3s ease;
+  box-sizing: border-box;
+}
 
 .sidenav-container {
-  margin: auto;
+  margin: 0;
   height: 100vh;
-}
-
-.sidenav-inside-container {
-  /* width: auto !important; */
-  background: #e1d6d6aa;
-}
-
-.example-spacer {
-  flex:1 1 auto;
+  flex-direction: row;
 }
 
 .toolbar {
-  background-color: #fbc6c3;
+  background-color: #005cbb;
   display: flex;
   justify-content: space-between;
 }
 
-.item{
-  display: flex;
-  align-items: center;
-}
-
-.active-link {
-  background-color: #e0e0e0; /* Cor de fundo para o item selecionado */
-  font-weight: bold; /* Texto em negrito para o item selecionado */
-  color: #1976d2; /* Cor do texto para o item selecionado */
-}
-
-/* styles.css ou o arquivo de estilos do seu componente */
-/* .sidenav-collapsed .menu-text {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sidenav-expanded .menu-text {
-  display: inline-block;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-.sidenav-collapsed .icon {
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-.sidenav-expanded .icon {
-  display: inline-block;
-  transition: transform 0.3s ease;
-} */
-
 .sidenav-collapsed {
   width: 4vw;
-  transition: width 0.3s ease; 
+  transition: width 0.3s ease;
 }
 
 .sidenav-expanded {
-  width: 12vw; /* Largura quando expandida */
-  transition: width 0.2s ease-out; /* Transição suave para a largura */
+  width: 12vw;
+  /* Largura quando expandida */
+  transition: width 0.2s ease-out;
+  /* Transição suave para a largura */
 }
 
 .sidenav-collapsed .menu-text {
@@ -79,7 +38,95 @@
   opacity: 1;
 }
 
-.sidenav-collapsed .icon,
-.sidenav-expanded .icon {
+.sidenav-collapsed .icon {
   display: inline-block;
+  opacity: 1;
+}
+
+/* Container geral do menu */
+.sidenav-inside-container {
+  background-color: #e9e9ef;
+  /* Fundo escuro para o menu */
+  color: black;
+  /* Cor do texto */
+  height: 100%;
+}
+
+/* Estilo das opções do menu */
+.item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: white;
+  /* Fundo ao passar o mouse */
+  color: #080346;
+  /* Cor de destaque */
+}
+
+/* Ícones */
+.icon {
+  font-size: 24px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Texto */
+.menu-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Estilo para itens ativos */
+.active-link .item {
+  background-color: #080346;
+  /* Verde claro para link ativo */
+  color: white;
+}
+
+.active-link .icon {
+  color: white;
+  /* Ícones com mesma cor do texto ativo */
+}
+
+.active-link {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Submenus */
+.mat-menu-item {
+  color: white;
+  padding: 8px 16px;
+}
+
+.toolbar-tittle {
+  color: white;
+  margin-left: 20px;
+}
+
+.toolbar-icon-tittle,
+.logout-icon {
+  color: white;
+}
+
+.mat-drawer-content {
+  background-color: rgb(3, 9, 62);
+}
+
+button.mat-mdc-menu-item.mat-mdc-focus-indicator {
+  width: 205px !important;
+  text-align: center;
 }

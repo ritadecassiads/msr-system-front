@@ -1,4 +1,12 @@
-.icon {
-  color: #1976d2;
-  cursor: pointer;
+.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+   flex-basis: auto !important; /* ou use o valor desejado */
+  margin-right: 0 !important;
 }
+
+.sale-filter{
+  width: 50%;
+}
+
+/* mat-expansion-panel{
+  margin-bottom: 10px !important;
+} */
