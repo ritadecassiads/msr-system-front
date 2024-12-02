@@ -1,14 +1,13 @@
 <div class="close-sale-container">
-  <h2>Fechamento de Venda</h2>
-
-  <div class="sale-header">
-    <p>Data: 18/11</p>
-  </div>
-
   <div class="sale-content">
     <div class="sale-products-summary">
+      <h4>Fechamento de Venda</h4>
+
+      <div class="sale-header">
+        <p>{{todayDate}}</p>
+      </div>
       <div class="sale-products">
-        <h3>Produtos</h3>
+        <h5>Produtos</h5>
         <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef>Code</th>
@@ -45,7 +44,7 @@
       </div>
 
       <div class="sale-summary">
-        <h3>Resumo da Venda</h3>
+        <h5>Resumo da Venda</h5>
         <p>Subtotal: {{ sale.total | currency }}</p>
         <p>Descontos: 0,00</p>
         <p>Total: {{ sale.total | currency }}</p>
@@ -54,7 +53,7 @@
 
     <div class="sale-details">
       <div class="payment-methods">
-        <h3>Formas de Pagamento</h3>
+        <h5>Formas de Pagamento</h5>
         <mat-radio-group [(ngModel)]="selectedPaymentMethod">
           <mat-radio-button value="cash">Dinheiro</mat-radio-button>
           <mat-radio-button value="card">Cartão de debito</mat-radio-button>
@@ -66,7 +65,7 @@
       </div>
 
       <div class="payment-details" *ngIf="selectedPaymentMethod == 'cash'">
-        <h3>Pagamento</h3>
+        <h5>Pagamento</h5>
         <mat-form-field>
           <mat-label>Valor Recebido</mat-label>
           <input

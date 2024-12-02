@@ -101,9 +101,9 @@ export const routes: Routes = [
           ).then((m) => m.SupplierListComponent),
       },
       {
-        path: "sale/register",
+        path: "open-sale",
         loadComponent: () =>
-          import("./pages/sale/sale-register/sale-register.component").then(
+          import("./pages/sale/open-sale/open-sale.component").then(
             (m) => m.SaleRegisterComponent
           ),
       },

@@ -44,6 +44,7 @@ export class CloseSaleComponent implements OnInit {
   amountReceived: number = 0;
   change: number = 0;
   displayedColumns: string[] = ["name", "quantity", "unitPrice", "totalPrice"];
+  todayDate: string = this.getTodayDate();
 
   dataSource = new MatTableDataSource<Product>();
 
@@ -61,7 +62,7 @@ export class CloseSaleComponent implements OnInit {
 
   loadSaleDetails(): void {
     this.saleService.getSale(this.saleId).subscribe((sale) => {
-      if(sale.status === "closed") {
+      if (sale.status === "closed") {
         alert("Venda já finalizada!");
         // this.router.navigate(["/dashboard"]);
         return;
@@ -96,7 +97,14 @@ export class CloseSaleComponent implements OnInit {
     });
   }
 
-  cancelSale(): void {
-    
+  cancelSale(): void {}
+
+  getTodayDate(): string {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`;
   }
 }

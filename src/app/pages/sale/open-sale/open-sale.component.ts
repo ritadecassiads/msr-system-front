@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import {
   FormArray,
   FormBuilder,
@@ -27,7 +27,7 @@ import { Product } from "../../../models/products";
 import { Sale } from "../../../models/sale";
 import { SaleService } from "../../../services/sale.service";
 import { MatList, MatListItem } from "@angular/material/list";
-import { MatTableModule } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SharedService } from "../../../shared/services/shared.service";
 import { EmployeeService } from "../../../services/employee.service";
 import { Employee } from "../../../models/employee";
@@ -36,9 +36,10 @@ import { MatIcon } from "@angular/material/icon";
 import { StorageUtils } from "../../../shared/utils/storage-utils";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../../components/dialog/dialog.component";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 
 @Component({
-  selector: "app-sale-register",
+  selector: "app-open-sale",
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -54,15 +55,15 @@ import { DialogComponent } from "../../../components/dialog/dialog.component";
     MatFormFieldModule,
     CommonModule,
     MatSelectModule,
-
+    MatPaginatorModule,
     MatListItem,
     CurrencyPipe,
     MatTableModule,
     MatCardSubtitle,
     MatIcon,
   ],
-  templateUrl: "./sale-register.component.html",
-  styleUrl: "./sale-register.component.css",
+  templateUrl: "./open-sale.component.html",
+  styleUrl: "./open-sale.component.css",
 })
 export class SaleRegisterComponent {
   saleForm: FormGroup = new FormGroup({});
@@ -70,6 +71,21 @@ export class SaleRegisterComponent {
   filteredProducts: Product[] = [];
   selectedProducts: FormArray = this.fb.array([]);
   usernameShared: string = "";
+  displayedColumns: string[] = [
+    "code",
+    "name",
+    "productQuantity",
+    "unitPrice",
+    "totalPrice",
+    "stock",
+    "delete",
+  ];
+  isProductListVisible: boolean = true;
+  labelButton: string = "Esconder";
+
+  dataSource = new MatTableDataSource<Product>(this.filteredProducts);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   readonly dialog = inject(MatDialog);
 
@@ -82,14 +98,9 @@ export class SaleRegisterComponent {
     private employeeService: EmployeeService
   ) {}
 
-  displayedColumns: string[] = [
-    "code",
-    "name",
-    "itensQuantity",
-    "unitPrice",
-    "totalPrice",
-    "delete",
-  ];
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator; // Associa o paginator à tabela
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -98,11 +109,11 @@ export class SaleRegisterComponent {
     this.getSellerByUsername();
   }
 
-  get products(): FormArray {
+  get saleProducts(): FormArray {
     return this.saleForm.get("products") as FormArray;
   }
 
-  set products(products: FormArray) {
+  set saleProducts(products: FormArray) {
     this.saleForm.setControl("products", products);
   }
 
@@ -138,8 +149,8 @@ export class SaleRegisterComponent {
     this.saleForm = this.fb.group({
       products: this.fb.array([], Validators.required),
       openedByEmployee: ["", Validators.required],
-      itensQuantity: ["", Validators.required],
-      total: ["", Validators.required],
+      itensQuantity: [0, Validators.required],
+      total: [0, Validators.required],
     });
   }
 
@@ -154,10 +165,10 @@ export class SaleRegisterComponent {
       .toLowerCase();
 
     if (filterValue === "") {
-      this.filteredProducts = [];
+      this.dataSource.data = this.productList;
     } else {
       const filterValueNumber = Number(filterValue);
-      this.filteredProducts = this.productList.filter((product) => {
+      this.dataSource.data = this.productList.filter((product) => {
         const matchesName = product.name.toLowerCase().includes(filterValue);
         const matchesCode =
           !isNaN(filterValueNumber) &&
@@ -175,29 +186,31 @@ export class SaleRegisterComponent {
       quantity: [1, Validators.required],
       unitPrice: [product.price, Validators.required],
       totalPrice: [product.price, Validators.required],
+      stock: [product.stock, Validators.required],
     });
 
-    this.products.push(productGroup);
+    this.saleProducts.push(productGroup);
 
     console.log("Product added: ", productGroup.value);
+
+    this.itensQuantity = 1;
 
     this.updateTotal();
   }
 
   removeProduct(index: number): void {
-    this.products.removeAt(index);
+    this.saleProducts.removeAt(index);
     // this.selectedProducts.removeAt(index);
     this.updateTotal();
   }
 
   updateTotal(): void {
-    this.total = this.products.controls.reduce(
+    this.total = this.saleProducts.controls.reduce(
       (totalAccumulator, productControl) => {
         const productQuantity = productControl.get("quantity")?.value || 0;
         const unitPrice = productControl.get("unitPrice")?.value || 0;
         const totalPrice = productQuantity * unitPrice;
 
-        // Atualize o campo totalPrice de cada item
         productControl.get("totalPrice")?.setValue(totalPrice);
 
         return totalAccumulator + totalPrice;
@@ -209,34 +222,39 @@ export class SaleRegisterComponent {
   }
 
   updateItensQuantity(): void {
-    const totalQuantity = this.products.controls.reduce(
+    this.itensQuantity = this.saleProducts.controls.reduce(
       (quantityAccumulator, productControl) => {
         const productQuantity = productControl.get("quantity")?.value || 0;
         return quantityAccumulator + productQuantity;
       },
       0
     );
-
-    this.itensQuantity = totalQuantity;
-
-    console.log("Quantidade total: ", this.itensQuantity);
   }
 
-  updateUnitQuantity(index: number, event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const quantity = parseInt(inputElement.value, 10);
-
-    if (!isNaN(quantity) && quantity > 0) {
-      this.products.at(index).get("quantity")?.setValue(quantity);
-      this.updateTotal();
+  decrementQuantity(index: number): void {
+    let quantity = this.saleProducts.at(index).get("quantity")?.value;
+    if (quantity == 1) {
+      return;
     }
+    this.saleProducts
+      .at(index)
+      .get("quantity")
+      ?.setValue(quantity - 1);
 
-    console.log(
-      "Quantidade do item atualizada: ",
-      this.products.at(index).value
-    );
+    this.updateTotal();
+  }
 
-    this.updateItensQuantity();
+  incrementQuantity(index: number): void {
+    let quantity = this.saleProducts.at(index).get("quantity")?.value;
+    if (quantity >= this.saleProducts.at(index).get("stock")?.value) {
+      return;
+    }
+    this.saleProducts
+      .at(index)
+      .get("quantity")
+      ?.setValue(quantity + 1);
+
+    this.updateTotal();
   }
 
   onSubmit() {
@@ -261,11 +279,11 @@ export class SaleRegisterComponent {
   }
 
   openModalToColectUsername(): void {
-    if(!this.usernameShared){
+    if (!this.usernameShared) {
       const dialogRef = this.dialog.open(DialogComponent, {
         restoreFocus: false,
       });
-  
+
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           console.log("Username salvo:", result);
@@ -276,7 +294,7 @@ export class SaleRegisterComponent {
   }
 
   getSellerByUsername(): void {
-  console.log("recuperando user do banco: ", this.usernameShared);
+    console.log("recuperando user do banco: ", this.usernameShared);
     if (this.usernameShared) {
       this.employeeService
         .getEmployeeByUsername(this.usernameShared)
@@ -292,5 +310,10 @@ export class SaleRegisterComponent {
     } else {
       // abrir a modal para coletar o username
     }
+  }
+
+  toggleProductListVisibility(): void {
+    this.isProductListVisible = !this.isProductListVisible;
+    this.labelButton = this.isProductListVisible ? "Esconder" : "Mostrar";
   }
 }

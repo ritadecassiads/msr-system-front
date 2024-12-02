@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
       text: "Abrir venda",
       color: "lightblue",
       icon: "shopping_cart",
-      link: "/sale/register",
+      link: "/open-sale",
     },
     {
       text: "Fechar venda",

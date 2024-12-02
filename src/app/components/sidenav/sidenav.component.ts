@@ -67,7 +67,7 @@ export class SidenavComponent {
         console.log("Username salvo:", result);
         this.sharedService.setUsername(result);
         StorageUtils.setUserSale(result);
-        this.router.navigate(["/sale/register"]);
+        this.router.navigate(["/open-sale"]);
       }
     });
   }

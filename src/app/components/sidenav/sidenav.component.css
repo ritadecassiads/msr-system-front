@@ -6,8 +6,9 @@
 
 .sidenav-container {
   margin: 0;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  flex-direction: row;
 }
 
 .toolbar {
@@ -126,7 +127,26 @@ a {
   background-color: rgb(3, 9, 62);
 }
 
-button.mat-mdc-menu-item.mat-mdc-focus-indicator {
+/* button.mat-mdc-menu-item.mat-mdc-focus-indicator {
   width: 205px !important;
   text-align: center;
+} */
+
+.mat-drawer-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-drawer-content {
+  flex: 1;
+  /* overflow-y: auto; */
+  /* Permite scroll apenas na área de conteúdo */
+  display: flex;
+  flex-direction: column;
+}
+
+mat-toolbar {
+  z-index: 2;
+  /* Certifique-se de que a toolbar fique sobre os conteúdos roláveis */
 }
