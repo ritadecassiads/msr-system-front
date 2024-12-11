@@ -8,4 +8,8 @@ export abstract class StorageUtils {
   static getUserSale(): string | null {
     return sessionStorage.getItem(USER_SALE);
   }
+
+  static clearUserSale(): void {
+    sessionStorage.removeItem(USER_SALE);
+  }
 }

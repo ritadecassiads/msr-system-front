@@ -1,13 +1,14 @@
-<div class="close-sale-container">
-  <div class="sale-content">
-    <div class="sale-products-summary">
-      <h4>Fechamento de Venda</h4>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Fechar venda</mat-card-title>
+  </mat-card-header>
+  <br />
 
-      <div class="sale-header">
-        <p>{{todayDate}}</p>
-      </div>
-      <div class="sale-products">
-        <h5>Produtos</h5>
+  <mat-card-content>
+    <mat-card-title>Produtos incluídos na venda</mat-card-title>
+
+    <div class="sale-summary">
+      <div class="product-list-container">
         <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef>Code</th>
@@ -43,7 +44,7 @@
         </table>
       </div>
 
-      <div class="sale-summary">
+      <div class="sale-summary-end">
         <h5>Resumo da Venda</h5>
         <p>Subtotal: {{ sale.total | currency }}</p>
         <p>Descontos: 0,00</p>
@@ -53,15 +54,36 @@
 
     <div class="sale-details">
       <div class="payment-methods">
-        <h5>Formas de Pagamento</h5>
-        <mat-radio-group [(ngModel)]="selectedPaymentMethod">
+        <mat-card-title>Forma de pagamento</mat-card-title>
+
+        <mat-radio-group
+          [(ngModel)]="selectedPaymentMethod"
+          class="payment-method-group"
+        >
+          <div class="payment-method-row">
+            <mat-radio-button value="cash">Dinheiro</mat-radio-button>
+            <mat-radio-button value="card-debit"
+              >Cartão de débito</mat-radio-button
+            >
+            <mat-radio-button value="card-credit"
+              >Cartão de crédito</mat-radio-button
+            >
+          </div>
+          <div class="payment-method-row">
+            <mat-radio-button value="pix">Pix</mat-radio-button>
+            <mat-radio-button value="transfer">Transferência</mat-radio-button>
+            <mat-radio-button value="other">Outro</mat-radio-button>
+          </div>
+        </mat-radio-group>
+
+        <!-- <mat-radio-group [(ngModel)]="selectedPaymentMethod">
           <mat-radio-button value="cash">Dinheiro</mat-radio-button>
           <mat-radio-button value="card">Cartão de debito</mat-radio-button>
           <mat-radio-button value="card">Cartão de crédito</mat-radio-button>
           <mat-radio-button value="card">Pix</mat-radio-button>
           <mat-radio-button value="card">Transferência</mat-radio-button>
           <mat-radio-button value="other">Outro</mat-radio-button>
-        </mat-radio-group>
+        </mat-radio-group> -->
       </div>
 
       <div class="payment-details" *ngIf="selectedPaymentMethod == 'cash'">
@@ -87,5 +109,5 @@
         </button>
       </div>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

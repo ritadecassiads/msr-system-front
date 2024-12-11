@@ -56,7 +56,6 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
     CommonModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatListItem,
     CurrencyPipe,
     MatTableModule,
     MatCardSubtitle,
@@ -70,7 +69,7 @@ export class SaleRegisterComponent {
   productList: Product[] = [];
   filteredProducts: Product[] = [];
   selectedProducts: FormArray = this.fb.array([]);
-  usernameShared: string = "";
+  employeeUsername: string = "";
   displayedColumns: string[] = [
     "code",
     "name",
@@ -103,10 +102,11 @@ export class SaleRegisterComponent {
   }
 
   ngOnInit() {
+    this.openModalToColectUsername();
     this.getProducts();
     this.saleFormInit();
-    this.recoverUser();
-    this.getSellerByUsername();
+    // this.recoverUser();
+    // this.getSellerByUsername();
   }
 
   get saleProducts(): FormArray {
@@ -136,7 +136,7 @@ export class SaleRegisterComponent {
   getProducts() {
     this.productService.getProducts().subscribe({
       next: (products) => {
-        this.productList = products;
+        this.productList = this.filteredProductsByStock(products);
       },
       error: (err) => {
         console.error(err);
@@ -155,8 +155,8 @@ export class SaleRegisterComponent {
   }
 
   recoverUser() {
-    this.usernameShared = StorageUtils.getUserSale() ?? "";
-    console.log("Username shared: ", this.usernameShared);
+    this.employeeUsername = StorageUtils.getUserSale() ?? "";
+    console.log("Username shared: ", this.employeeUsername);
   }
 
   applyFilter(event: Event): void {
@@ -200,7 +200,6 @@ export class SaleRegisterComponent {
 
   removeProduct(index: number): void {
     this.saleProducts.removeAt(index);
-    // this.selectedProducts.removeAt(index);
     this.updateTotal();
   }
 
@@ -264,9 +263,10 @@ export class SaleRegisterComponent {
     if (this.saleForm.valid) {
       this.saleService.saveSale(sale).subscribe({
         next: (data) => {
-          console.log("Sale registered successfully: ", data);
           alert("Sale registered successfully.");
-          //this.router.navigate(["/sales"]);
+          StorageUtils.clearUserSale();
+
+          this.router.navigate(["/dashboard"]);
         },
         error: (err) => {
           console.error(err);
@@ -274,37 +274,50 @@ export class SaleRegisterComponent {
         },
       });
     } else {
+      if (this.saleForm.get("openedByEmployee")?.invalid) {
+        this.openModalToColectUsername();
+      }
       alert("Please fill in all required fields.");
     }
   }
 
   openModalToColectUsername(): void {
-    if (!this.usernameShared) {
+    // if (!this.employeeUsername) {
       const dialogRef = this.dialog.open(DialogComponent, {
         restoreFocus: false,
       });
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          console.log("Username salvo:", result);
+          this.employeeUsername = result;
+          this.getSellerByUsername();
           StorageUtils.setUserSale(result);
         }
       });
-    }
+    // }
   }
 
   getSellerByUsername(): void {
-    console.log("recuperando user do banco: ", this.usernameShared);
-    if (this.usernameShared) {
+    console.log("recuperando user do banco: ", this.employeeUsername);
+    if (this.employeeUsername) {
       this.employeeService
-        .getEmployeeByUsername(this.usernameShared)
+        .getEmployeeByUsername(this.employeeUsername)
         .subscribe({
           next: (employee) => {
             this.saleForm.get("openedByEmployee")?.setValue(employee._id);
-            //this.usernameShared = employee.name;
+            //this.employeeUsername = employee.name;
           },
           error: (err) => {
-            console.log("Error loading employee. Please try again.");
+            if (err.status === 404) {
+              console.error("Employee not found (404).");
+              alert(
+                "Vendedor não encontrado. Por favor, insira um nome de vendedor válido."
+              );
+              this.openModalToColectUsername();
+            } else {
+              console.error("Error loading employee. Please try again.");
+              alert("Error loading employee. Please try again.");
+            }
           },
         });
     } else {
@@ -315,5 +328,9 @@ export class SaleRegisterComponent {
   toggleProductListVisibility(): void {
     this.isProductListVisible = !this.isProductListVisible;
     this.labelButton = this.isProductListVisible ? "Esconder" : "Mostrar";
+  }
+
+  filteredProductsByStock(products: Product[]): Product[] {
+    return products.filter((product) => product.stock > 0);
   }
 }

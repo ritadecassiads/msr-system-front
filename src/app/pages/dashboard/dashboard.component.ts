@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
   getSales() {
     this.saleService.getSales().subscribe({
       next: (sales) => {
-        this.salesList = this.orderSalesByStatus(sales);
+        this.salesList = this.filteredSalesByStatus(sales);
       },
       error: (err) => {
         console.error(err);
@@ -87,16 +87,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  orderSalesByStatus(sales: Sale[]): Sale[] {
-    return sales.sort((a, b) => {
-      if (a.status === "closed" && b.status !== "closed") {
-        return 1;
-      } else if (a.status !== "closed" && b.status === "closed") {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
+  filteredSalesByStatus(sales: Sale[]): Sale[] {
+     return sales.filter((sale) => sale.status !== "closed");
   }
 
   navigateToCloseSale(saleId: string): void {

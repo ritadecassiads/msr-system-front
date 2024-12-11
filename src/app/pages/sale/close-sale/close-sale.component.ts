@@ -18,6 +18,7 @@ import { Product } from "../../../models/products";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { forkJoin } from "rxjs";
 import { SaleProduct } from "../../../models/sale-product";
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 
 @Component({
   selector: "app-close-sale",
@@ -32,6 +33,10 @@ import { SaleProduct } from "../../../models/sale-product";
     MatInputModule,
     FormsModule,
     MatTableModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
   ],
   providers: [MatTableDataSource],
   templateUrl: "./close-sale.component.html",
@@ -68,6 +73,7 @@ export class CloseSaleComponent implements OnInit {
         return;
       }
       this.sale = sale;
+      console.log("sale: ", this.sale);
       // this.loadProducts(sale.products);
     });
   }

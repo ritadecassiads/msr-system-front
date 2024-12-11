@@ -39,7 +39,7 @@
         <mat-icon class="icon"> credit_card </mat-icon>
         <span class="menu-text">Vendas</span>
         <mat-menu #menuSale="matMenu" yPosition="below">
-          <button mat-menu-item (click)="openDialog()">Abrir</button>
+          <button mat-menu-item routerLink="/open-sale">Abrir</button>
           <button mat-menu-item routerLink="sale/list">Consultar</button>
         </mat-menu>
       </div>

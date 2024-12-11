@@ -1,66 +1,98 @@
-.close-sale-container {
+/* Container principal */
+.product-list-container {
+  max-width: 100%;
   padding: 20px;
+  background-color: #fdfdfd;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.sale-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.sale-products-summary, .sale-details {
-  flex: 1;
-  min-width: 300px;
-}
-
-.sale-header, .sale-products, .sale-summary, .payment-methods, .payment-details, .action-buttons {
-  margin-bottom: 20px;
-}
-
-.sale-summary{
-  display: flex; 
-}
-
-.sale-header p, .sale-summary p {
-  margin: 5px 0;
-}
-
-.mat-table {
+/* Estilização da tabela */
+.product-table,
+table.mat-table {
   width: 100%;
-  margin-bottom: 20px;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.action-buttons button {
-  margin-right: 10px;
+/* Cabeçalho da tabela */
+.product-table th.mat-header-cell,
+.mat-header-cell {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  padding: 12px 8px;
+  font-size: 14px;
+  border-bottom: 2px solid #ddd;
 }
 
-.sale-products-summary,
-.sale-details {
-  background-color: #fff; /* Cor de fundo branca */
-  border-radius: 10px; /* Bordas arredondadas */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra suave */
-  padding: 20px; /* Espaçamento interno */
-  margin: 15px 0; /* Espaçamento externo */
+/* Células da tabela */
+.product-table td.mat-cell,
+.mat-cell {
+  padding: 10px 8px;
+  font-size: 14px;
+  color: #555;
+  border-bottom: 1px solid #eee;
 }
 
-.sale-products-summary {
-  /* Específico para o primeiro card */
-  display: flex; /* Layout flexível para alinhamento */
-  flex-direction: column; /* Colunas para organizar o conteúdo */
-  gap: 15px; /* Espaçamento entre elementos internos */
+/* Linhas da tabela */
+.mat-row {
+  transition: background-color 0.3s;
 }
 
-.sale-details {
-  /* Específico para o segundo card */
+/* Linha de hover */
+.product-table tr:hover,
+.mat-row:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+/* Botão de remover produto */
+button.mat-icon-button {
+  color: #e53935;
+  transition: transform 0.2s ease-in-out;
+}
+
+button.mat-icon-button:hover {
+  transform: scale(1.2);
+}
+
+.sale-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+ 
+}
+
+.sale-summary-end{
+  /* max-width: 100%;
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.sale-details{
+  display: flex;
+  margin-top: 30px;
+}
+
+
+
+
+.payment-method-group {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-/* Estilo para os títulos dentro dos cards */
-/* .sale-products-summary h3,
-.sale-details h3 {
-  font-size: 1.25rem;
-  color: #333; /* Cor do texto */
-  /* margin-bottom: 10px; Espaçamento abaixo do título */
-/* }  */
+.payment-method-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}

@@ -57,21 +57,6 @@ export class SidenavComponent {
     this.router.navigate(["/"]);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      restoreFocus: false,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log("Username salvo:", result);
-        this.sharedService.setUsername(result);
-        StorageUtils.setUserSale(result);
-        this.router.navigate(["/open-sale"]);
-      }
-    });
-  }
-
   toggleSidenav() {
     // sidenav.toggle();
     this.isCollapsed = !this.isCollapsed;
