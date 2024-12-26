@@ -2,7 +2,7 @@
   class="spaced-grid-list"
   cols="5"
   rowHeight="100px"
-  gutterSize="15px"
+  gutterSize="5px"
 >
   <mat-grid-tile *ngFor="let tile of buttonTiles" [colspan]="1" [rowspan]="1">
     <button
@@ -11,7 +11,7 @@
       [routerLink]="tile.link"
     >
       <div class="item">
-        <mat-icon class="icon">{{ tile.icon }}</mat-icon>
+        <mat-icon class="icon-button">{{ tile.icon }}</mat-icon>
         <span>{{ tile.text }}</span>
       </div>
     </button>
@@ -22,35 +22,43 @@
   <div class="sale-content">
     <div class="sale-products-summary">
       <div class="sale-products">
-        <h3>Vendas Abertas</h3>
+        <h6>Vendas abertas</h6>
         <table
           mat-table
           [dataSource]="salesList"
           class="mat-elevation-z8 sales-table"
         >
+          <ng-container matColumnDef="code">
+            <th class="th-text-align" mat-header-cell *matHeaderCellDef>
+              Código
+            </th>
+            <td mat-cell *matCellDef="let sale">
+              {{ sale.code }}
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="employeeName">
-            <th mat-header-cell *matHeaderCellDef>Venda aberta por:</th>
+            <th class="th-text-align" mat-header-cell *matHeaderCellDef>
+              Venda aberta por:
+            </th>
             <td mat-cell *matCellDef="let sale">
               {{ sale.openedByEmployee.name }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantidade de itens</th>
+            <th class="th-text-align" mat-header-cell *matHeaderCellDef>
+              Quantidade de itens
+            </th>
             <td mat-cell *matCellDef="let sale">{{ sale.itensQuantity }}</td>
           </ng-container>
 
           <ng-container matColumnDef="total">
-            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <th class="th-text-align" mat-header-cell *matHeaderCellDef>
+              Total
+            </th>
             <td mat-cell *matCellDef="let sale">
-              {{ sale.total | currency }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Situação</th>
-            <td mat-cell *matCellDef="let sale">
-              {{ sale.status == "open" ? "Aberta" : "Fechada" }}
+              {{ sale.total | currency : "BRL" : "symbol" : "1.2-2" }}
             </td>
           </ng-container>
 
@@ -58,6 +66,7 @@
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let sale">
               <button
+                title="Fechar venda"
                 *ngIf="sale.status == 'open'"
                 mat-raised-button
                 (click)="navigateToCloseSale(sale._id!)"
@@ -71,77 +80,63 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="confirm-button"
+        (click)="navigateToSaleList()"
+      >
+        Ver todas as vendas
+      </button>
     </div>
 
     <div class="sale-details">
-      <mat-accordion>
+      <h6>Contas a pagar</h6>
+
+      <mat-accordion *ngFor="let invoice of invoiceList">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> 450,00 - 30/09/24 </mat-panel-title>
+            <mat-panel-title>
+              {{ invoice.supplierId ? invoice.supplierId.name : invoice.description }}
+            </mat-panel-title>
             <mat-panel-description>
-              Fornecedor Fulano de tal
+              {{ invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2" }} - {{ invoice.dueDate | date : "dd/MM/yyyy" }}
             </mat-panel-description>
+
+           
           </mat-expansion-panel-header>
-          <p>Parcela 2 de 5</p>
+
+          <div class="client-summary">
+            <div >
+              <p *ngIf="invoice.description">
+                Descrição: <b>{{ invoice.description }}</b>
+              </p>            
+              <p *ngIf="invoice.supplierId">
+                Fornecedor:
+                <b>{{ invoice.supplierId ? invoice.supplierId.name : "" }}</b>
+              </p>
+
+              <div *ngIf="invoice.installments?.length">
+                <p>Quantidade de parcelas: {{ invoice.installments?.length }}</p>
+  
+                <div>
+                  Valor e vencimento de cada parcela:
+                  <p *ngFor="let installment of invoice.installments">
+                    <b> {{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : '' }} </b> -
+                    {{ installment ? (installment.dueDate | date : "dd/MM/yyyy") : '' }}
+                  </p>
+                </div>
+              </div>
+
+              <p *ngIf="invoice.notes">
+                Notas: {{ invoice.notes }}
+              </p>
+            </div>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
 
-      <button mat-raised-button color="primary">Ver todas as contas</button>
+      <button mat-raised-button color="primary" (click)="navigateToInvoiceList()">Ver todas as contas</button>
     </div>
   </div>
 </div>
-
-<!-- <mat-grid-list
-  class="spaced-grid-list"
-  cols="2"
-  rowHeight="100px"
-  gutterSize="20px"
->
-  <mat-grid-tile [colspan]="1" [rowspan]="3" class="teste123">
-    <div class="mat-grid-tile-list">
-      <h6>Vendas Abertas</h6>
-
-      <table class="sales-table">
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sale of salesList.slice(0, 5)">
-            <td>{{ sale.code }}</td>
-            <td>{{ sale.total | currency : "BRL" }}</td>
-            <td>{{ sale.status == "open" ? "Aberta" : "Fechada" }}</td>
-            <td>
-              <mat-icon class="icon" (click)="navigateToCloseSale(sale._id!)"
-                >arrow_forward</mat-icon
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button mat-button class="view-all-button" routerLink="sale/list">Ver todas as vendas</button>
-    </div>
-  </mat-grid-tile>
-
-  <mat-grid-tile [colspan]="1" [rowspan]="2" class="">
-    <div class="mat-grid-tile-list">
-      <h6>Contas a pagar</h6>
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> 450,00 - 30/09/24 </mat-panel-title>
-            <mat-panel-description>
-              Fornecedor Fulano de tal
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <p>Parcela 2 de 5</p>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <button mat-button class="view-all-button">Ver todas as contas</button>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list> -->

@@ -1,98 +1,124 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Fechar venda</mat-card-title>
+    <mat-card-title
+      >Fechar venda - Venda #{{ sale.code }} -
+      {{ sale.createdAt | date : "dd/MM/yyyy HH:mm" }}</mat-card-title
+    >
   </mat-card-header>
-  <br />
 
   <mat-card-content>
-    <mat-card-title>Produtos incluídos na venda</mat-card-title>
-
     <div class="sale-summary">
-      <div class="product-list-container">
-        <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
-          <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef>Code</th>
-            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
-          </ng-container>
+      <div class="sale-products-table">
+        <mat-card-subtitle class="title-margin">
+          Produtos incluídos na venda
+        </mat-card-subtitle>
+        <div class="list-container min-height-container">
+          <table
+            mat-table
+            [dataSource]="sale.products"
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef>Code</th>
+              <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Nome</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-          </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Nome</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="unitPrice">
-            <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.unitPrice | currency }}
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="unitPrice">
+              <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.unitPrice | currency : "BRL" : "symbol" : "1.2-2" }}
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="totalPrice">
-            <th mat-header-cell *matHeaderCellDef>Valor total por item</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.totalPrice | currency }}
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="totalPrice">
+              <th mat-header-cell *matHeaderCellDef>Valor total por item</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.totalPrice | currency : "BRL" : "symbol" : "1.2-2" }}
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantidade</th>
-            <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
-          </ng-container>
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+              <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="displayedProductColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedProductColumns"
+            ></tr>
+          </table>
+        </div>
       </div>
 
-      <div class="sale-summary-end">
-        <h5>Resumo da Venda</h5>
-        <p>Subtotal: {{ sale.total | currency }}</p>
-        <p>Descontos: 0,00</p>
-        <p>Total: {{ sale.total | currency }}</p>
+      <div class="sale-summary-total">
+        <mat-card-subtitle class="title-margin"
+          >Valor a pagar</mat-card-subtitle
+        >
+        <div class="list-container">
+          <p>
+            Subtotal: {{ subtotal | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
+          <mat-form-field class="input-width">
+            <mat-label>Desconto: </mat-label>
+            <input
+              matInput
+              [(ngModel)]="discount"
+              (ngModelChange)="calculateDiscount()"
+            />
+          </mat-form-field>
+          <h4>
+            Total: {{ sale.total | currency : "BRL" : "symbol" : "1.2-2" }}
+          </h4>
+        </div>
       </div>
     </div>
 
-    <div class="sale-details">
+    <div class="sale-details list-container" id="sale-details">
       <div class="payment-methods">
-        <mat-card-title>Forma de pagamento</mat-card-title>
-
+        <mat-card-subtitle class="m-b-10"
+          >Formas de pagamento</mat-card-subtitle
+        >
         <mat-radio-group
           [(ngModel)]="selectedPaymentMethod"
           class="payment-method-group"
+          (change)="onPaymentMethodChange($event)"
         >
           <div class="payment-method-row">
             <mat-radio-button value="cash">Dinheiro</mat-radio-button>
-            <mat-radio-button value="card-debit"
+            <mat-radio-button value="debit-card"
               >Cartão de débito</mat-radio-button
             >
-            <mat-radio-button value="card-credit"
+            <mat-radio-button value="credit-card"
               >Cartão de crédito</mat-radio-button
             >
           </div>
           <div class="payment-method-row">
             <mat-radio-button value="pix">Pix</mat-radio-button>
-            <mat-radio-button value="transfer">Transferência</mat-radio-button>
-            <mat-radio-button value="other">Outro</mat-radio-button>
+            <mat-radio-button value="bank-transfer"
+              >Transferência</mat-radio-button
+            >
+            <mat-radio-button value="client-account"
+              >Incluir à conta do cliente</mat-radio-button
+            >
           </div>
         </mat-radio-group>
-
-        <!-- <mat-radio-group [(ngModel)]="selectedPaymentMethod">
-          <mat-radio-button value="cash">Dinheiro</mat-radio-button>
-          <mat-radio-button value="card">Cartão de debito</mat-radio-button>
-          <mat-radio-button value="card">Cartão de crédito</mat-radio-button>
-          <mat-radio-button value="card">Pix</mat-radio-button>
-          <mat-radio-button value="card">Transferência</mat-radio-button>
-          <mat-radio-button value="other">Outro</mat-radio-button>
-        </mat-radio-group> -->
       </div>
 
-      <div class="payment-details" *ngIf="selectedPaymentMethod == 'cash'">
-        <h5>Pagamento</h5>
-        <mat-form-field>
-          <mat-label>Valor Recebido</mat-label>
+      <div
+        class="payment-details m-l-25"
+        *ngIf="selectedPaymentMethod == 'cash'"
+      >
+        <mat-card-subtitle class="m-b-10">Pagamento</mat-card-subtitle>
+        <mat-form-field class="input-width">
+          <mat-label>Valor recebido:</mat-label>
           <input
             matInput
-            type="number"
             [(ngModel)]="amountReceived"
             (input)="calculateChange()"
           />
@@ -100,14 +126,155 @@
         <p>Troco: {{ change | currency }}</p>
       </div>
 
-      <div class="action-buttons">
-        <button mat-raised-button color="primary" (click)="confirmSale()">
-          Confirmar Venda
-        </button>
-        <button mat-raised-button color="warn" (click)="cancelSale()">
-          Cancelar
-        </button>
+      <div
+        class="select-installments m-l-25"
+        *ngIf="selectedPaymentMethod == 'client-account'"
+      >
+        <mat-card-subtitle class="m-b-10"
+          >Parcelas para o pagamento</mat-card-subtitle
+        >
+        <mat-form-field appearance="outline" class="" style="width: 131%">
+          <mat-label>Seleciona as parcelas</mat-label>
+          <mat-select
+            [formControl]="selectedInstallments"
+            (selectionChange)="calculateInstallmentValue()"
+          >
+            <mat-option
+              *ngFor="let installment of installmentsOptions"
+              [value]="installment"
+              >{{ installment }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <p>
+          Valor de cada parcela:
+          {{ installmentValue | currency : "BRL" : "symbol" : "1.2-2" }}
+        </p>
       </div>
+    </div>
+
+    <div
+      class="list-container m-t-3"
+      [ngClass]="{ disabled: !isClientTableVisible }"
+    >
+      <mat-card-subtitle class="m-b-10"
+        >Buscar cliente e incluir venda a sua conta</mat-card-subtitle
+      >
+      <mat-form-field appearance="outline" class="product-form-input">
+        <mat-label>Digite o nome ou CPF</mat-label>
+        <input
+          matInput
+          (input)="applyFilter($event)"
+          placeholder="Digite o nome ou código do produto.."
+        />
+        <mat-icon matSuffix class="icon">search</mat-icon>
+      </mat-form-field>
+
+      <div class="client-list-container">
+        <mat-table [dataSource]="dataSource" class="product-table" matSort>
+          <ng-container matColumnDef="code">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+              >Código</mat-header-cell
+            >
+            <mat-cell *matCellDef="let client">{{ client.code }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+              >Nome</mat-header-cell
+            >
+            <mat-cell *matCellDef="let client">{{ client.name }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cpf">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+              >CPF</mat-header-cell
+            >
+            <mat-cell *matCellDef="let client">{{ client.cpf }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="peopleAuthorized">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+              >Pessoas autorizadas a comprar</mat-header-cell
+            >
+            <mat-cell *matCellDef="let client">{{
+              client.peopleAuthorized
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="add">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let client">
+              <button
+                mat-raised-button
+                color="primary"
+                type="button"
+                (click)="selectClient(client)"
+              >
+                Selecionar
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedClientColumns"
+          ></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedClientColumns"
+          ></mat-row>
+        </mat-table>
+        <mat-paginator
+          [length]="clientList.length"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10]"
+        ></mat-paginator>
+      </div>
+    </div>
+
+    <div
+      class="list-container m-t-3"
+      *ngIf="
+        selectedClient.name &&
+        selectedPaymentMethod == 'client-account' &&
+        selectedInstallments.value
+      "
+    >
+      <mat-card-subtitle class="m-b-10">Resumo</mat-card-subtitle>
+      <div class="client-summary">
+        <div>
+          <p>Venda incluída na conta de: <b>{{ selectedClient.name }}</b> </p>
+          <p>Parcelas a pagar: {{ selectedInstallments.value }}</p>
+          <p>
+            Valor de cada parcela:
+            {{ installmentValue | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
+
+        </div>
+
+        <div *ngIf="dueDates.length > 0" class="due-dates">
+          <p>Datas de Vencimento:</p>
+          <ul>
+            <li *ngFor="let dueDate of dueDates; let i = index">
+              Parcela {{ i + 1 }}: {{ dueDate | date : "dd/MM/yyyy" }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="confirmSale()"
+        class="confirm-button"
+      >
+        Fechar venda
+      </button>
+      <button mat-raised-button color="warn" (click)="cancel()">
+        Cancelar
+      </button>
     </div>
   </mat-card-content>
 </mat-card>

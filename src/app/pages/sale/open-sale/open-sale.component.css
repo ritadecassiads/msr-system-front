@@ -72,31 +72,7 @@ tr.mat-mdc-footer-row {
   border-radius: 4px;
 }
 
-/* Paginação */
-.mat-paginator {
-  margin-top: 15px;
-}
 
-.mat-paginator .mat-paginator-range-label {
-  font-size: 13px;
-  color: #555;
-}
-
-.mat-paginator .mat-paginator-navigation-button {
-  color: #333;
-}
-
-.mat-paginator .mat-paginator-navigation-previous,
-.mat-paginator .mat-paginator-navigation-next {
-  border: 1px solid #ddd;
-  border-radius: 50%;
-}
-
-.mat-paginator .mat-paginator-navigation-button:hover {
-  background-color: #eee;
-}
-
-/* outro */
 
 /* Container principal */
 .example-container {

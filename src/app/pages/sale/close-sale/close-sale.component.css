@@ -1,11 +1,15 @@
 /* Container principal */
-.product-list-container {
+.list-container {
   max-width: 100%;
   padding: 20px;
   background-color: #fdfdfd;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.min-height-container {
+  min-height: 68%;
 }
 
 /* Estilização da tabela */
@@ -63,28 +67,32 @@ button.mat-icon-button:hover {
 
 .sale-summary {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-
- 
+  margin-top: 15px;
 }
 
-.sale-summary-end{
-  /* max-width: 100%;
-    padding: 20px;
-    background-color: #fdfdfd;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+.input-width {
+  width: 65%;
 }
 
-.sale-details{
-  display: flex;
+.sale-summary-total {
+  margin-left: 3%;
+  width: 30vw;
+}
+
+.sale-details {
   margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
 }
 
+/* .sale-installments-client{
+  justify-content: normal !important;
+} */
 
-
+/* .select-installments{
+  margin-left: 25%;
+} */
 
 .payment-method-group {
   display: flex;
@@ -93,6 +101,46 @@ button.mat-icon-button:hover {
 
 .payment-method-row {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-bottom: 10px;
+}
+
+.sale-products-table {
+  /* margin-right: 10%; */
+  width: 50vw;
+}
+
+.title-margin {
+  margin-bottom: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: end;
+  margin-top: 15px;
+}
+
+/* .payment-details {
+  margin-left: 25% !important;
+} */
+
+.m-l-25 {
+  margin-left: 25% !important;
+}
+
+.product-form-input {
+  width: 50%;
+}
+
+.confirm-button {
+  margin-right: 15px;
+}
+
+.client-summary {
+  display: flex;
+  flex-direction: row;
+}
+
+.due-dates{
+  margin-left: 25%;
 }

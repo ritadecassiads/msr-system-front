@@ -1,0 +1,63 @@
+.product-form-input {
+    width: 50%;
+}
+
+table {
+    width: 100%;
+}
+
+tr.mat-mdc-footer-row {
+    font-weight: bold;
+}
+
+.mat-mdc-table-sticky {
+    border-top: 1px solid #e0e0e0;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Cabeçalho da tabela */
+.product-table th.mat-header-cell {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    padding: 12px 8px;
+    font-size: 14px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Células da tabela */
+.product-table td.mat-cell {
+    padding: 10px 8px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+}
+
+/* Linha de hover */
+.product-table tr:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* Botão "Adicionar" */
+.product-table {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.product-list-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

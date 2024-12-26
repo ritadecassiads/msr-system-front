@@ -1,12 +1,15 @@
-.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
-   flex-basis: auto !important; /* ou use o valor desejado */
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-basis: auto !important;
+  /* ou use o valor desejado */
   margin-right: 0 !important;
 }
 
-.sale-filter{
+.sale-filter {
   width: 50%;
 }
 
-/* mat-expansion-panel{
-  margin-bottom: 10px !important;
-} */
+.div-button {
+  display: flex;
+  justify-content: end;
+}

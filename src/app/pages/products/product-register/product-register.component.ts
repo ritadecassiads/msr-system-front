@@ -132,14 +132,16 @@ export class ProductRegisterComponent implements OnInit {
       description: "",
       price: ["", Validators.required],
       stock: ["", Validators.required],
-      supplierId: ["", Validators.required],
-      categories: this.fb.array([], Validators.required), // Inicializa como FormArray,
+      supplierId: [null],
+      categories: this.fb.array([]), // Inicializa como FormArray,
     });
   }
 
   onSubmit() {
     if (this.productForm.valid) {
       const product: Product = this.productForm.value;
+      product.price = Number(product.price.toString().replace(",", "."));
+      product.stock = Number(product.stock);
       console.log("prduto: ", product);
 
       this.productService.saveProduct(product).subscribe({

@@ -1,74 +1,82 @@
 <mat-card class="product-form-register">
   <mat-card-header>
-    <mat-card-title>Cadastro de Produto</mat-card-title>
+    <mat-card-title>Cadastro de produto</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <form class="m-t-3" [formGroup]="productForm" (ngSubmit)="onSubmit()">
       <!-- Nome -->
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          placeholder="Nome"
-          formControlName="name"
-          name="name"
-          required
-        />
-      </mat-form-field>
+      <div class="div1">
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            placeholder="Digite o nome do produto"
+            formControlName="name"
+            name="name"
+            required
+          />
+        </mat-form-field>
 
-      <!-- Descrição -->
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Descrição</mat-label>
-        <textarea
-          matInput
-          placeholder="Descrição"
-          formControlName="description"
-          name="description"
-        ></textarea>
-      </mat-form-field>
+        <!-- Descrição -->
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Descrição</mat-label>
+          <input
+            matInput
+            placeholder="Digite a descrição do produto"
+            formControlName="description"
+            name="description"
+          />
+        </mat-form-field>
 
-      <!-- Preço -->
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Preço</mat-label>
-        <input
-          matInput
-          formControlName="price"
-          type="number"
-          name="price"
-          required
-        />
-      </mat-form-field>
+        <!-- Preço -->
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Preço</mat-label>
+          <input
+            matInput
+            formControlName="price"
+            placeholder="Digite o valor do produto"
+            name="price"
+            required
+          />
+        </mat-form-field>
+      </div>
 
-      <!-- Quantidade em Estoque -->
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Quantidade em Estoque</mat-label>
-        <input
-          matInput
-          formControlName="stock"
-          type="number"
-          name="stock"
-          required
-        />
-      </mat-form-field>
+      <div class="div2">
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Quantidade para estoque</mat-label>
+          <input
+            matInput
+            formControlName="stock"
+            placeholder="Digite a quantidade em estoque"
+            name="stock"
+            required
+          />
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Fornecedor</mat-label>
-        <mat-select [formControl]="supplierControl">
-          <mat-option *ngFor="let supplier of supplierList" [value]="supplier._id">{{ supplier.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="product-form-input" >
+          <mat-label>Fornecedor</mat-label>
+          <mat-select [formControl]="supplierControl">
+            <mat-option
+              placeholder="Selecione o fornecedor"
+              *ngFor="let supplier of supplierList"
+              [value]="supplier._id"
+              >{{ supplier.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
 
-      <!-- Categoria -->
-      <mat-form-field class="product-form-input">
-        <mat-label>Categorias</mat-label>
-        <mat-select [formControl]="categoriesControl" multiple>
-          <mat-option
-            *ngFor="let category of categoryList"
-            [value]="category._id"
-            >{{ category.name }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="product-form-input">
+          <mat-label>Categorias</mat-label>
+          <mat-select [formControl]="categoriesControl" multiple>
+            <mat-option
+              placeholder="Selecione a categoria"
+              *ngFor="let category of categoryList"
+              [value]="category._id"
+              >{{ category.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
 
       <div class="product-div-button">
         <button mat-flat-button color="primary" type="submit">Cadastrar</button>

@@ -67,7 +67,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 export class SaleRegisterComponent {
   saleForm: FormGroup = new FormGroup({});
   productList: Product[] = [];
-  filteredProducts: Product[] = [];
+  // filteredProducts: Product[] = [];
   selectedProducts: FormArray = this.fb.array([]);
   employeeUsername: string = "";
   displayedColumns: string[] = [
@@ -82,7 +82,7 @@ export class SaleRegisterComponent {
   isProductListVisible: boolean = true;
   labelButton: string = "Esconder";
 
-  dataSource = new MatTableDataSource<Product>(this.filteredProducts);
+  dataSource = new MatTableDataSource<Product>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -98,7 +98,8 @@ export class SaleRegisterComponent {
   ) {}
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator; // Associa o paginator à tabela
+    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = "Itens por página";
   }
 
   ngOnInit() {
@@ -137,6 +138,7 @@ export class SaleRegisterComponent {
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.productList = this.filteredProductsByStock(products);
+        this.dataSource.data = this.productList;
       },
       error: (err) => {
         console.error(err);
@@ -179,23 +181,28 @@ export class SaleRegisterComponent {
   }
 
   addProduct(product: Product): void {
-    const productGroup = this.fb.group({
-      _id: [product._id, Validators.required],
-      code: [product.code, Validators.required],
-      name: [product.name, Validators.required],
-      quantity: [1, Validators.required],
-      unitPrice: [product.price, Validators.required],
-      totalPrice: [product.price, Validators.required],
-      stock: [product.stock, Validators.required],
-    });
+    if (!this.isProductInSale(product)) {
+      const productGroup = this.fb.group({
+        _id: [product._id, Validators.required],
+        code: [product.code, Validators.required],
+        name: [product.name, Validators.required],
+        quantity: [1, Validators.required],
+        unitPrice: [product.price, Validators.required],
+        totalPrice: [product.price, Validators.required],
+        stock: [product.stock, Validators.required],
+      });
 
-    this.saleProducts.push(productGroup);
+      this.saleProducts.push(productGroup);
+      this.itensQuantity = 1;
 
-    console.log("Product added: ", productGroup.value);
+      this.updateTotal();
+    }
+  }
 
-    this.itensQuantity = 1;
-
-    this.updateTotal();
+  isProductInSale(product: Product): boolean {
+    return this.saleProducts.controls.some(
+      (control) => control.value.code === product.code
+    );
   }
 
   removeProduct(index: number): void {
@@ -283,17 +290,17 @@ export class SaleRegisterComponent {
 
   openModalToColectUsername(): void {
     // if (!this.employeeUsername) {
-      const dialogRef = this.dialog.open(DialogComponent, {
-        restoreFocus: false,
-      });
+    const dialogRef = this.dialog.open(DialogComponent, {
+      restoreFocus: false,
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.employeeUsername = result;
-          this.getSellerByUsername();
-          StorageUtils.setUserSale(result);
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.employeeUsername = result;
+        this.getSellerByUsername();
+        StorageUtils.setUserSale(result);
+      }
+    });
     // }
   }
 

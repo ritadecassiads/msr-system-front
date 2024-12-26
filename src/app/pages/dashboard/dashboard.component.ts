@@ -1,14 +1,15 @@
+import { InvoiceService } from "./../../services/invoice.service";
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { Router, RouterLink } from "@angular/router";
-import { SaleListComponent } from "../sale/sale-list/sale-list.component";
 import { SaleService } from "../../services/sale.service";
 import { Sale } from "../../models/sale";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
+import { Invoice } from "../../models/invoice";
 
 @Component({
   selector: "app-dashboard",
@@ -22,6 +23,7 @@ import { MatButtonModule } from "@angular/material/button";
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    CommonModule,
   ],
   providers: [MatTableDataSource],
   templateUrl: "./dashboard.component.html",
@@ -30,11 +32,19 @@ import { MatButtonModule } from "@angular/material/button";
 export class DashboardComponent implements OnInit {
   salesList: Sale[] = [];
   displayedColumns: string[] = [
+    "code",
     "employeeName",
     "quantity",
     "total",
-    "status",
     "arrow",
+  ];
+
+  displayedColumnsInvoices: string[] = [
+    "issueDate",
+    "supplierId",
+    "installments",
+    "installmentAmounts",
+    "notes",
   ];
 
   buttonTiles = [
@@ -45,7 +55,7 @@ export class DashboardComponent implements OnInit {
       link: "/open-sale",
     },
     {
-      text: "Fechar venda",
+      text: "Ver lista de vendas",
       color: "lightgreen",
       icon: "check_circle",
       link: "/sale/list",
@@ -70,10 +80,18 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
-  constructor(private saleService: SaleService, private router: Router) {}
+  invoiceList: Invoice[] = [];
+  supplierName: string[] = [];
+
+  constructor(
+    private saleService: SaleService,
+    private router: Router,
+    private invoiceService: InvoiceService
+  ) {}
 
   ngOnInit(): void {
     this.getSales();
+    this.getInvoices();
   }
 
   getSales() {
@@ -88,10 +106,35 @@ export class DashboardComponent implements OnInit {
   }
 
   filteredSalesByStatus(sales: Sale[]): Sale[] {
-     return sales.filter((sale) => sale.status !== "closed");
+    return sales
+      .filter((sale) => sale.status !== "closed" && sale.status !== "canceled")
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
   }
 
   navigateToCloseSale(saleId: string): void {
     this.router.navigate(["/sale/close", saleId]);
+  }
+
+  navigateToSaleList(): void {
+    this.router.navigate(["/sale/list"]);
+  }
+
+  getInvoices(): void {
+    this.invoiceService.getInvoices().subscribe({
+      next: (invoices) => {
+        this.invoiceList = invoices;
+        console.log(invoices);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  navigateToInvoiceList(): void {
+    this.router.navigate(["/invoice/list"]);
   }
 }

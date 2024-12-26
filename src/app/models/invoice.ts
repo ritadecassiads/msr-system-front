@@ -1,14 +1,15 @@
+import { Installment } from "./installment";
 import { Supplier } from "./supplier";
 
 export interface Invoice {
   _id?: string;
   code?: number;
-  amount: number;
-  issueDate: Date; // emissão
-  dueDate: Date; // vencimento
-  supplierId: string;
-  installments: number; // parcelas
-  status: "open" | "paid" | "overdue";
+  totalAmount: number;
+  issueDate?: Date; // emissão
+  dueDate?: Date; // vencimento
+  supplierId: Supplier;
+  installments?: Installment[]; // parcelas
+  status: "unpaid" | "paid" | "overdue";
   notes?: string;
-  installmentAmounts?: number[];
+  description?: string;
 }

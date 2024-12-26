@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatGridListModule, MatGridTile } from "@angular/material/grid-list";
 import { MatInputModule } from "@angular/material/input";
@@ -22,6 +22,7 @@ import { MatList, MatListItem } from "@angular/material/list";
 import { MatSelectModule } from "@angular/material/select";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 
 @Component({
   selector: "app-sale-list",
@@ -30,7 +31,6 @@ import { Router } from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatIcon,
     MatExpansionModule,
     MatButtonModule,
     MatExpansionModule,
@@ -44,11 +44,10 @@ import { Router } from "@angular/router";
     MatCardContent,
     MatCardSubtitle,
     CommonModule,
-    MatListItem,
-    MatList,
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
   ],
   templateUrl: "./sale-list.component.html",
   styleUrl: "./sale-list.component.css",
@@ -58,7 +57,7 @@ export class SaleListComponent implements OnInit {
     "code",
     "name",
     "unitPrice",
-    // "quantity",
+    "quantity",
     "totalPrice",
   ];
 
@@ -72,6 +71,12 @@ export class SaleListComponent implements OnInit {
     closed: "Fechadas",
   };
 
+  dataSource: MatTableDataSource<Sale> = new MatTableDataSource<Sale>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  pageSize = 10;
+  currentPage = 0;
+
   constructor(private saleService: SaleService, private router: Router) {}
 
   ngOnInit() {
@@ -80,6 +85,11 @@ export class SaleListComponent implements OnInit {
     this.statusFilter.valueChanges.subscribe((selectedStatus) => {
       this.applyStatusFilter(selectedStatus);
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = "Itens por página";
   }
 
   applyStatusFilter(selectedStatus: string[]): void {
@@ -103,10 +113,11 @@ export class SaleListComponent implements OnInit {
   getSales() {
     this.saleService.getSales().subscribe({
       next: (sales) => {
-        this.salesList = sales;
+        this.salesList = this.sortSalesByStatus(sales);
         this.filteredSales = sales;
         this.saleProductsList = sales.flatMap((sale) => sale.products);
-        console.log("vendas: ", sales);
+        this.dataSource.data = this.filteredSales;
+        console.log("sales: ", this.salesList);
       },
       error: (err) => {
         console.error(err);
@@ -116,5 +127,51 @@ export class SaleListComponent implements OnInit {
 
   navigateToCloseSale(saleId: string): void {
     this.router.navigate(["/sale/close", saleId]);
+  }
+
+  sortSalesByStatus(sales: Sale[]): Sale[] {
+    return sales.sort((a, b) => {
+      if (a.status === "open" && b.status === "closed") {
+        return -1;
+      } else if (a.status === "closed" && b.status === "open") {
+        return 1;
+      } else {
+        return this.sortSaleByDate(a, b);
+      }
+    });
+  }
+
+  sortSaleByDate(a: Sale, b: Sale): number {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  }
+
+  // Função para pegar as vendas paginadas
+  getPagedSales() {
+    const start = this.currentPage * this.pageSize;
+    return this.filteredSales.slice(start, start + this.pageSize);
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  getPaymentMethod(paymentMethod: string): string {
+    switch (paymentMethod) {
+      case "credit-card":
+        return "Crédito";
+      case "debit-card":
+        return "Débito";
+      case "cash":
+        return "Dinheiro";
+      case "pix":
+        return "Pix";
+      case "bank-transfer":
+        return "Transferência";
+      case "client-account":
+        return "incluída na conta do cliente";
+      default:
+        return "";
+    }
   }
 }

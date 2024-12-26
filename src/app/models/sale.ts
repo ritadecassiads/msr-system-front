@@ -14,12 +14,15 @@ export interface Sale {
   notes?: string;
   status?: "open" | "closed" | "canceled";
   paymentMethod?:
-    | "credit"
-    | "debit"
+    | "credit-card"
+    | "debit-card"
     | "cash"
     | "pix"
-    | "bankTransfer"
-    | "other";
+    | "bank-transfer"
+    | "client-account";
   discount: number;
   createdAt: Date;
+  installments?: number;
+  installmentValue?: number;
+  dueDates?: Date[];
 }

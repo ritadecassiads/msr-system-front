@@ -80,7 +80,7 @@ export class InvoiceRegisterComponent implements OnInit {
 
   initForm() {
     this.invoiceForm = this.fb.group({
-      amount: [
+      totalAmount: [
         0,
         [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
       ],
@@ -119,7 +119,7 @@ export class InvoiceRegisterComponent implements OnInit {
   onSubmit() {
     const invoice: Invoice = this.invoiceForm.value;
 
-    this.convertStringToNumber(invoice);
+    // this.convertStringToNumber(invoice);
 
     if (this.invoiceForm.valid) {
       this.invoiceService.saveInvoice(this.invoiceForm.value).subscribe({
@@ -148,10 +148,10 @@ export class InvoiceRegisterComponent implements OnInit {
     });
   }
 
-  convertStringToNumber(invoice: Invoice) {
-    invoice.amount = parseFloat(invoice.amount.toString());
-    invoice.installments = parseInt(invoice.installments.toString());
-  }
+  // convertStringToNumber(invoice: Invoice) {
+  //   invoice.amount = parseFloat(invoice.amount.toString());
+  //   invoice.installments = parseInt(invoice.installments.toString());
+  // }
 
   // calculateInstallmentValue() {
   //   const amount = parseFloat(this.invoiceForm.get("amount")?.value);
