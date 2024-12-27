@@ -17,10 +17,15 @@
     <div class="product-list-container">
       <mat-table [dataSource]="dataSource" class="product-table" matSort>
         <ng-container matColumnDef="code">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
             >Código</mat-header-cell
           >
-          <mat-cell *matCellDef="let product">{{ product.code }}</mat-cell>
+          <mat-cell class="small-column" *matCellDef="let product">{{
+            product.code
+          }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="name">
@@ -31,54 +36,71 @@
         </ng-container>
 
         <ng-container matColumnDef="unitPrice">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
             >Preço</mat-header-cell
           >
-          <mat-cell *matCellDef="let product">{{
+          <mat-cell class="small-column" *matCellDef="let product">{{
             product.price | currency : "BRL" : "symbol" : "1.2-2"
           }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="stock">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Disponível no estoque</mat-header-cell
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
+            >Estoque</mat-header-cell
           >
-          <mat-cell *matCellDef="let product">{{ product.stock }}</mat-cell>
-        </ng-container>
-
-        <!-- <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Descrição</mat-header-cell
-          >
-          <mat-cell *matCellDef="let product">{{
-            product.description
+          <mat-cell class="small-column" *matCellDef="let product">{{
+            product.stock
           }}</mat-cell>
-        </ng-container> -->
+        </ng-container>
 
         <ng-container matColumnDef="supplierId">
           <mat-header-cell *matHeaderCellDef mat-sort-header
             >Fornecedor</mat-header-cell
           >
           <mat-cell *matCellDef="let product">{{
-            product.supplierId ? product.supplierId.name : ""
+            product.supplierId ? product.supplierId.name : "Não informado"
           }}</mat-cell>
         </ng-container>
 
-         <ng-container matColumnDef="categories">
+        <ng-container matColumnDef="categories">
           <mat-header-cell *matHeaderCellDef mat-sort-header
             >Categoria</mat-header-cell
           >
           <mat-cell *matCellDef="let product">{{
-            product.categories ? product.categories.name : ""
+            product.categories ? product.categories.name : "Não informado"
           }}</mat-cell>
         </ng-container>
 
-        <mat-header-row
-          *matHeaderRowDef="displayedColumns"
-        ></mat-header-row>
-        <mat-row
-          *matRowDef="let row; columns: displayedColumns"
-        ></mat-row>
+        <ng-container matColumnDef="edit">
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
+          ></mat-header-cell>
+          <mat-cell class="small-column" *matCellDef="let product">
+            <button mat-icon-button class="icon-button" type="button" (click)="editProduct(product)">
+              <mat-icon class="icon"> edit </mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              class="icon-button"
+              type="button"
+              (click)="deleteProduct(product)"
+            >
+              <mat-icon class="icon"> delete </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
       <mat-paginator
         [length]="productList.length"
@@ -86,52 +108,5 @@
         [pageSizeOptions]="[10, 20]"
       ></mat-paginator>
     </div>
-
-    <!-- <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef>Code</th>
-          <td mat-cell *matCellDef="let element">{{ element.code }}</td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Descrição</th>
-          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>Preço</th>
-          <td mat-cell *matCellDef="let element">{{ element.price }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="stock">
-          <th mat-header-cell *matHeaderCellDef>Estoque</th>
-          <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="supplierId">
-          <th mat-header-cell *matHeaderCellDef>Fornecedor</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.supplierId ? element.supplierId.name : "" }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="categories">
-          <th mat-header-cell *matHeaderCellDef>Categorias</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.categories ? element.categories.name : "" }}
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div> -->
   </mat-card-content>
 </mat-card>

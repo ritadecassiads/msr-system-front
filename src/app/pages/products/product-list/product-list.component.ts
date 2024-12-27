@@ -1,3 +1,4 @@
+import { routes } from './../../../app.routes';
 import { Component, ViewChild } from "@angular/core";
 import { Product } from "../../../models/products";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
@@ -14,6 +15,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
 import { MatIcon } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-product-list",
@@ -31,22 +34,23 @@ import { MatIcon } from "@angular/material/icon";
     ReactiveFormsModule,
     MatInputModule,
     MatIcon,
+    MatButtonModule,
   ],
   providers: [MatTableDataSource],
   templateUrl: "./product-list.component.html",
   styleUrl: "./product-list.component.css",
 })
 export class ProductListComponent {
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private router: Router) {}
 
   displayedColumns: string[] = [
     "code",
     "name",
-    // "description",
     "unitPrice",
     "stock",
     "supplierId",
     "categories",
+    "edit",
   ];
   productList: Product[] = [];
 
@@ -66,7 +70,6 @@ export class ProductListComponent {
     this.productService.getProducts().subscribe((products: Product[]) => {
       this.productList = products;
       this.dataSource.data = products;
-      console.log("listagem --> ", this.dataSource.data);
     });
   }
 
@@ -87,5 +90,17 @@ export class ProductListComponent {
         return matchesName || matchesCode;
       });
     }
+  }
+
+  deleteProduct(product: Product) {
+    if (product._id) {
+      this.productService.deleteProduct(product._id).subscribe(() => {
+        this.loadProducts();
+        alert("Produto deletado com sucesso!");
+      });
+    }
+  }
+  editProduct(product: Product) {
+    this.router.navigate([`/product/edit/${product._id}`]);
   }
 }

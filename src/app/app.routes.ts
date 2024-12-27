@@ -44,6 +44,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "product/edit/:id",
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import(
+            "./pages/products/product-register/product-register.component"
+          ).then((m) => m.ProductRegisterComponent),
+      },
+      {
         path: "client/register",
         loadComponent: () =>
           import(
@@ -68,9 +76,9 @@ export const routes: Routes = [
       {
         path: "employee/list",
         loadComponent: () =>
-          import(
-            "./pages/employee/employee-list/employee-list.component"
-          ).then((m) => m.EmployeeListComponent),
+          import("./pages/employee/employee-list/employee-list.component").then(
+            (m) => m.EmployeeListComponent
+          ),
       },
       {
         path: "category/register",
@@ -82,9 +90,9 @@ export const routes: Routes = [
       {
         path: "category/list",
         loadComponent: () =>
-          import(
-            "./pages/category/category-list/category-list.component"
-          ).then((m) => m.CategoryListComponent),
+          import("./pages/category/category-list/category-list.component").then(
+            (m) => m.CategoryListComponent
+          ),
       },
       {
         path: "supplier/register",
@@ -96,9 +104,9 @@ export const routes: Routes = [
       {
         path: "supplier/list",
         loadComponent: () =>
-          import(
-            "./pages/supplier/supplier-list/supplier-list.component"
-          ).then((m) => m.SupplierListComponent),
+          import("./pages/supplier/supplier-list/supplier-list.component").then(
+            (m) => m.SupplierListComponent
+          ),
       },
       {
         path: "open-sale",

@@ -126,7 +126,6 @@ export class DashboardComponent implements OnInit {
     this.invoiceService.getInvoices().subscribe({
       next: (invoices) => {
         this.invoiceList = invoices;
-        console.log(invoices);
       },
       error: (err) => {
         console.error(err);

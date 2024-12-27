@@ -25,10 +25,10 @@ export class ProductService {
   }
 
   updateProduct(product: Product) {
-    return this.http.put<Product>(`${this.apiUrl}/${product._id}`, product);
+    return this.http.patch<Product>(`${this.apiUrl}/${product._id}`, product);
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: string) {
     return this.http.delete<Product>(`${this.apiUrl}/${id}`);
   }
 }

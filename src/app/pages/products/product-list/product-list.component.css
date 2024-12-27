@@ -61,3 +61,46 @@ tr.mat-mdc-footer-row {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
+
+
+/* Largura menor para colunas de código e preço */
+.small-column {
+    width: 10%;
+    /* Ajuste conforme necessário */
+    white-space: nowrap;
+    /* Evita quebra de linha */
+    text-align: center;
+    /* Alinha o conteúdo ao centro */
+    max-width: 10%;
+}
+
+/* Estilo para a tabela */
+.product-table th.mat-header-cell.small-column,
+.product-table td.mat-cell.small-column {
+    max-width: 10%;
+    /* Ajuste para largura máxima */
+    overflow: hidden;
+    /* Evita que o conteúdo ultrapasse o limite */
+    text-overflow: ellipsis;
+    /* Adiciona "..." caso o texto seja muito longo */
+}
+
+.icon {
+    /* color: black; */
+    color: rgb(3, 9, 62);
+}
+
+/* .icon-button{
+    padding: 10px !important;
+} */
+
+button.icon-button {
+    color: #e53935;
+    transition: transform 0.2s ease-in-out;
+}
+
+button.icon-button:hover {
+    transform: scale(1.2);
+}

@@ -20,7 +20,7 @@ import {
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ProductService } from "../../../services/product.service";
 import { Product } from "../../../models/products";
 import { MatOption, MatSelectModule } from "@angular/material/select";
@@ -53,26 +53,31 @@ import { Supplier } from "../../../models/supplier";
 })
 export class ProductRegisterComponent implements OnInit {
   productForm: FormGroup = new FormGroup({});
+  productId!: string;
+  productToEdit!: Product;
+  isEditing: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private supplierService: SupplierService
+    private supplierService: SupplierService,
+    private route: ActivatedRoute
   ) {}
 
   supplierList: Supplier[] = [];
-  supplierControl = new FormControl("", Validators.required);
+  supplierControl = new FormControl("");
   categoryList: Category[] = [];
-  categoriesControl = new FormControl([], Validators.required);
+  categoriesControl = new FormControl<string[]>([]);
 
   ngOnInit() {
     this.getCategories();
     this.getSuppliers();
-    this.formInit();
+    this.initializeForm();
     this.initializeCategoryControl();
     this.onChangeSupplierControl();
+    this.recoverIdToEdit();
   }
 
   get categories(): FormArray {
@@ -126,15 +131,30 @@ export class ProductRegisterComponent implements OnInit {
     });
   }
 
-  formInit() {
+  initializeForm(product?: Product) {
     this.productForm = this.fb.group({
-      name: ["", Validators.required],
-      description: "",
-      price: ["", Validators.required],
-      stock: ["", Validators.required],
-      supplierId: [null],
-      categories: this.fb.array([]), // Inicializa como FormArray,
+      name: [product?.name || "", Validators.required],
+      description: product?.description || "",
+      price: [product?.price || "", Validators.required],
+      stock: [product?.stock || "", Validators.required],
+      supplierId: [product?.supplierId || ""],
+      categories: this.fb.array(
+        product?.categories?.map((cat) => this.fb.control(cat)) || []
+      ),
     });
+
+    if (product?.supplierId) {
+      this.supplierControl.setValue(product.supplierId._id || null);
+    }
+
+    product?.categories.forEach((categoryId: Category) => {
+      this.categories.push(new FormControl(categoryId)); // Adicione os IDs das categorias
+    });
+
+    if (product?.categories) {
+      this.categoriesControl.setValue(product.categories.map(category => category._id).filter((id): id is string => !!id)); // Preenche o controle de seleção
+    }
+    console.log("categorias: ", product?.categories);
   }
 
   onSubmit() {
@@ -142,21 +162,74 @@ export class ProductRegisterComponent implements OnInit {
       const product: Product = this.productForm.value;
       product.price = Number(product.price.toString().replace(",", "."));
       product.stock = Number(product.stock);
-      console.log("prduto: ", product);
 
-      this.productService.saveProduct(product).subscribe({
-        next: (data) => {
-          alert("Product registered!");
-          this.router.navigate(["/dashboard"]);
-        },
-        error: (err) => {
-          console.error(err);
-          console.log("Error response:", err.response); // Print the response
-          alert("Error registering product. Please check your data.");
-        },
-      });
+      if (this.isEditing) {
+        const updatedProduct = {
+          ...this.productToEdit,
+          ...this.productForm.value,
+        };
+
+        this.updateProduct(updatedProduct);
+      } else {
+        this.createProduct(product);
+      }
     } else {
       alert("Please fill in all required fields.");
     }
+  }
+
+  createProduct(product: Product): void {
+    this.productService.saveProduct(product).subscribe({
+      next: () => {
+        alert("Product registered!");
+        this.router.navigate(["/dashboard"]);
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error registering product.");
+      },
+    });
+  }
+
+  updateProduct(product: Product): void {
+    console.log("Product to update: ", product);
+
+    this.productService.updateProduct(product).subscribe({
+      next: () => {
+        alert("Product updated!");
+        this.router.navigate(["/dashboard"]);
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error updating product.");
+      },
+    });
+  }
+
+  recoverIdToEdit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      if (id) {
+        this.isEditing = true;
+        this.productId = id;
+        this.loadProduct();
+      } else {
+        this.isEditing = false;
+      }
+    });
+  }
+
+  loadProduct(): void {
+    this.productService.getProduct(this.productId).subscribe({
+      next: (product) => {
+        this.productToEdit = product;
+        this.initializeForm(product);
+
+        console.log("carregou o produto: ", product);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }
