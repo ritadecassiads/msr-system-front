@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Sessão expirada</h2>
+<mat-dialog-content>
+  {{ data.message }}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <!-- <button mat-button (click)="close(false)" mat-dialog-close cdkFocusInitial>Cancelar</button> -->
+  <button mat-button (click)="close(true)" mat-dialog-close>Ir para a tela de login</button>
+</mat-dialog-actions>

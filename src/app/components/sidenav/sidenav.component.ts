@@ -11,10 +11,9 @@ import { Router, RouterLink, RouterModule, RouterOutlet } from "@angular/router"
 import { AuthService } from "../../services/auth.service";
 import { LoginComponent } from "../../pages/login/login.component";
 import { MatMenuModule, MatMenuPanel, MatMenuTrigger } from "@angular/material/menu";
-import { DialogComponent } from "../dialog/dialog.component";
+import { InputUserDialogComponent } from "../dialog/input-user-dialog/input-user-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SharedService } from "../../shared/services/shared.service";
-import { StorageUtils } from "../../shared/utils/storage-utils";
 
 @Component({
   selector: "app-sidenav",
@@ -35,7 +34,7 @@ import { StorageUtils } from "../../shared/utils/storage-utils";
     LoginComponent,
     MatMenuModule,
     MatIcon,
-    DialogComponent,
+    InputUserDialogComponent,
     RouterModule,
   ],
 })
@@ -52,7 +51,7 @@ export class SidenavComponent {
 
   isLoggedIn = this.authService.isLoggedIn();
 
-  logout() {
+  logout() { 
     this.authService.logout();
     this.router.navigate(["/"]);
   }

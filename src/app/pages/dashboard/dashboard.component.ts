@@ -136,4 +136,8 @@ export class DashboardComponent implements OnInit {
   navigateToInvoiceList(): void {
     this.router.navigate(["/invoice/list"]);
   }
+
+  navigateToInvoiceRegister(): void {
+    this.router.navigate(["/invoice/register"]);
+  }
 }

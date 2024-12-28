@@ -1,5 +1,5 @@
-import { routes } from './../../../app.routes';
-import { Component, ViewChild } from "@angular/core";
+import { routes } from "./../../../app.routes";
+import { Component, inject, ViewChild } from "@angular/core";
 import { Product } from "../../../models/products";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
@@ -16,7 +16,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
 import { MatIcon } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { DeleteDialogComponent } from "../../../components/dialog/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: "app-product-list",
@@ -42,6 +44,8 @@ import { Router } from '@angular/router';
 })
 export class ProductListComponent {
   constructor(private productService: ProductService, private router: Router) {}
+
+  readonly dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
     "code",
@@ -100,7 +104,27 @@ export class ProductListComponent {
       });
     }
   }
+
   editProduct(product: Product) {
     this.router.navigate([`/product/edit/${product._id}`]);
+  }
+
+  getCategoriesName(product: Product): string {
+    return product.categories.map((category) => category.name).join(", ");
+  }
+
+  openModalToConfirmDelete(product: Product): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: { product },
+      restoreFocus: false,
+    });
+
+    // afterClosed retorna um Observable que é chamado quando o modal é fechado, result é o valor passado no close da modal
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.deleteProduct(product);
+      }
+    });
   }
 }

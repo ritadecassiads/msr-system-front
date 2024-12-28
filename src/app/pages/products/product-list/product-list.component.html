@@ -70,11 +70,11 @@
 
         <ng-container matColumnDef="categories">
           <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Categoria</mat-header-cell
+            >Categorias</mat-header-cell
           >
-          <mat-cell *matCellDef="let product">{{
-            product.categories ? product.categories.name : "Não informado"
-          }}</mat-cell>
+          <mat-cell *matCellDef="let product">
+            {{ product.categories && product.categories.length > 0 ? getCategoriesName(product) : "Não informado" }}
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="edit">
@@ -84,7 +84,12 @@
             mat-sort-header
           ></mat-header-cell>
           <mat-cell class="small-column" *matCellDef="let product">
-            <button mat-icon-button class="icon-button" type="button" (click)="editProduct(product)">
+            <button
+              mat-icon-button
+              class="icon-button"
+              type="button"
+              (click)="editProduct(product)"
+            >
               <mat-icon class="icon"> edit </mat-icon>
             </button>
 
@@ -92,7 +97,7 @@
               mat-icon-button
               class="icon-button"
               type="button"
-              (click)="deleteProduct(product)"
+              (click)="openModalToConfirmDelete(product)"
             >
               <mat-icon class="icon"> delete </mat-icon>
             </button>
@@ -104,7 +109,7 @@
       </mat-table>
       <mat-paginator
         [length]="productList.length"
-        [pageSize]="10"
+        [pageSize]="20"
         [pageSizeOptions]="[10, 20]"
       ></mat-paginator>
     </div>

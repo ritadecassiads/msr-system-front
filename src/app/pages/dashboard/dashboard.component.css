@@ -196,3 +196,12 @@ span {
 /* .mat-expansion-panel-header-title .mat-expansion-panel-header-description{
   flex-basis: auto !important;
 } */
+
+.board-button{
+  width: 45%;
+}
+
+.div-board-buttons{
+  display: flex;
+    justify-content: space-around;
+}

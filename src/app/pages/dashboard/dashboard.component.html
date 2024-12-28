@@ -39,7 +39,7 @@
 
           <ng-container matColumnDef="employeeName">
             <th class="th-text-align" mat-header-cell *matHeaderCellDef>
-              Venda aberta por:
+              Venda aberta por
             </th>
             <td mat-cell *matCellDef="let sale">
               {{ sale.openedByEmployee.name }}
@@ -86,7 +86,8 @@
         class="confirm-button"
         (click)="navigateToSaleList()"
       >
-        Ver todas as vendas
+        <mat-icon class="icon-button">view_list</mat-icon>
+        Ver todas
       </button>
     </div>
 
@@ -97,46 +98,83 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{ invoice.supplierId ? invoice.supplierId.name : invoice.description }}
+              {{
+                invoice.supplierId
+                  ? invoice.supplierId.name
+                  : invoice.description
+              }}
             </mat-panel-title>
             <mat-panel-description>
-              {{ invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2" }} - {{ invoice.dueDate | date : "dd/MM/yyyy" }}
+              {{
+                invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2"
+              }}
+              - {{ invoice.dueDate | date : "dd/MM/yyyy" }}
             </mat-panel-description>
-
-           
           </mat-expansion-panel-header>
 
           <div class="client-summary">
-            <div >
+            <div>
               <p *ngIf="invoice.description">
                 Descrição: <b>{{ invoice.description }}</b>
-              </p>            
+              </p>
               <p *ngIf="invoice.supplierId">
                 Fornecedor:
                 <b>{{ invoice.supplierId ? invoice.supplierId.name : "" }}</b>
               </p>
 
               <div *ngIf="invoice.installments?.length">
-                <p>Quantidade de parcelas: {{ invoice.installments?.length }}</p>
-  
+                <p>
+                  Quantidade de parcelas: {{ invoice.installments?.length }}
+                </p>
+
                 <div>
                   Valor e vencimento de cada parcela:
                   <p *ngFor="let installment of invoice.installments">
-                    <b> {{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : '' }} </b> -
-                    {{ installment ? (installment.dueDate | date : "dd/MM/yyyy") : '' }}
+                    <b>
+                      {{
+                        installment
+                          ? (installment.amount
+                            | currency : "BRL" : "symbol" : "1.2-2")
+                          : ""
+                      }}
+                    </b>
+                    -
+                    {{
+                      installment
+                        ? (installment.dueDate | date : "dd/MM/yyyy")
+                        : ""
+                    }}
                   </p>
                 </div>
               </div>
 
-              <p *ngIf="invoice.notes">
-                Notas: {{ invoice.notes }}
-              </p>
+              <p *ngIf="invoice.notes">Notas: {{ invoice.notes }}</p>
             </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
 
-      <button mat-raised-button color="primary" (click)="navigateToInvoiceList()">Ver todas as contas</button>
+      <div class="div-board-buttons m-t-10">
+        <button
+          class="board-button"
+          mat-raised-button
+          color="primary"
+          (click)="navigateToInvoiceRegister()"
+        >
+          <mat-icon class="icon-button">add_circle</mat-icon>
+          Adicionar nova
+        </button>
+
+        <button
+          class="board-button"
+          mat-raised-button
+          color="primary"
+          (click)="navigateToInvoiceList()"
+        >
+          <mat-icon class="icon-button">view_list</mat-icon>
+          Ver todas
+        </button>
+      </div>
     </div>
   </div>
 </div>

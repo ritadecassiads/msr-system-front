@@ -35,7 +35,7 @@ import { catchError, map, Observable } from "rxjs";
 import { MatIcon } from "@angular/material/icon";
 import { StorageUtils } from "../../../shared/utils/storage-utils";
 import { MatDialog } from "@angular/material/dialog";
-import { DialogComponent } from "../../../components/dialog/dialog.component";
+import { InputUserDialogComponent } from "../../../components/dialog/input-user-dialog/input-user-dialog.component";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 
 @Component({
@@ -106,8 +106,6 @@ export class SaleRegisterComponent {
     this.openModalToColectUsername();
     this.getProducts();
     this.saleFormInit();
-    // this.recoverUser();
-    // this.getSellerByUsername();
   }
 
   get saleProducts(): FormArray {
@@ -289,8 +287,7 @@ export class SaleRegisterComponent {
   }
 
   openModalToColectUsername(): void {
-    // if (!this.employeeUsername) {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    const dialogRef = this.dialog.open(InputUserDialogComponent, {
       restoreFocus: false,
     });
 
@@ -301,7 +298,6 @@ export class SaleRegisterComponent {
         StorageUtils.setUserSale(result);
       }
     });
-    // }
   }
 
   getSellerByUsername(): void {
@@ -327,8 +323,6 @@ export class SaleRegisterComponent {
             }
           },
         });
-    } else {
-      // abrir a modal para coletar o username
     }
   }
 

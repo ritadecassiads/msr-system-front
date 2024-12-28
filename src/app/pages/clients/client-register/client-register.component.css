@@ -1,4 +1,4 @@
-.client-form-register {
+/* .client-form-register {
   display: flex;
   flex-direction: column;
   margin: 10px 20px;
@@ -36,5 +36,41 @@
 }
 
 .client-button {
-  background-color: #fbd0c3; /* Exemplo de cor de botão */
+  background-color: #fbd0c3;
+} */
+
+.form-input {
+  width: 100%;
+}
+
+.form-input-50 {
+  width: 50%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  /* Espaçamento horizontal entre as divs */
+}
+
+.div1,
+.div2 {
+  flex: 1;
+  /* Para que as divs ocupem a mesma largura */
+  min-width: 300px;
+  /* Garantir que não fiquem muito estreitas */
+}
+
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    /* Em telas menores, as divs ficarão empilhadas */
+  }
+
+  .div1,
+  .div2 {
+    min-width: unset;
+    /* Remove a largura mínima em telas pequenas */
+  }
 }

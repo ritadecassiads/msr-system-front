@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Excluir produto</h2>
+<mat-dialog-content>
+  Tem certeza de que deseja excluir o produto <b>{{ data.product.name }}</b>? Esta ação não pode ser desfeita.
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="close()" mat-dialog-close cdkFocusInitial>Cancelar</button>
+  <button mat-button (click)="confirmDelete()" mat-dialog-close color="warn">Excluir</button>
+</mat-dialog-actions>

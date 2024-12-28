@@ -182,7 +182,7 @@ export class ProductRegisterComponent implements OnInit {
     this.productService.saveProduct(product).subscribe({
       next: () => {
         alert("Product registered!");
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/product/list"]);
       },
       error: (err) => {
         console.error(err);
@@ -197,7 +197,7 @@ export class ProductRegisterComponent implements OnInit {
     this.productService.updateProduct(product).subscribe({
       next: () => {
         alert("Product updated!");
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/product/list"]);
       },
       error: (err) => {
         console.error(err);

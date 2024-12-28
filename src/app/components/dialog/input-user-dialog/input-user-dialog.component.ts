@@ -29,17 +29,15 @@ import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     MatMenuModule,
   ],
-  templateUrl: "./dialog.component.html",
-  styleUrl: "./dialog.component.css",
+  templateUrl: "./input-user-dialog.component.html",
+  styleUrl: "./input-user-dialog.component.css",
 })
-export class DialogComponent {
-  readonly dialogRef = inject(MatDialogRef<DialogComponent>);
+export class InputUserDialogComponent {
+  readonly dialogRef = inject(MatDialogRef<InputUserDialogComponent>);
   username: string = "";
 
   cancel(): void {
