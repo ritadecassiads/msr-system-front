@@ -1,95 +1,159 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
+<mat-card class="">
+  <mat-card-header>
+    <mat-card-title>Consultar vendas</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <br />
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="product-form-input">
+      <mat-label>Buscar Produto</mat-label>
+      <input
+        matInput
+        (input)="applyFilter($event)"
+        placeholder="Digite o nome ou código do cliente.."
+      />
+      <mat-icon matSuffix class="icon">search</mat-icon>
+    </mat-form-field>
 
-    <!-- Birth Date Column -->
-    <ng-container matColumnDef="birthDate">
-      <th mat-header-cell *matHeaderCellDef> Birth Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.birthDate}} </td>
-    </ng-container>
+    <mat-accordion
+      class="example-headers-align"
+      multi
+      *ngIf="filteredClients.length > 0"
+    >
+      <!-- <mat-expansion-panel *ngFor="let sale of getPagedSales()"> -->
+      <mat-expansion-panel *ngFor="let client of filteredClients">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ client.name }}
+          </mat-panel-title>
 
-    <!-- CPF Column -->
-    <ng-container matColumnDef="cpf">
-      <th mat-header-cell *matHeaderCellDef> CPF </th>
-      <td mat-cell *matCellDef="let element"> {{element.cpf}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ client.cpf }}
+          </mat-panel-description>
 
-    <!-- RG Column -->
-    <ng-container matColumnDef="rg">
-      <th mat-header-cell *matHeaderCellDef> RG </th>
-      <td mat-cell *matCellDef="let element"> {{element.rg}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ client.birthDate | date : "dd/MM/yyyy" }}
+          </mat-panel-description>
 
-    <!-- Phone Column -->
-    <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef> Phone </th>
-      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ client.phone }}
+          </mat-panel-description>
 
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
+          <!-- <mat-panel-description>
+            E-mail: {{ client.email }}
+          </mat-panel-description> -->
 
-    <!-- Purchase Limit Column -->
-    <ng-container matColumnDef="purchaseLimit">
-      <th mat-header-cell *matHeaderCellDef> Purchase Limit </th>
-      <td mat-cell *matCellDef="let element"> {{element.purchaseLimit}} </td>
-    </ng-container>
+          <!-- <mat-panel-description>
+            Endereço: {{ client.address }}
+          </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <hr />
+        <br />
 
-    <!-- Observations Column -->
-    <ng-container matColumnDef="notes">
-      <th mat-header-cell *matHeaderCellDef> Observations </th>
-      <td mat-cell *matCellDef="let element"> {{element.notes}} </td>
-    </ng-container>
+        <div class="client-infos">
+          <div class="col col1">
+            <div>Nome: {{ client.name }}</div>
+            <div>Código: {{ client.code }}</div>
+            <div>
+              Data nascimento: {{ client.birthDate | date : "dd/MM/yyyy" }}
+            </div>
+            <div>CPF: {{ client.cpf }}</div>
+            <div>RG: {{ client.rg }}</div>
 
-    <!-- Created By Employee Column -->
-    <ng-container matColumnDef="createdByEmployee">
-      <th mat-header-cell *matHeaderCellDef> Created By Employee </th>
-      <td mat-cell *matCellDef="let element"> {{element.createdByEmployee}} </td>
-    </ng-container>
+            <div>Telefone: {{ client.phone }}</div>
+            <div>Email: {{ client.email }}</div>
+          </div>
 
-    <!-- Father's Name Column -->
-    <ng-container matColumnDef="fathersName">
-      <th mat-header-cell *matHeaderCellDef> Father's Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.fathersName}} </td>
-    </ng-container>
+          <div class="col col2">
+            <div>
+              Endereço: {{ client.address.street }},
+              {{ client.address.number }}, {{ client.address.city }},
+              {{ client.address.state }}
+            </div>
+            <div>Nome do pai: {{ client.fathersName }}</div>
+            <div>Nome da mãe: {{ client.mothersName }}</div>
+            <div>Pessoas autorizadas: {{ client.peopleAuthorized }}</div>
+            <div>
+              Limite de compra:
+              {{ client.purchaseLimit | currency : "BRL" : "symbol" : "1.2-2" }}
+            </div>
+            <div>Notas: {{ client.notes }}</div>
+          </div>
+          <div class="col col3">
+            <p [ngClass]="{ disabled: !client.timesCharged }">
+              Vezes cobrado: {{ client.timesCharged }}
+            </p>
+            <p [ngClass]="{ disabled: !client.spcInclusionDate }">
+              Data de inclusão no SPC:
+              {{ client.spcInclusionDate | date : "dd/MM/yyyy" }}
+            </p>
+            <p [ngClass]="{ disabled: !client.spcExclusionDate }">
+              Data de exclusão do SPC:
+              {{ client.spcExclusionDate | date : "dd/MM/yyyy" }}
+            </p>
+            <p [ngClass]="{ disabled: !client.spcExclusionReason }">
+              Motivo da exclusão do SPC: {{ client.spcExclusionReason }}
+            </p>
+          </div>
 
-    <!-- Mother's Name Column -->
-    <ng-container matColumnDef="mothersName">
-      <th mat-header-cell *matHeaderCellDef> Mother's Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.mothersName}} </td>
-    </ng-container>
+          <div class="div-button m-t-10">
+            <button mat-flat-button>Editar cadastro</button>
+          </div>
 
-    <!-- People Authorized Column -->
-    <ng-container matColumnDef="peopleAuthorized">
-      <th mat-header-cell *matHeaderCellDef> People Authorized </th>
-      <td mat-cell *matCellDef="let element"> {{element.peopleAuthorized}} </td>
-    </ng-container>
+          <!-- <div class="div-button m-t-10">
+            <button mat-flat-button>Marcar inclusão no SPC</button>
+          </div> -->
+        </div>
 
-    <!-- Address Column -->
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let element"> 
-        {{element.address.street}}, {{element.address.number}}, 
-        {{element.address.complement ? element.address.complement + ', ' : ''}} 
-        {{element.address.city}} - {{element.address.state}}, 
-        {{element.address.postalCode}} 
-      </td>
-    </ng-container>
+        <!-- <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+          </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
 
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of clients">
-  </mat-paginator> -->
-</div>
+          <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
+            <td mat-cell *matCellDef="let element">{{ element.unitPrice }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">{{ element.totalPrice }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table> -->
+
+        <!-- <div class="m-t-10" *ngIf="sale.status == 'closed' && sale.paymentMethod">
+          <p>Forma de pagamento: {{  getPaymentMethod(sale.paymentMethod!)  }}</p>
+
+          <div *ngIf="sale.paymentMethod == 'client-account'">
+            <p >Cliente: {{sale.clientId?.name}} </p>
+            <p>Parcelado em {{sale.installments}}x de {{sale.installmentValue}}</p>
+          </div>
+        </div> -->
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-paginator
+      [length]="filteredClients.length"
+      [pageSizeOptions]="[10, 20]"
+      [pageSize]="filteredClients"
+    >
+      <!-- (page)="onPageChange($event)" -->
+      <!-- [pageSize]="pageSize" -->
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

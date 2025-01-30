@@ -108,4 +108,23 @@ export class ClientRegisterComponent {
       return;
     }
   }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+
+    // if (filterValue === "") {
+    //   this.dataSource.data = this.productList;
+    // } else {
+    //   const filterValueNumber = Number(filterValue);
+    //   this.dataSource.data = this.productList.filter((product) => {
+    //     const matchesName = product.name.toLowerCase().includes(filterValue);
+    //     const matchesCode =
+    //       !isNaN(filterValueNumber) &&
+    //       product.code?.toString().includes(filterValue);
+    //     return matchesName || matchesCode;
+    //   });
+    // }
+  }
 }

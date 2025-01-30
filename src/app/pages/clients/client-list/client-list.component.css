@@ -1,0 +1,47 @@
+.client-infos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 30%);
+}
+
+.col {
+    flex: 1;
+    min-width: 250px;
+}
+
+.col div {
+    margin-bottom: 10px;
+}
+
+.col strong {
+    font-weight: bold;
+}
+
+.col1,
+.col2,
+.col3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.col1 div,
+.col2 div,
+.col3 div {
+    padding: 5px 0;
+}
+
+/* .col1 div:nth-child(odd),
+.col2 div:nth-child(odd),
+.col3 div:nth-child(odd) {
+    background-color: #ffffff;
+} */
+
+/* .col1 div:nth-child(even),
+.col2 div:nth-child(even),
+.col3 div:nth-child(even) {
+    background-color: #f1f1f1;
+} */
