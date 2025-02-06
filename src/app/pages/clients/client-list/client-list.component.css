@@ -6,6 +6,7 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 30%);
+    justify-content: end;
 }
 
 .col {
@@ -34,14 +35,11 @@
     padding: 5px 0;
 }
 
-/* .col1 div:nth-child(odd),
-.col2 div:nth-child(odd),
-.col3 div:nth-child(odd) {
-    background-color: #ffffff;
-} */
+.mat-expansion-panel-header-description{
+    flex-grow: 1 !important;
+    color: #1a1b1f !important;
+}
 
-/* .col1 div:nth-child(even),
-.col2 div:nth-child(even),
-.col3 div:nth-child(even) {
-    background-color: #f1f1f1;
-} */
+.icon{
+    margin: 0px !important;
+}

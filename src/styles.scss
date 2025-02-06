@@ -73,8 +73,20 @@ mat-card {
   margin-top: 10px !important;
 }
 
+.m-r-10{
+  margin-right: 10px !important;
+}
+
 .div-button {
   display: flex;
   justify-content: end;
   align-items: end;
+}
+
+.search-input {
+  width: 50%;
+}
+
+.font-bold{
+  font-weight: 500;
 }

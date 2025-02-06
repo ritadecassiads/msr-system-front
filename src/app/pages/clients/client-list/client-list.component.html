@@ -1,13 +1,13 @@
 <mat-card class="">
   <mat-card-header>
-    <mat-card-title>Consultar vendas</mat-card-title>
+    <mat-card-title>Consultar clientes</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
   <br />
 
   <mat-card-content>
-    <mat-form-field appearance="outline" class="product-form-input">
-      <mat-label>Buscar Produto</mat-label>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar cliente</mat-label>
       <input
         matInput
         (input)="applyFilter($event)"
@@ -21,8 +21,7 @@
       multi
       *ngIf="filteredClients.length > 0"
     >
-      <!-- <mat-expansion-panel *ngFor="let sale of getPagedSales()"> -->
-      <mat-expansion-panel *ngFor="let client of filteredClients">
+      <mat-expansion-panel *ngFor="let client of getPagedClients()">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ client.name }}
@@ -39,121 +38,81 @@
           <mat-panel-description>
             {{ client.phone }}
           </mat-panel-description>
-
-          <!-- <mat-panel-description>
-            E-mail: {{ client.email }}
-          </mat-panel-description> -->
-
-          <!-- <mat-panel-description>
-            Endereço: {{ client.address }}
-          </mat-panel-description> -->
         </mat-expansion-panel-header>
         <hr />
         <br />
 
         <div class="client-infos">
           <div class="col col1">
-            <div>Nome: {{ client.name }}</div>
-            <div>Código: {{ client.code }}</div>
+            <div><span class="font-bold">Nome:</span> {{ client.name }}</div>
+            <div><span class="font-bold">Código:</span> {{ client.code }}</div>
             <div>
-              Data nascimento: {{ client.birthDate | date : "dd/MM/yyyy" }}
+              <span class="font-bold">Data nascimento:</span> {{ client.birthDate | date : "dd/MM/yyyy" }}
             </div>
-            <div>CPF: {{ client.cpf }}</div>
-            <div>RG: {{ client.rg }}</div>
+            <div><span class="font-bold">CPF:</span> {{ client.cpf }}</div>
+            <div><span class="font-bold">RG:</span> {{ client.rg }}</div>
 
-            <div>Telefone: {{ client.phone }}</div>
-            <div>Email: {{ client.email }}</div>
+            <div><span class="font-bold">Telefone:</span> {{ client.phone }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.email }">Email:</span> {{ client.email }}</div>
           </div>
 
           <div class="col col2">
             <div>
-              Endereço: {{ client.address.street }},
+              <span class="font-bold">Endereço:</span> {{ client.address.street }},
               {{ client.address.number }}, {{ client.address.city }},
               {{ client.address.state }}
             </div>
-            <div>Nome do pai: {{ client.fathersName }}</div>
-            <div>Nome da mãe: {{ client.mothersName }}</div>
-            <div>Pessoas autorizadas: {{ client.peopleAuthorized }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.fathersName }">Nome do pai:</span> {{ client.fathersName }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.mothersName }">Nome da mãe:</span> {{ client.mothersName }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.peopleAuthorized }">Pessoas autorizadas:</span> {{ client.peopleAuthorized }}</div>
             <div>
-              Limite de compra:
+              <span class="font-bold">Limite de compra:</span>
               {{ client.purchaseLimit | currency : "BRL" : "symbol" : "1.2-2" }}
             </div>
-            <div>Notas: {{ client.notes }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.notes }">Notas:</span> {{ client.notes }}</div>
           </div>
           <div class="col col3">
             <p [ngClass]="{ disabled: !client.timesCharged }">
-              Vezes cobrado: {{ client.timesCharged }}
+              <span class="font-bold">Vezes cobrado:</span> {{ client.timesCharged }}
             </p>
             <p [ngClass]="{ disabled: !client.spcInclusionDate }">
-              Data de inclusão no SPC:
+              <span class="font-bold">Data de inclusão no SPC:</span>
               {{ client.spcInclusionDate | date : "dd/MM/yyyy" }}
             </p>
             <p [ngClass]="{ disabled: !client.spcExclusionDate }">
-              Data de exclusão do SPC:
+              <span class="font-bold">Data de exclusão do SPC:</span>
               {{ client.spcExclusionDate | date : "dd/MM/yyyy" }}
             </p>
             <p [ngClass]="{ disabled: !client.spcExclusionReason }">
-              Motivo da exclusão do SPC: {{ client.spcExclusionReason }}
+              <span class="font-bold">Motivo da exclusão do SPC:</span> {{ client.spcExclusionReason }}
             </p>
           </div>
 
           <div class="div-button m-t-10">
-            <button mat-flat-button>Editar cadastro</button>
+            <button
+              mat-raised-button
+              class="icon-button m-r-10"
+              type="button"
+              (click)="editClient(client)"
+              >
+              <mat-icon class="icon"> edit </mat-icon>
+            </button>
+  
+            <div class="">
+              <button  mat-raised-button color="warn">Cliente incluído no SPC</button>
+            </div>
           </div>
 
-          <!-- <div class="div-button m-t-10">
-            <button mat-flat-button>Marcar inclusão no SPC</button>
-          </div> -->
-        </div>
-
-        <!-- <table mat-table [dataSource]="sale.products" class="mat-elevation-z8">
-          <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef>Código</th>
-            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Nome</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="unitPrice">
-            <th mat-header-cell *matHeaderCellDef>Valor unitário</th>
-            <td mat-cell *matCellDef="let element">{{ element.unitPrice }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantidade</th>
-            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="totalPrice">
-            <th mat-header-cell *matHeaderCellDef>Total</th>
-            <td mat-cell *matCellDef="let element">{{ element.totalPrice }}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table> -->
-
-        <!-- <div class="m-t-10" *ngIf="sale.status == 'closed' && sale.paymentMethod">
-          <p>Forma de pagamento: {{  getPaymentMethod(sale.paymentMethod!)  }}</p>
-
-          <div *ngIf="sale.paymentMethod == 'client-account'">
-            <p >Cliente: {{sale.clientId?.name}} </p>
-            <p>Parcelado em {{sale.installments}}x de {{sale.installmentValue}}</p>
           </div>
-        </div> -->
       </mat-expansion-panel>
     </mat-accordion>
 
-    <mat-paginator
+    <mat-paginator class="m-t-10"
       [length]="filteredClients.length"
-      [pageSizeOptions]="[10, 20]"
-      [pageSize]="filteredClients"
+      [pageSizeOptions]="[20, 50, 100]"
+      [pageSize]="pageSize"
+      (page)="onPageChange($event)"
     >
-      <!-- (page)="onPageChange($event)" -->
-      <!-- [pageSize]="pageSize" -->
     </mat-paginator>
   </mat-card-content>
 </mat-card>

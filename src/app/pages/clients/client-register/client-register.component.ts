@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from "@angular/forms";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
@@ -16,6 +17,7 @@ import {
   MatCard,
   MatCardContent,
   MatCardHeader,
+  MatCardSubtitle,
   MatCardTitle,
 } from "@angular/material/card";
 import { EmployeeService } from "../../../services/employee.service";
@@ -39,44 +41,51 @@ import { AuthService } from "../../../services/auth.service";
     MatCardContent,
     ReactiveFormsModule,
     RouterModule,
+    MatCardSubtitle,
   ],
 })
 export class ClientRegisterComponent {
-  clientForm: FormGroup;
+  clientForm: FormGroup = new FormGroup({});
   idUserLogged: any;
+  isEditing: boolean = false;
+  clientId: string = "";
+  clientToEdit!: Client;
 
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    this.clientForm = this.fb.group({
-      name: "",
-      birthDate: "",
-      cpf: "",
-      rg: "",
-      phone: "",
-      email: "",
-      purchaseLimit: 10000,
-      notes: "",
-      createdByEmployee: "", // fazer logica para pegar o usuario logado
-      fathersName: "",
-      mothersName: "",
-      peopleAuthorized: "",
-      address: this.fb.group({
-        street: "",
-        number: "",
-        complement: "",
-        city: "",
-        state: "",
-        postalCode: "",
-      }),
-    });
+    // this.clientForm = this.fb.group({
+    //   name: "",
+    //   birthDate: "",
+    //   cpf: "",
+    //   rg: "",
+    //   phone: "",
+    //   email: "",
+    //   purchaseLimit: 10000,
+    //   notes: "",
+    //   createdByEmployee: "", // fazer logica para pegar o usuario logado
+    //   fathersName: "",
+    //   mothersName: "",
+    //   peopleAuthorized: "",
+    //   address: this.fb.group({
+    //     street: "",
+    //     number: "",
+    //     complement: "",
+    //     city: "",
+    //     state: "",
+    //     postalCode: "",
+    //   }),
+    // });
   }
 
   ngOnInit() {
     this.idUserLogged = this.authService.getLoggedUser();
+    this.initializeForm();
+    this.recoverIdToEdit();
   }
 
   onSubmit() {
@@ -92,7 +101,7 @@ export class ClientRegisterComponent {
       this.clientService.saveClient(client).subscribe({
         next: () => {
           alert("Cliente cadastrado com sucesso!");
-          this.router.navigate(["/dashboard"]);
+          this.router.navigate(["/client/list"]);
         },
         error: (error) => {
           alert("Erro ao cadastrar cliente!");
@@ -109,22 +118,65 @@ export class ClientRegisterComponent {
     }
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
+  initializeForm(client?: Client) {
+    this.clientForm = this.fb.group({
+      name: [client?.name ?? "", Validators.required],
+      birthDate: [client?.birthDate ? this.formatDate(client.birthDate) : "", Validators.required],
+      cpf: [client?.cpf || "", Validators.required],
+      rg: [client?.rg || ""],
+      phone: [client?.phone || "", Validators.required],
+      email: [client?.email || "", [Validators.email]],
+      purchaseLimit: [client?.purchaseLimit || 10000],
+      notes: [client?.notes || ""],
+      createdByEmployee: [client?.createdByEmployee || ""], // fazer logica para pegar o usuario logado
+      fathersName: [client?.fathersName || ""],
+      mothersName: [client?.mothersName || ""],
+      peopleAuthorized: [client?.peopleAuthorized || ""],
+      address: this.fb.group({
+        street: [client?.address?.street || "", Validators.required],
+        number: [client?.address?.number || "", Validators.required],
+        complement: [client?.address?.complement || ""],
+        city: [client?.address?.city || "", Validators.required],
+        state: [client?.address?.state || "", Validators.required],
+        postalCode: [client?.address?.postalCode || "", Validators.required],
+      }),
+    });
+  }
 
-    // if (filterValue === "") {
-    //   this.dataSource.data = this.productList;
-    // } else {
-    //   const filterValueNumber = Number(filterValue);
-    //   this.dataSource.data = this.productList.filter((product) => {
-    //     const matchesName = product.name.toLowerCase().includes(filterValue);
-    //     const matchesCode =
-    //       !isNaN(filterValueNumber) &&
-    //       product.code?.toString().includes(filterValue);
-    //     return matchesName || matchesCode;
-    //   });
-    // }
+  recoverIdToEdit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      if (id) {
+        this.isEditing = true;
+        this.clientId = id;
+        this.loadClient();
+      } else {
+        this.isEditing = false;
+      }
+    });
+  }
+
+  loadClient() {
+    this.clientService.getClient(this.clientId).subscribe({
+      next: (client) => {
+        this.clientToEdit = client;
+        this.initializeForm(client);
+
+        console.log("carregou o cliente: ", client);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  formatDate(dateString: Date): string {
+    console.log("dateString: ", dateString);
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+    console.log("date: ", `${day}/${month}/${year}`);
+    return `${day}/${month}/${year}`;
   }
 }

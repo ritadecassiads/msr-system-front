@@ -4,18 +4,38 @@
   box-sizing: border-box;
 }
 
+/* Ajuste do layout da página */
 .sidenav-container {
-  margin: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100vh; /* Isso ocupa a altura total da tela */
+  padding-top: 64px; /* Considera a altura da toolbar fixa */
+  overflow: hidden;
 }
 
+.sidenav-inside-container{
+  padding-top: 64px;
+}
+
+/* Fixando a Toolbar */
 .toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: #022c58;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+/* .toolbar {
   background-color: #00468e;
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .sidenav-collapsed {
   width: 4vw;

@@ -19,6 +19,7 @@ import {
 } from "@angular/material/card";
 import { MatSelectModule } from "@angular/material/select";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-client-list",
@@ -66,8 +67,10 @@ export class ClientListComponent implements OnInit {
   dataSource = new MatTableDataSource<Client>();
   clientsList: Client[] = [];
   filteredClients: Client[] = [];
+  pageSize = 20;
+  currentPage = 0;
 
-  constructor(private clientService: ClientService) {}
+  constructor(private clientService: ClientService, private router: Router) {}
 
   ngOnInit() {
     this.loadClients();
@@ -98,5 +101,19 @@ export class ClientListComponent implements OnInit {
         return matchesName || matchesCode;
       });
     }
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  getPagedClients() {
+    const start = this.currentPage * this.pageSize;
+    return this.filteredClients.slice(start, start + this.pageSize);
+  }
+
+  editClient(client: Client) {
+    this.router.navigate([`/client/edit/${client._id}`]);
   }
 }

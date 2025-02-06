@@ -1,50 +1,16 @@
-/* .client-form-register {
-  display: flex;
-  flex-direction: column;
-  margin: 10px 20px;
-  width: 100vh;
-}
-
-.client-form-input {
-  width: 100vh;
-  margin-bottom: 15px;
-}
-
-.client-form-tree {
-  display: flex;
-  flex-direction: row;
-  max-width: 100vh;
-}
-
-.client-form-name, .client-form-username, .client-form-password {
-  margin-right: 10px;
-}
-
-.client-form-address {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 15px;
-}
-
-.client-form-address-street, .client-form-address-number, .client-form-address-complement {
-  margin-right: 10px;
-}
-
-.client-div-button {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.client-button {
-  background-color: #fbd0c3;
-} */
-
 .form-input {
   width: 100%;
 }
 
 .form-input-50 {
-  width: 50%;
+  flex: 1 1 calc(50% - 16px); /* Cada campo ocupa 50% do container, descontando o gap */
+  min-width: 200px;
+}
+
+.teste1 {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 15px;
 }
 
 form {
@@ -55,11 +21,10 @@ form {
 }
 
 .div1,
-.div2 {
-  flex: 1;
-  /* Para que as divs ocupem a mesma largura */
+.div2, .div3 {
+  flex: 1 1 calc(50% - 16px); /* Dividindo igualmente */
   min-width: 300px;
-  /* Garantir que não fiquem muito estreitas */
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -73,4 +38,55 @@ form {
     min-width: unset;
     /* Remove a largura mínima em telas pequenas */
   }
+}
+
+.container-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  width: 100%;
+}
+
+
+
+
+
+
+/* Espaçamento entre os blocos de inputs */
+.address-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  width: 100%;
+  flex: 1;
+}
+
+/* CEP, Cidade e Estado na primeira linha (33% de largura cada um) */
+.address-city, .address-state, .address-postalCode {
+  flex: 1 1 calc(33% - 16px); /* Cada campo ocupa 33% menos o gap */
+}
+
+.address-street, .address-number, .address-complement {
+  flex: 1 1 calc(33% - 16px); /* Cada campo ocupa 33% menos o gap */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .address-line {
+    flex-direction: column;
+  }
+
+  /* Ajuste para telas menores, cada campo ocupa 100% da largura */
+  .address-city, .address-state, .address-postalCode,
+  .address-street, .address-number, .address-complement {
+    flex: 1 1 100%;
+  }
+}
+
+
+
+textarea {
+  height: auto;
+  /* resize: none;  */
 }

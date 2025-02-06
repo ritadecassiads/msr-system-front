@@ -4,136 +4,101 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
-      <!-- Nome -->
-      <div class="div1">
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>Nome</mat-label>
-          <input matInput formControlName="name" name="name" required />
-        </mat-form-field>
+    <form
+      class="m-t-3 form-flex"
+      [formGroup]="clientForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="container-top">
+        <div class="div1">
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name" name="name" required />
+          </mat-form-field>
 
-        <!-- Data de Nascimento -->
-        <mat-form-field appearance="outline" class="form-input-50">
-          <mat-label>Data de Nascimento</mat-label>
-          <!-- <mat-datepicker formControlName="birthDate"  name="birthDate" #picker></mat-datepicker>  ajeitar depois -->
-          <input
-            matInput
-            formControlName="birthDate"
-            name="birthDate"
-            type="date"
-            required
-          />
-        </mat-form-field>
+          <div class="teste1">
+            <!-- Data de Nascimento -->
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Data de Nascimento</mat-label>
+              <!-- <mat-datepicker formControlName="birthDate"  name="birthDate" #picker></mat-datepicker>  ajeitar depois -->
+              <input
+                matInput
+                formControlName="birthDate"
+                name="birthDate"
+                type="date"
+                required
+              />
+            </mat-form-field>
+            <!-- CPF -->
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpf" name="cpf" required />
+            </mat-form-field>
 
-        <!-- CPF -->
-        <mat-form-field appearance="outline" class="form-input-50">
-          <mat-label>CPF</mat-label>
-          <input matInput formControlName="cpf" name="cpf" required />
-        </mat-form-field>
+            <!-- RG -->
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>RG</mat-label>
+              <input matInput formControlName="rg" name="rg" required />
+            </mat-form-field>
 
-        <!-- RG -->
-        <mat-form-field appearance="outline" class="form-input-50">
-          <mat-label>RG</mat-label>
-          <input matInput formControlName="rg" name="rg" required />
-        </mat-form-field>
+            <!-- Telefone -->
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="phone" name="phone" required />
+            </mat-form-field>
+          </div>
 
-        <!-- Telefone -->
-        <mat-form-field appearance="outline" class="form-input-50">
-          <mat-label>Telefone</mat-label>
-          <input matInput formControlName="phone" name="phone" required />
-        </mat-form-field>
+          <!-- E-mail -->
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email" name="email" type="email" />
+          </mat-form-field>
+        </div>
 
-        <!-- E-mail -->
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>E-mail</mat-label>
-          <input matInput formControlName="email" name="email" type="email" />
-        </mat-form-field>
-      </div>
-
-      <div class="div2">
-        <!-- Limite de Compra -->
-        <!-- <mat-form-field appearance="outline" class="form-input-50">
+        <div class="div2">
+          <!-- Limite de Compra -->
+          <!-- <mat-form-field appearance="outline" class="form-input-50">
            <mat-label>Limite de Compra</mat-label>
            <input matInput formControlName="purchaseLimit" name="purchaseLimit" type="number"  />
          </mat-form-field> -->
 
-        <!-- Nome do Pai -->
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>Nome do Pai</mat-label>
-          <input matInput formControlName="fathersName" name="fathersName" />
-        </mat-form-field>
+          <!-- Nome do Pai -->
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Nome do Pai</mat-label>
+            <input matInput formControlName="fathersName" name="fathersName" />
+          </mat-form-field>
 
-        <!-- Nome da Mãe -->
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>Nome da Mãe</mat-label>
-          <input matInput formControlName="mothersName" name="mothersName" />
-        </mat-form-field>
+          <!-- Nome da Mãe -->
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Nome da Mãe</mat-label>
+            <input matInput formControlName="mothersName" name="mothersName" />
+          </mat-form-field>
 
-        <!-- Pessoas Autorizadas -->
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>Pessoas autorizadas a comprar</mat-label>
-          <input
-            matInput
-            formControlName="peopleAuthorized"
-            name="peopleAuthorized"
-          />
-        </mat-form-field>
+          <!-- Pessoas Autorizadas -->
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Pessoas autorizadas a comprar</mat-label>
+            <input
+              matInput
+              formControlName="peopleAuthorized"
+              name="peopleAuthorized"
+            />
+          </mat-form-field>
 
-        <!-- Observações -->
-        <mat-form-field appearance="outline" class="form-input">
-          <mat-label>Observações</mat-label>
-          <textarea matInput formControlName="notes" name="notes"></textarea>
-        </mat-form-field>
+          <!-- Observações -->
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Observações</mat-label>
+            <input matInput formControlName="notes" name="notes"/>
+          </mat-form-field>
+        </div>
       </div>
 
       <div class="div3">
-        <h3>Endereço</h3>
+        <mat-card-subtitle>Endereço</mat-card-subtitle>
 
         <div formGroupName="address">
-          <div class="client-form-address">
-            <!-- Rua -->
-            <mat-form-field
-              appearance="outline"
-              class="client-form-address-street"
-            >
-              <mat-label>Rua</mat-label>
-              <input matInput formControlName="street" name="street" required />
-            </mat-form-field>
-
-            <!-- Número -->
-            <mat-form-field
-              appearance="outline"
-              class="client-form-address-number"
-            >
-              <mat-label>Número</mat-label>
-              <input matInput formControlName="number" name="number" required />
-            </mat-form-field>
-
-            <!-- Complemento -->
-            <mat-form-field
-              appearance="outline"
-              class="client-form-address-complement"
-            >
-              <mat-label>Complemento</mat-label>
-              <input matInput formControlName="complement" name="complement" />
-            </mat-form-field>
-          </div>
-
-          <div class="client-form-tree">
-            <!-- Cidade -->
-            <mat-form-field appearance="outline" class="client-form-name">
-              <mat-label>Cidade</mat-label>
-              <input matInput formControlName="city" name="city" required />
-            </mat-form-field>
-
-            <!-- Estado -->
-            <mat-form-field appearance="outline" class="client-form-username">
-              <mat-label>Estado</mat-label>
-              <input matInput formControlName="state" name="state" required />
-            </mat-form-field>
-
+          <div class="address-line m-t-3">
             <!-- CEP -->
-            <mat-form-field appearance="outline" class="client-form-password">
+            <mat-form-field appearance="outline" class="address-postalCode">
               <mat-label>CEP</mat-label>
               <input
                 matInput
@@ -142,11 +107,40 @@
                 required
               />
             </mat-form-field>
+            <!-- Cidade -->
+            <mat-form-field appearance="outline" class="address-city">
+              <mat-label>Cidade</mat-label>
+              <input matInput formControlName="city" name="city" required />
+            </mat-form-field>
+
+            <!-- Estado -->
+            <mat-form-field appearance="outline" class="address-state">
+              <mat-label>Estado</mat-label>
+              <input matInput formControlName="state" name="state" required />
+            </mat-form-field>
+          </div>
+
+          <div class="address-line">
+            <!-- Rua -->
+            <mat-form-field appearance="outline" class="address-street">
+              <mat-label>Rua</mat-label>
+              <input matInput formControlName="street" name="street" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="address-number">
+              <mat-label>Número</mat-label>
+              <input matInput formControlName="number" name="number" required />
+            </mat-form-field>
+
+            <!-- Complemento -->
+            <mat-form-field appearance="outline" class="address-complement">
+              <mat-label>Complemento</mat-label>
+              <input matInput formControlName="complement" name="complement" />
+            </mat-form-field>
           </div>
         </div>
       </div>
-
-      <div class="client-div-button">
+      <div class="div-button">
         <button mat-flat-button color="primary" type="submit">Salvar</button>
       </div>
     </form>

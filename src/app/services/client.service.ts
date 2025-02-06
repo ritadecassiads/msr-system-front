@@ -25,7 +25,7 @@ export class ClientService {
     return this.http.get<Client[]>(this.apiUrl);
   }
 
-  getClient(id: number) {
+  getClient(id: string) {
     return this.http.get<Client>(`${this.apiUrl}/${id}`);
   }
 

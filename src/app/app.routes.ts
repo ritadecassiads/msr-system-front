@@ -67,6 +67,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "client/edit/:id",
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import(
+            "./pages/clients/client-register/client-register.component"
+          ).then((m) => m.ClientRegisterComponent),
+      },
+      {
         path: "employee/register",
         loadComponent: () =>
           import(
