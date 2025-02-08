@@ -25,6 +25,7 @@ import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
 import { Invoice } from "../../../models/invoice";
 import { debounceTime } from "rxjs";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-invoice-register",
@@ -64,7 +65,8 @@ export class InvoiceRegisterComponent implements OnInit {
     private invoiceService: InvoiceService,
     private supplierService: SupplierService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private modalService: ModalMessageService
   ) {}
 
   ngOnInit() {
@@ -124,15 +126,16 @@ export class InvoiceRegisterComponent implements OnInit {
     if (this.invoiceForm.valid) {
       this.invoiceService.saveInvoice(this.invoiceForm.value).subscribe({
         next: () => {
-          alert("Invoice saved successfully");
+          this.modalService.showMessage('As informações foram registradas.', 'success');
           //this.router.navigate(["dashboard"]);
         },
         error: (err) => {
           console.error(err);
+          this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
         },
       });
     } else {
-      alert("Please fill in all fields");
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 
@@ -143,7 +146,7 @@ export class InvoiceRegisterComponent implements OnInit {
       },
       error: (err) => {
         console.log("Error response:", err.response);
-        alert("Error loading suppliers. Please try again.");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }

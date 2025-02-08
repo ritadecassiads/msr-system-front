@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
   selector: "app-category-register",
@@ -34,7 +35,8 @@ export class CategoryRegisterComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private modalService: ModalMessageService
   ) {}
 
   ngOnInit() {
@@ -45,14 +47,16 @@ export class CategoryRegisterComponent {
     if (this.categoryForm.valid) {
       this.categoryService.saveCategory(this.categoryForm.value).subscribe({
         next: () => {
-          alert("Categoria salva com sucesso");
+          this.modalService.showMessage('As informações foram registradas.', 'success');
           this.router.navigate(["/dashboard"]);
         },
         error: (err) => {
           console.log(err);
-          alert("Erro ao salvar categoria");
+          this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
         },
       });
+    } else {
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 

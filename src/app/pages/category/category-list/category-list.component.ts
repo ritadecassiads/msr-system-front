@@ -3,6 +3,7 @@ import { CategoryService } from '../../../services/category.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Category } from '../../../models/category';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
   selector: "app-category-list",
@@ -13,7 +14,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
   styleUrl: "./category-list.component.css",
 })
 export class CategoryListComponent {
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private readonly modalService: ModalMessageService) {}
 
   displayedColumns: string[] = ["code", "name", "description"];
 
@@ -30,7 +31,7 @@ export class CategoryListComponent {
       },
       error: (err) => {
         console.log(err);
-        alert("Erro ao carregar categorias");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }

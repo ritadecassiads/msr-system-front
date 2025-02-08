@@ -28,6 +28,7 @@ import { CategoryService } from "../../../services/category.service";
 import { Category } from "../../../models/category";
 import { SupplierService } from "../../../services/supplier.service";
 import { Supplier } from "../../../models/supplier";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-product-register",
@@ -58,12 +59,13 @@ export class ProductRegisterComponent implements OnInit {
   isEditing: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private productService: ProductService,
-    private categoryService: CategoryService,
-    private supplierService: SupplierService,
-    private route: ActivatedRoute
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly productService: ProductService,
+    private readonly categoryService: CategoryService,
+    private readonly supplierService: SupplierService,
+    private readonly route: ActivatedRoute,
+    private readonly modalService: ModalMessageService
   ) {}
 
   supplierList: Supplier[] = [];
@@ -114,7 +116,7 @@ export class ProductRegisterComponent implements OnInit {
       },
       error: (err) => {
         console.log("Error response:", err.response);
-        alert("Error loading categories. Please try again.");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }
@@ -126,7 +128,7 @@ export class ProductRegisterComponent implements OnInit {
       },
       error: (err) => {
         console.log("Error response:", err.response);
-        alert("Error loading suppliers. Please try again.");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }
@@ -174,19 +176,19 @@ export class ProductRegisterComponent implements OnInit {
         this.createProduct(product);
       }
     } else {
-      alert("Please fill in all required fields.");
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 
   createProduct(product: Product): void {
     this.productService.saveProduct(product).subscribe({
       next: () => {
-        alert("Product registered!");
+        this.modalService.showMessage('As informações foram registradas.', 'success');
         this.router.navigate(["/product/list"]);
       },
       error: (err) => {
         console.error(err);
-        alert("Error registering product.");
+        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
       },
     });
   }
@@ -196,12 +198,12 @@ export class ProductRegisterComponent implements OnInit {
 
     this.productService.updateProduct(product).subscribe({
       next: () => {
-        alert("Product updated!");
+        this.modalService.showMessage('As informações foram registradas.', 'success');
         this.router.navigate(["/product/list"]);
       },
       error: (err) => {
         console.error(err);
-        alert("Error updating product.");
+        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
       },
     });
   }

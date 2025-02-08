@@ -9,6 +9,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 import { CommonModule } from "@angular/common";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-supplier-register",
@@ -36,7 +37,8 @@ export class SupplierRegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private supplierService: SupplierService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalMessageService
   ) {}
 
   ngOnInit() {
@@ -69,12 +71,11 @@ export class SupplierRegisterComponent implements OnInit {
 
       this.supplierService.saveSupplier(supplier).subscribe({
         next: () => {
-          alert("Supplier registered!");
+          this.modalService.showMessage('As informações foram registradas.', 'success');
           this.router.navigate(["/dashboard"]);
         },
         error: (error) => {
-          console.error("Error registering supplier:", error);
-          alert("Error registering supplier. Please check your data.");
+          this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
         },
       });
     }

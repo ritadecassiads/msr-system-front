@@ -30,7 +30,7 @@ export class ClientService {
   }
 
   updateClient(client: Client) {
-    return this.http.put<Client>(`${this.apiUrl}/${client._id}`, client);
+    return this.http.patch<Client>(`${this.apiUrl}/${client._id}`, client);
   }
 
   deleteClient(id: number) {

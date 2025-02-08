@@ -1,0 +1,25 @@
+<div class="container">
+  <div mat-dialog-title>
+    {{ getTitle() }}
+    <mat-icon
+      class="icon"
+      [ngClass]="{
+        success: data.type === 'success',
+        error: data.type === 'error',
+        validation: data.type === 'validation'
+      }"
+    >
+      {{ getIcon() }}
+    </mat-icon>
+  </div>
+
+  <mat-dialog-content>
+    {{ data.message }}
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="closeDialog()" mat-dialog-close>
+      {{ data.buttonText || "OK" }}
+    </button>
+  </mat-dialog-actions>
+</div>

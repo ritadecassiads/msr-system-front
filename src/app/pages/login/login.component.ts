@@ -13,6 +13,7 @@ import { MatCardModule } from "@angular/material/card";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { ModalMessageService } from "../../services/modal-message.service";
 
 @Component({
   selector: "app-login",
@@ -41,6 +42,8 @@ export class LoginComponent {
 
   hidePassword = true;
 
+  constructor(private modalService: ModalMessageService) {}
+
   togglePasswordVisibility(event: MouseEvent) {
     this.hidePassword = !this.hidePassword;
     event.stopPropagation();
@@ -59,7 +62,7 @@ export class LoginComponent {
           },
           error: (error) => {
             console.error("Login failed", error);
-            alert("Falha no login. Por favor, verifique suas credenciais.");
+            this.modalService.showMessage('Algo deu errado. Por favor, verifique suas credenciais.', 'error');
           },
         });
       }

@@ -3,6 +3,7 @@ import { InvoiceService } from '../../../services/invoice.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Invoice } from '../../../models/invoice';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
   selector: "app-invoice-list",
@@ -13,7 +14,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
   styleUrl: "./invoice-list.component.css",
 })
 export class InvoiceListComponent {
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(private invoiceService: InvoiceService, private readonly modalService: ModalMessageService) {}
 
   displayedColumns: string[] = [
     "code",
@@ -39,7 +40,7 @@ export class InvoiceListComponent {
       },
       error: (err) => {
         console.log(err);
-        alert("Erro ao carregar duplicatas");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }

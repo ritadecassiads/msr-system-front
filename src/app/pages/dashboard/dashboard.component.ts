@@ -10,6 +10,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { Invoice } from "../../models/invoice";
+import { ModalMessageService } from "../../services/modal-message.service";
 
 @Component({
   selector: "app-dashboard",
@@ -86,7 +87,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private saleService: SaleService,
     private router: Router,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private modalService: ModalMessageService
   ) {}
 
   ngOnInit(): void {

@@ -23,6 +23,7 @@ import {
 import { EmployeeService } from "../../../services/employee.service";
 import { ClientService } from "../../../services/client.service";
 import { AuthService } from "../../../services/auth.service";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-client-register",
@@ -56,7 +57,8 @@ export class ClientRegisterComponent {
     private clientService: ClientService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: ModalMessageService
   ) {
     // this.clientForm = this.fb.group({
     //   name: "",
@@ -89,39 +91,61 @@ export class ClientRegisterComponent {
   }
 
   onSubmit() {
-    this.handleInvalidForm();
-
     if (this.clientForm.valid) {
-      const client: Client = this.clientForm.value;
+      if (this.isEditing) {
+        const updatedClient = {
+          ...this.clientToEdit,
+          ...this.clientForm.value,
+        }
 
-      client.createdByEmployee = this.idUserLogged;
-
-      console.log("cliente ---> ", client);
-
-      this.clientService.saveClient(client).subscribe({
-        next: () => {
-          alert("Cliente cadastrado com sucesso!");
-          this.router.navigate(["/client/list"]);
-        },
-        error: (error) => {
-          alert("Erro ao cadastrar cliente!");
-          console.error(error);
-        },
-      });
+        this.updateClient(updatedClient);
+      } else {
+        this.createClient();
+      }
+    } else {
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 
-  handleInvalidForm() {
-    if (this.clientForm.invalid) {
-      alert("Preencha todos os campos obrigatórios!");
-      return;
-    }
+  createClient() {
+    const client: Client = this.clientForm.value;
+
+    client.createdByEmployee = this.idUserLogged;
+
+    this.clientService.saveClient(client).subscribe({
+      next: () => {
+        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.router.navigate(["/client/list"]);
+      },
+      error: (error) => {
+        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
+        console.error(error);
+      },
+    });
+  }
+
+  updateClient(client: Client) {
+    console.log("Product to update: ", client);
+
+    this.clientService.updateClient(client).subscribe({
+      next: () => {
+        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.router.navigate(["/client/list"]);
+      },
+      error: (err) => {
+        console.error(err);
+        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
+      },
+    });
   }
 
   initializeForm(client?: Client) {
     this.clientForm = this.fb.group({
       name: [client?.name ?? "", Validators.required],
-      birthDate: [client?.birthDate ? this.formatDate(client.birthDate) : "", Validators.required],
+      birthDate: [
+        client?.birthDate ? this.formatDate(client.birthDate) : "",
+        Validators.required,
+      ],
       cpf: [client?.cpf || "", Validators.required],
       rg: [client?.rg || ""],
       phone: [client?.phone || "", Validators.required],

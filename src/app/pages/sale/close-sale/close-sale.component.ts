@@ -37,6 +37,7 @@ import { ClientService } from "../../../services/client.service";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-close-sale",
@@ -112,7 +113,8 @@ export class CloseSaleComponent implements OnInit {
     private route: ActivatedRoute,
     private saleService: SaleService,
     private productService: ProductService,
-    private clientService: ClientService // private renderer: Renderer2, // private el: ElementRef
+    private clientService: ClientService,
+    private readonly modalService: ModalMessageService,
   ) {}
 
   ngAfterViewInit() {
@@ -130,13 +132,11 @@ export class CloseSaleComponent implements OnInit {
   loadSaleDetails(): void {
     this.saleService.getSale(this.saleId).subscribe((sale) => {
       if (sale.status === "closed") {
-        alert("Venda já finalizada!");
         this.router.navigate(["/dashboard"]);
         return;
       }
       this.sale = sale;
       this.subtotal = this.sale.total;
-      console.log("sale: ", this.sale);
       // this.loadProducts(sale.products);
     });
   }
@@ -152,7 +152,7 @@ export class CloseSaleComponent implements OnInit {
     console.log("sale -----> ", this.sale);
 
     this.saleService.updateSale({ ...this.sale }).subscribe(() => {
-      alert("Venda finalizada!");
+      this.modalService.showMessage('Venda finalizada.', 'success');
       this.router.navigate(["/dashboard"]);
     });
   }
@@ -215,15 +215,6 @@ export class CloseSaleComponent implements OnInit {
     this.sale.installmentValue = this.installmentValue;
     this.sale.dueDates = this.dueDates;
     console.log("sale: ", this.sale);
-
-    // this.saleService.updateSale({ ...this.sale }).subscribe({
-    //   next: () => {
-    //     alert("Cliente adicionado à venda!");
-    //   },
-    //   error: (error) => {
-    //     console.error("Error adding client to sale: ", error);
-    //   },
-    // });
   }
 
   calculateInstallmentValue(): void {

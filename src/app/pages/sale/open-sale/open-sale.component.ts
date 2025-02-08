@@ -37,6 +37,7 @@ import { StorageUtils } from "../../../shared/utils/storage-utils";
 import { MatDialog } from "@angular/material/dialog";
 import { InputUserDialogComponent } from "../../../components/dialog/input-user-dialog/input-user-dialog.component";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-open-sale",
@@ -81,6 +82,7 @@ export class SaleRegisterComponent {
   ];
   isProductListVisible: boolean = true;
   labelButton: string = "Esconder";
+  employeeFirstName: string = "";
 
   dataSource = new MatTableDataSource<Product>();
 
@@ -94,7 +96,8 @@ export class SaleRegisterComponent {
     private productService: ProductService,
     private saleService: SaleService,
     private sharedService: SharedService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private modalService: ModalMessageService
   ) {}
 
   ngAfterViewInit() {
@@ -103,7 +106,7 @@ export class SaleRegisterComponent {
   }
 
   ngOnInit() {
-    this.openModalToColectUsername();
+    this.openModalToColectUser();
     this.getProducts();
     this.saleFormInit();
   }
@@ -140,7 +143,7 @@ export class SaleRegisterComponent {
       },
       error: (err) => {
         console.error(err);
-        alert("Error loading products. Please try again.");
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
   }
@@ -263,30 +266,29 @@ export class SaleRegisterComponent {
 
   onSubmit() {
     const sale: Sale = this.saleForm.value;
-    console.log("Sale form enviado API: ", sale);
 
     if (this.saleForm.valid) {
       this.saleService.saveSale(sale).subscribe({
         next: (data) => {
-          alert("Sale registered successfully.");
+          this.modalService.showMessage('As informações foram registradas.', 'success');
           StorageUtils.clearUserSale();
 
           this.router.navigate(["/dashboard"]);
         },
         error: (err) => {
           console.error(err);
-          alert("Error registering sale. Please try again.");
+          this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
         },
       });
     } else {
       if (this.saleForm.get("openedByEmployee")?.invalid) {
-        this.openModalToColectUsername();
+        this.openModalToColectUser();
       }
-      alert("Please fill in all required fields.");
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 
-  openModalToColectUsername(): void {
+  openModalToColectUser(): void {
     const dialogRef = this.dialog.open(InputUserDialogComponent, {
       restoreFocus: false,
     });
@@ -308,18 +310,16 @@ export class SaleRegisterComponent {
         .subscribe({
           next: (employee) => {
             this.saleForm.get("openedByEmployee")?.setValue(employee._id);
+            this.employeeFirstName = employee.name.split(" ")[0];
+
             //this.employeeUsername = employee.name;
           },
           error: (err) => {
             if (err.status === 404) {
-              console.error("Employee not found (404).");
-              alert(
-                "Vendedor não encontrado. Por favor, insira um nome de vendedor válido."
-              );
-              this.openModalToColectUsername();
+              this.modalService.showMessage('Vendedor não encontrado. Tente novamente.', 'error').subscribe(() => this.openModalToColectUser());
+              // this.openModalToColectUser();
             } else {
-              console.error("Error loading employee. Please try again.");
-              alert("Error loading employee. Please try again.");
+              this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
             }
           },
         });

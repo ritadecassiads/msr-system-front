@@ -19,6 +19,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { DeleteDialogComponent } from "../../../components/dialog/delete-dialog/delete-dialog.component";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-product-list",
@@ -43,7 +44,11 @@ import { DeleteDialogComponent } from "../../../components/dialog/delete-dialog/
   styleUrl: "./product-list.component.css",
 })
 export class ProductListComponent {
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private readonly modalService: ModalMessageService
+  ) {}
 
   readonly dialog = inject(MatDialog);
 
@@ -100,7 +105,7 @@ export class ProductListComponent {
     if (product._id) {
       this.productService.deleteProduct(product._id).subscribe(() => {
         this.loadProducts();
-        alert("Produto deletado com sucesso!");
+        this.modalService.showMessage("Produto deletado.", "success");
       });
     }
   }

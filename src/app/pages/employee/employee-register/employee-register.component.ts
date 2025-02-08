@@ -27,6 +27,7 @@ import { Router, RouterModule } from "@angular/router";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EmployeeService } from "../../../services/employee.service";
 import { Employee } from "../../../models/employee";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-employee-register",
@@ -59,7 +60,8 @@ export class EmployeeRegisterComponent {
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalMessageService
   ) {
     this.employeeForm = this.fb.group({
       name: ["", Validators.required],
@@ -86,14 +88,16 @@ export class EmployeeRegisterComponent {
 
       this.employeeService.saveEmployee(employee).subscribe({
         next: () => {
-          alert("Employee registered!");
+          this.modalService.showMessage('As informações foram registradas.', 'success');
           this.router.navigate(["/dashboard"]);
         },
         error: (error) => {
           console.error("Error registering employee:", error);
-          alert("Error registering employee. Please check your data.");
+          this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
         },
       });
+    } else {
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
     }
   }
 
