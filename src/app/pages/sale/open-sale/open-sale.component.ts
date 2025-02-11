@@ -70,7 +70,7 @@ export class SaleRegisterComponent {
   productList: Product[] = [];
   // filteredProducts: Product[] = [];
   selectedProducts: FormArray = this.fb.array([]);
-  employeeUsername: string = "";
+  employeeUsernameOrCode: string |number = "";
   displayedColumns: string[] = [
     "code",
     "name",
@@ -158,8 +158,8 @@ export class SaleRegisterComponent {
   }
 
   recoverUser() {
-    this.employeeUsername = StorageUtils.getUserSale() ?? "";
-    console.log("Username shared: ", this.employeeUsername);
+    this.employeeUsernameOrCode = StorageUtils.getUserSale() ?? "";
+    console.log("Username shared: ", this.employeeUsernameOrCode);
   }
 
   applyFilter(event: Event): void {
@@ -290,34 +290,66 @@ export class SaleRegisterComponent {
 
   openModalToColectUser(): void {
     const dialogRef = this.dialog.open(InputUserDialogComponent, {
+      width: '400px',
       restoreFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.employeeUsername = result;
-        this.getSellerByUsername();
-        StorageUtils.setUserSale(result);
+        this.employeeUsernameOrCode = result;
+        this.filterUserInput(result);
+
+        // this.getSellerByUsername();
+        // StorageUtils.setUserSale(result);
       }
     });
   }
 
+  filterUserInput(entry: string | number): void {
+    if (isNaN(Number(entry))) {
+      this.getSellerByUsername();
+    } else {
+      this.getSellerByCode();
+    }
+  }
+
   getSellerByUsername(): void {
-    console.log("recuperando user do banco: ", this.employeeUsername);
-    if (this.employeeUsername) {
+    console.log("recuperando user do banco USER: ", this.employeeUsernameOrCode);
+    if (this.employeeUsernameOrCode) {
       this.employeeService
-        .getEmployeeByUsername(this.employeeUsername)
+        .getEmployeeByUsername(this.employeeUsernameOrCode.toString())
         .subscribe({
           next: (employee) => {
             this.saleForm.get("openedByEmployee")?.setValue(employee._id);
             this.employeeFirstName = employee.name.split(" ")[0];
-
-            //this.employeeUsername = employee.name;
+            StorageUtils.setUserSale(employee.username);
           },
           error: (err) => {
             if (err.status === 404) {
               this.modalService.showMessage('Vendedor não encontrado. Tente novamente.', 'error').subscribe(() => this.openModalToColectUser());
-              // this.openModalToColectUser();
+            } else {
+              this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
+            }
+          },
+        });
+    }
+  }
+
+  getSellerByCode(): void {
+    console.log("recuperando user do banco CODE: ", this.employeeUsernameOrCode);
+
+    if (this.employeeUsernameOrCode) {
+      this.employeeService
+        .getEmployeeByCode(Number(this.employeeUsernameOrCode))
+        .subscribe({
+          next: (employee) => {
+            this.saleForm.get("openedByEmployee")?.setValue(employee._id);
+            this.employeeFirstName = employee.name.split(" ")[0];
+            StorageUtils.setUserSale(employee.username);
+          },
+          error: (err) => {
+            if (err.status === 404) {
+              this.modalService.showMessage('Vendedor não encontrado. Tente novamente.', 'error').subscribe(() => this.openModalToColectUser());
             } else {
               this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
             }

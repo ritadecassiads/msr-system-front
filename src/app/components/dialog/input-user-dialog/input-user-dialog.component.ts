@@ -38,13 +38,13 @@ import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 })
 export class InputUserDialogComponent {
   readonly dialogRef = inject(MatDialogRef<InputUserDialogComponent>);
-  username: string = "";
+  usernameOrCode: string | number = "";
 
   cancel(): void {
     this.dialogRef.close();
   }
 
   confirm(): void {
-    this.dialogRef.close(this.username);
+    this.dialogRef.close(this.usernameOrCode);
   }
 }
