@@ -10,5 +10,6 @@ export interface Employee {
   email: string;
   phone: string;
   isAdmin: boolean;
-  address: Address
+  address: Address;
+  birthDate: Date;
 }

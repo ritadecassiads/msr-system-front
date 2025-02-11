@@ -1,0 +1,45 @@
+.client-infos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 30%);
+    justify-content: end;
+}
+
+.col {
+    flex: 1;
+    min-width: 250px;
+}
+
+.col div {
+    margin-bottom: 10px;
+}
+
+.col strong {
+    font-weight: bold;
+}
+
+.col1,
+.col2,
+.col3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.col1 div,
+.col2 div,
+.col3 div {
+    padding: 5px 0;
+}
+
+.mat-expansion-panel-header-description{
+    flex-grow: 1 !important;
+    color: #1a1b1f !important;
+}
+
+.icon{
+    margin: 0px !important;
+}

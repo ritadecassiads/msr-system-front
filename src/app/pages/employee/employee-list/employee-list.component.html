@@ -1,64 +1,99 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
+<mat-card class="">
+  <mat-card-header>
+    <mat-card-title>Consultar funcionários</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <br />
 
-    <!-- Code Column -->
-    <ng-container matColumnDef="code">
-      <th mat-header-cell *matHeaderCellDef> Code </th>
-      <td mat-cell *matCellDef="let element"> {{element.code}} </td>
-    </ng-container>
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar funcionário</mat-label>
+      <input
+        matInput
+        (input)="applyFilter($event)"
+        placeholder="Digite o nome ou código do funcionário.."
+      />
+      <mat-icon matSuffix class="icon">search</mat-icon>
+    </mat-form-field>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
+    <mat-accordion
+      class="example-headers-align"
+      multi
+      *ngIf="filteredEmployees.length > 0"
+    >
+      <mat-expansion-panel *ngFor="let employee of getPagedEmployees()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+           {{ employee.code }} - {{ employee.name }}
+          </mat-panel-title>
 
-    <!-- Username Column -->
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef> Username </th>
-      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ employee.cpf }}
+          </mat-panel-description>
 
-    <!-- CPF Column -->
-    <ng-container matColumnDef="cpf">
-      <th mat-header-cell *matHeaderCellDef> CPF </th>
-      <td mat-cell *matCellDef="let element"> {{element.cpf}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ employee.birthDate | date : "dd/MM/yyyy" }}
+          </mat-panel-description>
 
-    <!-- Phone Column -->
-    <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef> Phone </th>
-      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
-    </ng-container>
+          <mat-panel-description>
+            {{ formatPhone(employee.phone) }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <hr />
+        <br />
 
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
+        <div class="client-infos">
+          <div class="col col1">
+            <div><span class="font-bold">Nome:</span> {{ employee.name }}</div>
+            <div><span class="font-bold">Código:</span> {{ employee.code }}</div>
+            <div>
+              <span class="font-bold">Data nascimento:</span> {{ employee.birthDate | date : "dd/MM/yyyy" }}
+            </div>
+            <div><span class="font-bold">CPF:</span> {{ employee.cpf }}</div>
+            <!-- <div><span class="font-bold">RG:</span> {{ employee.rg }}</div> -->
 
-    <!-- isAdmin Column -->
-    <ng-container matColumnDef="isAdmin">
-      <th mat-header-cell *matHeaderCellDef> Admin </th>
-      <td mat-cell *matCellDef="let element"> {{element.isAdmin ? 'Yes' : 'No'}} </td>
-    </ng-container>
+            <div><span class="font-bold">Telefone:</span> {{ formatPhone(employee.phone) }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !employee.email }">Email:</span> {{ employee.email }}</div>
+          </div>
 
-    <!-- Address Column -->
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef> Address </th>
-      <td mat-cell *matCellDef="let element">
-        {{element.address.street}}, {{element.address.number}}, 
-        {{element.address.complement ? element.address.complement + ', ' : ''}}
-        {{element.address.city}} - {{element.address.state}}, {{element.address.postalCode}}
-      </td>
-    </ng-container>
+          <div class="col col2">
+            <div>
+              <span class="font-bold">Endereço:</span> {{ employee.address.street }},
+              {{ employee.address.number }}, {{ employee.address.city }},
+              {{ employee.address.state }}
+            </div>
+          </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-<!-- 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of employees">
-  </mat-paginator> -->
-</div>
+          <div class="div-button m-t-10">
+            <button
+              mat-raised-button
+              class="icon-button m-r-10"
+              type="button"
+              (click)="editEmployee(employee)"
+              >
+              <mat-icon class="icon"> edit </mat-icon>
+            </button>
+  
+            <button
+            mat-raised-button
+            class="icon-button"
+            type="button"
+            (click)="openModalToConfirmDelete(employee)"
+            >
+            <mat-icon class="icon"> delete </mat-icon>
+          </button>
+          </div>
+
+          </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-paginator class="m-t-10"
+      [length]="filteredEmployees.length"
+      [pageSizeOptions]="[20, 50, 100]"
+      [pageSize]="pageSize"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

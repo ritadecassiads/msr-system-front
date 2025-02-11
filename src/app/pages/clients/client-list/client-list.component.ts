@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ClientService } from "../../../services/client.service";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTableModule } from "@angular/material/table";
 import { Client } from "../../../models/client";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
@@ -44,27 +44,11 @@ import { Router } from "@angular/router";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [CurrencyPipe, DatePipe, MatTableDataSource],
+  providers: [CurrencyPipe, DatePipe],
   templateUrl: "./client-list.component.html",
   styleUrl: "./client-list.component.css",
 })
 export class ClientListComponent implements OnInit {
-  displayedColumns: string[] = [
-    "name",
-    "birthDate",
-    "cpf",
-    "rg",
-    "phone",
-    "email",
-    "purchaseLimit",
-    "notes",
-    "createdByEmployee",
-    "fathersName",
-    "mothersName",
-    "peopleAuthorized",
-    "address",
-  ];
-  dataSource = new MatTableDataSource<Client>();
   clientsList: Client[] = [];
   filteredClients: Client[] = [];
   pageSize = 20;
