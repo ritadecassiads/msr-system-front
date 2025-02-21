@@ -2,127 +2,207 @@
   <mat-card-header>
     <mat-card-title>Cadastro de Funcionário</mat-card-title>
   </mat-card-header>
+
   <mat-card-content>
-    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-      <!-- Nome -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          placeholder="Nome"
-          formControlName="name"
-          name="name"
-          required
-        />
-      </mat-form-field>
-
-      <!-- Username -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>Nome de Usuário</mat-label>
-        <input matInput formControlName="username" required name="username" />
-      </mat-form-field>
-
-      <!-- Senha -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>Senha</mat-label>
-        <input
-          matInput
-          formControlName="password"
-          type="password"
-          name="password"
-          required
-        />
-      </mat-form-field>
-
-      <!-- CPF -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>CPF</mat-label>
-        <input matInput formControlName="cpf" name="cpf" required />
-      </mat-form-field>
-
-      <!-- E-mail -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>E-mail</mat-label>
-        <input
-          matInput
-          formControlName="email"
-          name="email"
-          type="email"
-          required
-        />
-      </mat-form-field>
-
-      <!-- Telefone -->
-      <mat-form-field appearance="outline" class="employee-form-input">
-        <mat-label>Telefone</mat-label>
-        <input matInput formControlName="phone" name="phone" required />
-      </mat-form-field>
-
-      <mat-checkbox name="isAdmin" [formControl]="isAdminControl" (click)="isAdminChange()">
-        Esse usuário deve ter acesso de administrador?
-      </mat-checkbox>
-
-      <div class="text-alert" *ngIf="isAdminControl.value">Esse usuário terá acesso de administrador.</div>
-
-      <h3>Endereço</h3>
-
-      <div formGroupName="address">
-        <div class="employee-form-address">
-          <!-- Rua -->
-          <mat-form-field
-            appearance="outline"
-            class="employee-form-address-street"
-          >
-            <mat-label>Rua</mat-label>
-            <input matInput formControlName="street" name="street" required />
-          </mat-form-field>
-
-          <!-- Número -->
-          <mat-form-field
-            appearance="outline"
-            class="employee-form-address-number"
-          >
-            <mat-label>Número</mat-label>
-            <input matInput formControlName="number" name="number" required />
-          </mat-form-field>
-
-          <!-- Complemento -->
-          <mat-form-field
-            appearance="outline"
-            class="employee-form-address-complement"
-          >
-            <mat-label>Complemento</mat-label>
-            <input matInput formControlName="complement" name="complement" />
-          </mat-form-field>
-        </div>
-
-        <div class="employee-form-tree">
-          <!-- Cidade -->
-          <mat-form-field appearance="outline" class="employee-form-name">
-            <mat-label>Cidade</mat-label>
-            <input matInput formControlName="city" name="city" required />
-          </mat-form-field>
-
-          <!-- Estado -->
-          <mat-form-field appearance="outline" class="employee-form-username">
-            <mat-label>Estado</mat-label>
-            <input matInput formControlName="state" name="state" required />
-          </mat-form-field>
-
-          <!-- CEP -->
-          <mat-form-field appearance="outline" class="employee-form-password">
-            <mat-label>CEP</mat-label>
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="m-t-3">
+      <div class="container-top">
+        <div class="div1">
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>Nome</mat-label>
             <input
               matInput
-              formControlName="postalCode"
-              name="postalCode"
+              placeholder="Nome"
+              formControlName="name"
+              name="name"
               required
             />
           </mat-form-field>
+
+          <div class="div-flex">
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>CPF</mat-label>
+              <input
+                matInput
+                [formControl]="cpfControl"
+                formControlName="cpf"
+                name="cpf"
+                maxlength="14"
+                required
+                (blur)="onCpfBlur();"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Data de nascimento</mat-label>
+              <input
+                matInput
+                formControlName="birthDate"
+                name="birthDate"
+                required
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="phone" name="phone" required />
+            </mat-form-field>
+          </div>
+          <div *ngIf="!cpfIsValid" class="error-message-cpf error-message">
+            
+            O CPF informado não é válido. Por favor, verifique e tente novamente.
+            
+          </div>
+
+          <mat-form-field appearance="outline" class="form-input">
+            <mat-label>E-mail</mat-label>
+            <input
+              matInput
+              formControlName="email"
+              name="email"
+              type="email"
+              required
+            />
+          </mat-form-field>
+
+          <div class="div-flex">
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Nome de Usuário</mat-label>
+              <input
+                matInput
+                formControlName="username"
+                required
+                name="username"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Senha</mat-label>
+              <input
+                matInput
+                formControlName="password"
+                [type]="hidePassword ? 'password' : 'text'"
+                name="password"
+                required
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="togglePasswordVisibility($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+              >
+                <mat-icon>{{
+                  hidePassword ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-input-50">
+              <mat-label>Confirme a senha</mat-label>
+              <input
+                matInput
+                formControlName="confirmPassword"
+                [type]="hidePassword ? 'password' : 'text'"
+                name="confirmPassword"
+                required
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="togglePasswordVisibility($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword"
+              >
+                <mat-icon>{{
+                  hidePassword ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div
+            class="error-message"
+            *ngIf="
+              employeeForm.hasError('passwordsMismatch') &&
+              confirmPassword?.touched
+            "
+          >
+            As senhas não coincidem.
+          </div>
+        </div>
+
+        <div class="div2">
+          <div formGroupName="address">
+            <div class="div-flex">
+              <mat-form-field
+                appearance="outline"
+                class="employee-form-password"
+              >
+                <mat-label>CEP</mat-label>
+                <input
+                  matInput
+                  formControlName="postalCode"
+                  name="postalCode"
+                  required
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="employee-form-name">
+                <mat-label>Cidade</mat-label>
+                <input matInput formControlName="city" name="city" required />
+              </mat-form-field>
+
+              <mat-form-field
+                appearance="outline"
+                class="employee-form-username"
+              >
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="state" name="state" required />
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="form-input">
+              <mat-label>Rua</mat-label>
+              <input matInput formControlName="street" name="street" required />
+            </mat-form-field>
+
+            <div class="div-flex">
+              <mat-form-field appearance="outline" class="form-input-50">
+                <mat-label>Número</mat-label>
+                <input
+                  matInput
+                  formControlName="number"
+                  name="number"
+                  required
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-input-50">
+                <mat-label>Complemento</mat-label>
+                <input
+                  matInput
+                  formControlName="complement"
+                  name="complement"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <mat-card-subtitle>Permissões</mat-card-subtitle>
+
+          <mat-radio-group [formControl]="isAdminControl">
+            <mat-radio-button [value]="false"
+              >Funcionário padrão</mat-radio-button
+            >
+            <mat-radio-button (click)="openModalAdminConfirm()" [value]="true"
+              >Administrador</mat-radio-button
+            >
+          </mat-radio-group>
         </div>
       </div>
-
-      <div class="employee-div-button">
+      <div class="div-button">
         <button mat-flat-button color="primary" type="submit">Cadastrar</button>
       </div>
     </form>

@@ -56,7 +56,7 @@ export class CategoryRegisterComponent {
         },
       });
     } else {
-      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'alert');
     }
   }
 

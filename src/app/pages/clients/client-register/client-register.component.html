@@ -5,7 +5,7 @@
 
   <mat-card-content>
     <form
-      class="m-t-3 form-flex"
+      class="m-t-3"
       [formGroup]="clientForm"
       (ngSubmit)="onSubmit()"
     >
@@ -32,7 +32,7 @@
             <!-- CPF -->
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>CPF</mat-label>
-              <input matInput formControlName="cpf" name="cpf" required />
+              <input matInput [formControl]="cpfControl" formControlName="cpf" name="cpf" required />
             </mat-form-field>
 
             <!-- RG -->
@@ -140,6 +140,7 @@
           </div>
         </div>
       </div>
+
       <div class="div-button">
         <button mat-flat-button color="primary" type="submit">Salvar</button>
       </div>

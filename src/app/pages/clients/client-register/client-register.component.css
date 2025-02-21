@@ -17,7 +17,6 @@ form {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
-  /* Espaçamento horizontal entre as divs */
 }
 
 .div1,

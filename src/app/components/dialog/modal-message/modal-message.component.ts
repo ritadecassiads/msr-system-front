@@ -13,7 +13,7 @@ import { MatIcon } from "@angular/material/icon";
 
 export interface ModalMessageData {
   message: string;
-  type: "success" | "error" | "validation";
+  type: "success" | "error" | "alert";
   buttonText?: string;
 }
 
@@ -47,7 +47,7 @@ export class ModalMessageComponent {
       {
         success: "check_circle",
         error: "error",
-        validation: "warning",
+        alert: "warning",
       }[this.data.type] || "info"
     );
   }
@@ -57,7 +57,7 @@ export class ModalMessageComponent {
       {
         success: "Feito!",
         error: "Ops!",
-        validation: "Importante!",
+        alert: "Importante!",
       }[this.data.type] || "Informação"
     );
   }

@@ -2,6 +2,7 @@ import { Address } from "./../../../models/address";
 import { Component } from "@angular/core";
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -24,6 +25,7 @@ import { EmployeeService } from "../../../services/employee.service";
 import { ClientService } from "../../../services/client.service";
 import { AuthService } from "../../../services/auth.service";
 import { ModalMessageService } from "../../../services/modal-message.service";
+import { SharedService } from "../../../shared/services/shared.service";
 
 @Component({
   selector: "app-client-register",
@@ -51,6 +53,7 @@ export class ClientRegisterComponent {
   isEditing: boolean = false;
   clientId: string = "";
   clientToEdit!: Client;
+  cpfControl = new FormControl('');;
 
   constructor(
     private fb: FormBuilder,
@@ -58,36 +61,15 @@ export class ClientRegisterComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private modalService: ModalMessageService
-  ) {
-    // this.clientForm = this.fb.group({
-    //   name: "",
-    //   birthDate: "",
-    //   cpf: "",
-    //   rg: "",
-    //   phone: "",
-    //   email: "",
-    //   purchaseLimit: 10000,
-    //   notes: "",
-    //   createdByEmployee: "", // fazer logica para pegar o usuario logado
-    //   fathersName: "",
-    //   mothersName: "",
-    //   peopleAuthorized: "",
-    //   address: this.fb.group({
-    //     street: "",
-    //     number: "",
-    //     complement: "",
-    //     city: "",
-    //     state: "",
-    //     postalCode: "",
-    //   }),
-    // });
-  }
+    private modalService: ModalMessageService,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit() {
     this.idUserLogged = this.authService.getLoggedUser();
     this.initializeForm();
     this.recoverIdToEdit();
+    this.handleChangeCPF();
   }
 
   onSubmit() {
@@ -96,14 +78,17 @@ export class ClientRegisterComponent {
         const updatedClient = {
           ...this.clientToEdit,
           ...this.clientForm.value,
-        }
+        };
 
         this.updateClient(updatedClient);
       } else {
         this.createClient();
       }
     } else {
-      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
+      this.modalService.showMessage(
+        "Preencha os campos obrigatórios antes de continuar.",
+        "alert"
+      );
     }
   }
 
@@ -114,11 +99,17 @@ export class ClientRegisterComponent {
 
     this.clientService.saveClient(client).subscribe({
       next: () => {
-        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.modalService.showMessage(
+          "As informações foram registradas.",
+          "success"
+        );
         this.router.navigate(["/client/list"]);
       },
       error: (error) => {
-        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
+        this.modalService.showMessage(
+          "Algo deu errado. Tente novamente.",
+          "error"
+        );
         console.error(error);
       },
     });
@@ -129,12 +120,18 @@ export class ClientRegisterComponent {
 
     this.clientService.updateClient(client).subscribe({
       next: () => {
-        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.modalService.showMessage(
+          "As informações foram registradas.",
+          "success"
+        );
         this.router.navigate(["/client/list"]);
       },
       error: (err) => {
         console.error(err);
-        this.modalService.showMessage('Algo deu errado. Tente novamente.', 'error');
+        this.modalService.showMessage(
+          "Algo deu errado. Tente novamente.",
+          "error"
+        );
       },
     });
   }
@@ -143,7 +140,9 @@ export class ClientRegisterComponent {
     this.clientForm = this.fb.group({
       name: [client?.name ?? "", Validators.required],
       birthDate: [
-        client?.birthDate ? this.formatDate(client.birthDate) : "",
+        client?.birthDate
+          ? this.sharedService.formatDate(client.birthDate)
+          : "",
         Validators.required,
       ],
       cpf: [client?.cpf || "", Validators.required],
@@ -194,13 +193,11 @@ export class ClientRegisterComponent {
     });
   }
 
-  formatDate(dateString: Date): string {
-    console.log("dateString: ", dateString);
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const year = date.getFullYear();
-    console.log("date: ", `${day}/${month}/${year}`);
-    return `${day}/${month}/${year}`;
+  handleChangeCPF(){
+    this.cpfControl.valueChanges.subscribe(value => {
+      if(value){
+        this.cpfControl.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
+      }
+    });
   }
 }

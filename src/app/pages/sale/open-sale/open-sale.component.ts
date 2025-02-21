@@ -284,7 +284,7 @@ export class SaleRegisterComponent {
       if (this.saleForm.get("openedByEmployee")?.invalid) {
         this.openModalToColectUser();
       }
-      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'alert');
     }
   }
 

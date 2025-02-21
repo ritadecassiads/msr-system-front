@@ -135,7 +135,7 @@ export class InvoiceRegisterComponent implements OnInit {
         },
       });
     } else {
-      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'alert');
     }
   }
 

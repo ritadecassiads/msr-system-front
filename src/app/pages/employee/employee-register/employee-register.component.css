@@ -1,48 +1,63 @@
-.employee-form-register {
+.container-top {
   display: flex;
-  flex-direction: column;
-  margin: 10px 20px;
-  width: 100vh;
+  flex-wrap: wrap;
+  column-gap: 32px;
+  width: 100%;
 }
 
-.employee-form-input {
-  width: 100vh;
-  margin-bottom: 15px;
+.div1,
+.div2 {
+  flex: 1 1 calc(50% - 16px);
+  /* Dividindo igualmente */
+  min-width: 300px;
+  width: 100%;
 }
 
-.employee-form-tree {
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    /* Em telas menores, as divs ficarão empilhadas */
+  }
+
+  .div1,
+  .div2 {
+    min-width: unset;
+    /* Remove a largura mínima em telas pequenas */
+  }
+}
+
+.form-input-50 {
+  flex: 1 1 calc(50% - 16px);
+  /* Cada campo ocupa 50% do container, descontando o gap */
+  min-width: 200px;
+}
+
+.form-input {
+  width: 100%;
+}
+
+.div-flex {
   display: flex;
-  flex-direction: row;
-  max-width: 100vh;
+  gap: 15px;
 }
 
-.employee-form-name, .employee-form-username, .employee-form-password {
-  margin-right: 10px;
+button {
+  width: 20%;
 }
 
-.employee-form-cpf, .employee-form-email, .employee-form-phone {
-  margin-right: 10px;
-}
-
-.employee-form-address {
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -20px;
   display: flex;
-  flex-direction: row;
-  margin-bottom: 15px;
+  
 }
 
-.employee-form-address-street, .employee-form-address-number, .employee-form-address-complement {
-  margin-right: 10px;
+.error-message-cpf{
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
-.employee-div-button {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.employee-button {
-  background-color: #fbd0c3; /* Exemplo de cor de botão */
-}
-
-.text-alert {
-    color: rgb(179, 1, 1);
+.error-message-password{
+  justify-content: end;
 }

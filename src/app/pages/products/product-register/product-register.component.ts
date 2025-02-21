@@ -176,7 +176,7 @@ export class ProductRegisterComponent implements OnInit {
         this.createProduct(product);
       }
     } else {
-      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'validation');
+      this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'alert');
     }
   }
 
