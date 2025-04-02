@@ -24,7 +24,7 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  background-color: #022c58;
+  background-color: rgb(3, 9, 62);
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -66,9 +66,9 @@
 
 /* Container geral do menu */
 .sidenav-inside-container {
-  background-color: #e9e9ef;
+  background-color: rgb(3, 9, 62);
   /* Fundo escuro para o menu */
-  color: black;
+  color: white;
   /* Cor do texto */
   height: 100%;
 }
@@ -87,7 +87,7 @@
 .item:hover {
   background-color: white;
   /* Fundo ao passar o mouse */
-  color: #080346;
+  color: rgb(3, 9, 62);
   /* Cor de destaque */
 }
 
@@ -112,13 +112,14 @@ a {
 
 /* Estilo para itens ativos */
 .active-link .item {
-  background-color: #080346;
-  /* Verde claro para link ativo */
-  color: white;
+  background-color: white;
+  /* Fundo ao passar o mouse */
+  color: rgb(3, 9, 62);
+  /* Cor de destaque */
 }
 
 .active-link .icon {
-  color: white;
+  color: rgb(3, 9, 62);
   /* Ícones com mesma cor do texto ativo */
 }
 

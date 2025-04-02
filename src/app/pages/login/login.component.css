@@ -20,6 +20,8 @@
 .login-button {
   width: 50%;
   margin-bottom: 15px;
+  background: rgb(48 62 185) !important;
+  border-radius: 35px;
 }
 
 .login-title {
@@ -27,7 +29,7 @@
 }
 
 .toolbar {
-  background-color: #005cbb;
+  background-color: rgb(3, 9, 62);
   display: flex;
   justify-content: space-between;
 }
