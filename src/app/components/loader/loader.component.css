@@ -1,14 +1,21 @@
-.loader-container {
+/* .loader-container {
     position: fixed;
-    top: 64px; 
-    /* left: 240px;  */
+    top: 64px;
     width: calc(100% - 240px);
     height: calc(100vh - 64px);
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: rgba(255, 255, 255, 0.7); */
     z-index: 1000;
     pointer-events: none;
-    /* color: white; */
-}
+} */
+
+.loader-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: auto;
+    height: auto; 
+  }

@@ -1,4 +1,105 @@
-<div class="mat-elevation-z8">
+<mat-card class="">
+  <mat-card-header>
+    <mat-card-title>Consultar funcionários</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <br />
+
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar funcionário</mat-label>
+      <input
+        matInput
+        (input)="applyFilter($event)"
+        placeholder="Digite o nome ou código do funcionário.."
+      />
+      <mat-icon matSuffix class="icon">search</mat-icon>
+    </mat-form-field>
+
+    <mat-accordion
+      class="example-headers-align"
+      multi
+      *ngIf="filteredEmployees.length > 0"
+    >
+      <mat-expansion-panel *ngFor="let employee of getPagedEmployees()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+           {{ employee.code }} - {{ employee.name }}
+          </mat-panel-title>
+
+          <mat-panel-description>
+            {{ employee.cpf }}
+          </mat-panel-description>
+
+          <mat-panel-description>
+            {{ employee.birthDate | date : "dd/MM/yyyy" }}
+          </mat-panel-description>
+
+          <mat-panel-description>
+            {{ formatPhone(employee.phone) }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <hr />
+        <br />
+
+        <div class="client-infos">
+          <div class="col col1">
+            <div><span class="font-bold">Nome:</span> {{ employee.name }}</div>
+            <div><span class="font-bold">Código:</span> {{ employee.code }}</div>
+            <div>
+              <span class="font-bold">Data nascimento:</span> {{ employee.birthDate | date : "dd/MM/yyyy" }}
+            </div>
+            <div><span class="font-bold">CPF:</span> {{ employee.cpf }}</div>
+            <!-- <div><span class="font-bold">RG:</span> {{ employee.rg }}</div> -->
+
+            <div><span class="font-bold">Telefone:</span> {{ formatPhone(employee.phone) }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !employee.email }">Email:</span> {{ employee.email }}</div>
+          </div>
+
+          <div class="col col2">
+            <div>
+              <span class="font-bold">Endereço:</span> {{ employee.address.street }},
+              {{ employee.address.number }}, {{ employee.address.city }},
+              {{ employee.address.state }}
+            </div>
+          </div>
+
+          <div class="div-button m-t-10">
+            <button
+              mat-raised-button
+              class="icon-button m-r-10"
+              type="button"
+              (click)="editEmployee(employee)"
+              >
+              <mat-icon class="icon"> edit </mat-icon>
+            </button>
+  
+            <button
+            mat-raised-button
+            class="icon-button"
+            type="button"
+            (click)="openModalToConfirmDelete(employee)"
+            >
+            <mat-icon class="icon"> delete </mat-icon>
+          </button>
+          </div>
+
+          </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-paginator class="m-t-10"
+      [length]="filteredEmployees.length"
+      [pageSizeOptions]="[20, 50, 100]"
+      >
+      <!-- [pageSize]="pageSize" -->
+      <!-- (page)="onPageChange($event)" -->
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef>Code</th>
@@ -51,9 +152,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <!-- 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of employees">
-  </mat-paginator> -->
-</div>
+</div> -->

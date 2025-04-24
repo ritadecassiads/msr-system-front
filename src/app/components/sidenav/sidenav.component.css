@@ -4,17 +4,17 @@
   box-sizing: border-box;
 }
 
-/* Ajuste do layout da página */
 .sidenav-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Isso ocupa a altura total da tela */
-  padding-top: 64px; /* Considera a altura da toolbar fixa */
+  height: 100vh;
+  padding-top: 64px;
   overflow: hidden;
 }
 
 .sidenav-inside-container{
   padding-top: 64px;
+  box-sizing: content-box !important;
 }
 
 /* Fixando a Toolbar */
@@ -31,12 +31,6 @@
   padding: 15px;
 }
 
-/* .toolbar {
-  background-color: #00468e;
-  display: flex;
-  justify-content: space-between;
-} */
-
 .sidenav-collapsed {
   width: 4vw;
   transition: width 0.3s ease;
@@ -44,9 +38,7 @@
 
 .sidenav-expanded {
   width: 12vw;
-  /* Largura quando expandida */
   transition: width 0.2s ease-out;
-  /* Transição suave para a largura */
 }
 
 .sidenav-collapsed .menu-text {
@@ -64,16 +56,12 @@
   opacity: 1;
 }
 
-/* Container geral do menu */
 .sidenav-inside-container {
   background-color: rgb(3, 9, 62);
-  /* Fundo escuro para o menu */
   color: white;
-  /* Cor do texto */
   height: 100%;
 }
 
-/* Estilo das opções do menu */
 .item {
   display: flex;
   align-items: center;
@@ -86,12 +74,9 @@
 
 .item:hover {
   background-color: white;
-  /* Fundo ao passar o mouse */
   color: rgb(3, 9, 62);
-  /* Cor de destaque */
 }
 
-/* Ícones */
 .icon {
   font-size: 24px;
   margin-right: 16px;
@@ -100,7 +85,6 @@
   justify-content: center;
 }
 
-/* Texto */
 .menu-text {
   font-size: 16px;
   font-weight: 500;
@@ -110,17 +94,13 @@ a {
   text-decoration: none;
 }
 
-/* Estilo para itens ativos */
 .active-link .item {
   background-color: white;
-  /* Fundo ao passar o mouse */
   color: rgb(3, 9, 62);
-  /* Cor de destaque */
 }
 
 .active-link .icon {
   color: rgb(3, 9, 62);
-  /* Ícones com mesma cor do texto ativo */
 }
 
 .active-link {
@@ -128,7 +108,6 @@ a {
   text-decoration: none;
 }
 
-/* Submenus */
 .mat-menu-item {
   color: white;
   padding: 8px 16px;
@@ -148,10 +127,6 @@ a {
   background-color: rgb(3, 9, 62);
 }
 
-/* button.mat-mdc-menu-item.mat-mdc-focus-indicator {
-  width: 205px !important;
-  text-align: center;
-} */
 
 .mat-drawer-container {
   height: 100%;
@@ -161,15 +136,12 @@ a {
 
 .mat-drawer-content {
   flex: 1;
-  /* overflow-y: auto; */
-  /* Permite scroll apenas na área de conteúdo */
   display: flex;
   flex-direction: column;
 }
 
 mat-toolbar {
   z-index: 2;
-  /* Certifique-se de que a toolbar fique sobre os conteúdos roláveis */
 }
 
 .main-content.loading {

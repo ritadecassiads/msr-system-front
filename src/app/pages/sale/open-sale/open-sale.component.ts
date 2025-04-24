@@ -270,7 +270,7 @@ export class SaleRegisterComponent {
     if (this.saleForm.valid) {
       this.saleService.saveSale(sale).subscribe({
         next: (data) => {
-          this.modalService.showMessage('As informações foram registradas.', 'success');
+          this.modalService.showMessage('As informações foram salvas.', 'success');
           StorageUtils.clearUserSale();
 
           this.router.navigate(["/dashboard"]);

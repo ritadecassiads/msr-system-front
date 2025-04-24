@@ -71,7 +71,7 @@ export class SupplierRegisterComponent implements OnInit {
 
       this.supplierService.saveSupplier(supplier).subscribe({
         next: () => {
-          this.modalService.showMessage('As informações foram registradas.', 'success');
+          this.modalService.showMessage('As informações foram salvas.', 'success');
           this.router.navigate(["/dashboard"]);
         },
         error: (error) => {

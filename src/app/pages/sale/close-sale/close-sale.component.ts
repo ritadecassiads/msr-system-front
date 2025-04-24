@@ -232,7 +232,7 @@ export class CloseSaleComponent implements OnInit {
 
     for (let i = 0; i < Number(selectedInstallments); i++) {
       const dueDate = new Date(today);
-      dueDate.setMonth(today.getMonth() + i);
+      dueDate.setMonth(today.getMonth() + i + 1);
       this.dueDates.push(dueDate);
     }
 

@@ -47,7 +47,7 @@ export class CategoryRegisterComponent {
     if (this.categoryForm.valid) {
       this.categoryService.saveCategory(this.categoryForm.value).subscribe({
         next: () => {
-          this.modalService.showMessage('As informações foram registradas.', 'success');
+          this.modalService.showMessage('As informações foram salvas.', 'success');
           this.router.navigate(["/dashboard"]);
         },
         error: (err) => {

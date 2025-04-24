@@ -14,6 +14,7 @@ import { MatMenuModule, MatMenuPanel, MatMenuTrigger } from "@angular/material/m
 import { InputUserDialogComponent } from "../dialog/input-user-dialog/input-user-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SharedService } from "../../shared/services/shared.service";
+import { LoaderComponent } from "../loader/loader.component";
 
 @Component({
   selector: "app-sidenav",
@@ -36,11 +37,11 @@ import { SharedService } from "../../shared/services/shared.service";
     MatIcon,
     InputUserDialogComponent,
     RouterModule,
+    LoaderComponent
   ],
 })
 export class SidenavComponent {
   authService = inject(AuthService);
-  //router = inject(Router);
   isCollapsed = false;
   showFiller = false;
 

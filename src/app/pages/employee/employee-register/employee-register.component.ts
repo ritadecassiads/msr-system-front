@@ -27,7 +27,7 @@ import {
 import { MatInputModule } from "@angular/material/input";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatToolbar } from "@angular/material/toolbar";
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EmployeeService } from "../../../services/employee.service";
 import { Employee } from "../../../models/employee";
@@ -68,19 +68,24 @@ export class EmployeeRegisterComponent implements OnInit {
   hidePassword: boolean = true;
   cpfControl = new FormControl("");
   cpfIsValid: boolean = true;
+  isEditing: boolean = false;
+  employeeId!: string;
+  employeeToEdit!: Employee;
 
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private router: Router,
     private modalService: ModalMessageService,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
     this.handleIsAdminChange();
     this.handleChangeCPF();
+    this.recoverIdToEdit();
   }
 
   get isAdmin() {
@@ -102,14 +107,14 @@ export class EmployeeRegisterComponent implements OnInit {
   initializeForm(employee?: Employee) {
     this.employeeForm = this.fb.group(
       {
-        name: ["", Validators.required],
-        username: ["", Validators.required],
+        name: [employee?.name || "", Validators.required],
+        username: [employee?.username || "", Validators.required],
         password: ["", Validators.required],
         confirmPassword: ["", Validators.required],
-        cpf: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
-        email: ["", [Validators.required, Validators.email]],
-        phone: ["", Validators.required],
-        isAdmin: [false],
+        cpf: [employee?.cpf || "", [Validators.required]],
+        email: [employee?.email || "", [Validators.required, Validators.email]],
+        phone: [employee?.phone || "", Validators.required],
+        isAdmin: [employee?.isAdmin || false],
         birthDate: [
           employee?.birthDate
             ? this.sharedService.formatDate(employee.birthDate)
@@ -117,12 +122,12 @@ export class EmployeeRegisterComponent implements OnInit {
           Validators.required,
         ],
         address: this.fb.group({
-          street: ["", Validators.required],
-          number: ["", Validators.required],
-          complement: [""],
-          city: ["", Validators.required],
-          state: ["", Validators.required],
-          postalCode: ["", Validators.required],
+          street: [employee?.address?.street || "", Validators.required],
+          number: [employee?.address?.number || "", Validators.required],
+          complement: [employee?.address?.complement || ""],
+          city: [employee?.address?.city || "", Validators.required],
+          state: [employee?.address?.state || "", Validators.required],
+          postalCode: [employee?.address?.postalCode || "", Validators.required],
         }),
       },
       { validators: this.passwordsMatchValidator }
@@ -131,12 +136,50 @@ export class EmployeeRegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.employeeForm.valid) {
-      const employee: Employee = this.employeeForm.value;
+      if (this.isEditing) {
+        const updatedClient = {
+          ...this.employeeToEdit,
+          ...this.employeeForm.value,
+        };
+
+        this.updateEmployee(updatedClient);
+      } else {
+        this.createEmployee();
+      }
+    } else {
+      this.modalService.showMessage(
+        "Preencha os campos obrigatórios antes de continuar.",
+        "alert"
+      );
+    }
+  }
+
+  updateEmployee(employee: Employee) {
+    this.employeeService.updateEmployee(employee).subscribe({
+      next: () => {
+        this.modalService.showMessage(
+          "As informações foram salvas.",
+          "success"
+        );
+        this.router.navigate(["/employee/list"]);
+      },
+      error: (err) => {
+        console.error(err);
+        this.modalService.showMessage(
+          "Algo deu errado. Tente novamente.",
+          "error"
+        );
+      },
+    });
+  }
+
+  createEmployee(){
+    const employee: Employee = this.employeeForm.value;
 
       this.employeeService.saveEmployee(employee).subscribe({
         next: () => {
           this.modalService.showMessage(
-            "As informações foram registradas.",
+            "As informações foram salvas.",
             "success"
           );
           this.router.navigate(["/dashboard"]);
@@ -149,12 +192,6 @@ export class EmployeeRegisterComponent implements OnInit {
           );
         },
       });
-    } else {
-      this.modalService.showMessage(
-        "Preencha os campos obrigatórios antes de continuar.",
-        "alert"
-      );
-    }
   }
 
   handleIsAdminChange() {
@@ -179,11 +216,9 @@ export class EmployeeRegisterComponent implements OnInit {
     const password = formGroup.get("password")?.value;
     const confirmPassword = formGroup.get("confirmPassword")?.value;
 
-    console.log("password e confirmPassword: ", password, confirmPassword);
-
     return password && confirmPassword && password !== confirmPassword
-      ? { passwordsMismatch: true } // Retorna um erro caso as senhas não coincidam
-      : null; // Retorna null se estiver tudo certo
+      ? { passwordsMismatch: true }
+      : null;
   };
 
   openModalAdminConfirm() {
@@ -199,8 +234,34 @@ export class EmployeeRegisterComponent implements OnInit {
     event.stopPropagation();
   }
 
-  onCpfBlur() {
-    const cpf = this.cpfControl.value ? this.cpfControl.value : "";
-    this.cpfIsValid = this.sharedService.validateCpf(cpf);
+  // onCpfBlur() {
+  //   const cpf = this.cpfControl.value ? this.cpfControl.value : "";
+  //   this.cpfIsValid = this.sharedService.validateCpf(cpf);
+  // }
+
+  recoverIdToEdit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      if (id) {
+        this.isEditing = true;
+        this.employeeId = id;
+        this.loadEmployee();
+      } else {
+        this.isEditing = false;
+      }
+    });
+  }
+
+  loadEmployee() {
+    this.employeeService.getEmployee(this.employeeId).subscribe({
+      next: (employee) => {
+        this.employeeToEdit = employee;
+        this.initializeForm(employee);
+        console.log("carregou o funcionario: ", employee);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }

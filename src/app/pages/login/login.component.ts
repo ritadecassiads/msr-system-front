@@ -9,11 +9,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { MatCardModule } from "@angular/material/card";
+import { MatCardModule, MatCardSubtitle } from "@angular/material/card";
 import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { ModalMessageService } from "../../services/modal-message.service";
+import { LoaderComponent } from "../../components/loader/loader.component";
 
 @Component({
   selector: "app-login",
@@ -27,6 +28,8 @@ import { ModalMessageService } from "../../services/modal-message.service";
     MatCardModule,
     RouterModule,
     MatToolbarModule,
+    MatCardSubtitle,
+    LoaderComponent
   ],
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],

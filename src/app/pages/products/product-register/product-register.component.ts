@@ -183,7 +183,7 @@ export class ProductRegisterComponent implements OnInit {
   createProduct(product: Product): void {
     this.productService.saveProduct(product).subscribe({
       next: () => {
-        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.modalService.showMessage('As informações foram salvas.', 'success');
         this.router.navigate(["/product/list"]);
       },
       error: (err) => {
@@ -198,7 +198,7 @@ export class ProductRegisterComponent implements OnInit {
 
     this.productService.updateProduct(product).subscribe({
       next: () => {
-        this.modalService.showMessage('As informações foram registradas.', 'success');
+        this.modalService.showMessage('As informações foram salvas.', 'success');
         this.router.navigate(["/product/list"]);
       },
       error: (err) => {

@@ -19,12 +19,12 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
-  getEmployee(id: number): Observable<Employee> {
+  getEmployee(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
 
   updateEmployee(employee: Employee) {
-    return this.http.put<Employee>(`${this.apiUrl}/${employee._id}`, employee);
+    return this.http.patch<Employee>(`${this.apiUrl}/${employee._id}`, employee);
   }
 
   deleteEmployee(id: string) {

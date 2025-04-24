@@ -126,7 +126,7 @@ export class InvoiceRegisterComponent implements OnInit {
     if (this.invoiceForm.valid) {
       this.invoiceService.saveInvoice(this.invoiceForm.value).subscribe({
         next: () => {
-          this.modalService.showMessage('As informações foram registradas.', 'success');
+          this.modalService.showMessage('As informações foram salvas.', 'success');
           //this.router.navigate(["dashboard"]);
         },
         error: (err) => {

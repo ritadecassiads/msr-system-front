@@ -6,6 +6,7 @@ export class LoaderService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   show(): void {
+    console.log('show loader');
     this.loadingSubject.next(true);
   }
 

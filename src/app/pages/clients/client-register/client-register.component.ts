@@ -100,7 +100,7 @@ export class ClientRegisterComponent {
     this.clientService.saveClient(client).subscribe({
       next: () => {
         this.modalService.showMessage(
-          "As informações foram registradas.",
+          "As informações foram salvas.",
           "success"
         );
         this.router.navigate(["/client/list"]);
@@ -121,7 +121,7 @@ export class ClientRegisterComponent {
     this.clientService.updateClient(client).subscribe({
       next: () => {
         this.modalService.showMessage(
-          "As informações foram registradas.",
+          "As informações foram salvas.",
           "success"
         );
         this.router.navigate(["/client/list"]);

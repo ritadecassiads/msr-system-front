@@ -89,6 +89,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "employee/edit/:id",
+        loadComponent: () =>
+          import("./pages/employee/employee-register/employee-register.component").then(
+            (m) => m.EmployeeRegisterComponent
+          ),
+      },
+
+      {
         path: "category/register",
         loadComponent: () =>
           import(

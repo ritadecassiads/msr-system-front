@@ -1,96 +1,101 @@
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.9s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toolbar {
+  background-color: #03093e;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.toolbar-title {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login-container {
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fff, #fbe9e7); /* fundo clarinho */
+}
+
 .login-card {
-    display: flex;
-    justify-content: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 20px;
-    background: #f7f2f2; 
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  flex-direction: column;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-.login-div-button {
+.login-input {
+  width: 100%;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.login-button {
+  width: 100%;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+}
+
+
+.login-title {
   display: flex;
   justify-content: center;
 }
 
-.login-button {
-  width: 50%;
-  margin-bottom: 15px;
-  background: rgb(48 62 185) !important;
-  border-radius: 35px;
-}
-
-.login-title {
-  margin-bottom: 15px;
-}
-
-.toolbar {
-  background-color: rgb(3, 9, 62);
+.login-title-content {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* espaçamento entre ícone e texto */
 }
 
-.toolbar-tittle{
-  color: white;
-  margin-left: 20px;
+.login-title-icon {
+  color: rgb(48, 62, 185); /* azul marcante */
+  font-size: 32px;         /* um pouco maior para se destacar */
 }
 
-/* .teste{
-    background: #f7f2f2; 
-} */
-
-/* * {
-    box-sizing: border-box;
+.login-subtitle {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
 }
-
-:host {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(253, 101, 133, 1);
-
-}
-
-.login-card {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 10px;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 10px;
-    width: 40%;
-
-}
-
-.login-card input {
-    margin: 5px 0;
-    width: 100%;
-    background-color: #e2e2e2;
-    border: none;
-    outline: none;
-    padding: 12px 20px;
-    border-radius: 4px;
-}
-
-.login-card button {
-    background-color: #4796ff;
-    color: #ffffff;
-    font-size: 16px;
-    outline: none;
-    border-radius: 5px;
-    border: none;
-    padding: 8px 15px;
-    width: 100%;
-}
-
-
-.card-title h1 {
-    font-size: 26px;
-    font-weight: bold;
-} */

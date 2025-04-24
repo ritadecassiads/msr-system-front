@@ -1,33 +1,29 @@
 <mat-toolbar class="toolbar" color="primary">
-  <span class="toolbar-tittle">MSR</span>
-  <!-- <span class="example-spacer"></span>
-  <a mat-list-item routerLink="/register">
-    <div class="item">
-      <mat-icon class="icon"> person_add_alt</mat-icon>
-      <span> Cadastrar </span>
-    </div>
-  </a> -->
+  <span class="toolbar-title">MSR</span>
 </mat-toolbar>
 
-<div class="teste">
-  <mat-card class="login-card" appearance="outlined">
+<div class="login-container">
+  <mat-card class="login-card fade-in show">
     <mat-card-header class="login-title">
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
 
+      
+      <mat-card-title>Seja bem-vindo</mat-card-title>      
+      <p class="login-subtitle">Faça login para continuar gerenciando seus produtos e vendas.</p>
+    </mat-card-header>
+    
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card-content class="login-form">
+        
+        <app-loader></app-loader>
         <mat-form-field appearance="outline" class="product-form-input">
           <mat-label>Usuário</mat-label>
-          <input
-            matInput
-            formControlName="username"
-            required
-          />
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="username" required />
         </mat-form-field>
-
+        
         <mat-form-field appearance="outline">
           <mat-label>Senha</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
           <input
             formControlName="password"
             matInput
@@ -44,13 +40,15 @@
             <mat-icon>{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
         </mat-form-field>
+
       </mat-card-content>
 
-      <div class="login-div-button">
+      <div class="login-button-container">
         <button
           class="login-button"
           type="submit"
           mat-flat-button
+          color="primary"
         >
           Entrar
         </button>
@@ -58,3 +56,4 @@
     </form>
   </mat-card>
 </div>
+
