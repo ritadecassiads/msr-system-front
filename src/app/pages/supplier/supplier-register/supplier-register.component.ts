@@ -12,24 +12,23 @@ import { CommonModule } from "@angular/common";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-  selector: "app-supplier-register",
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    CommonModule,
-  ],
-  templateUrl: "./supplier-register.component.html",
-  styleUrl: "./supplier-register.component.css",
+    selector: "app-supplier-register",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatFormFieldModule,
+        CommonModule,
+    ],
+    templateUrl: "./supplier-register.component.html",
+    styleUrl: "./supplier-register.component.css"
 })
 export class SupplierRegisterComponent implements OnInit {
   supplierForm: FormGroup = new FormGroup({});

@@ -6,12 +6,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
-  selector: "app-category-list",
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatPaginator],
-  providers: [MatTableDataSource],
-  templateUrl: "./category-list.component.html",
-  styleUrl: "./category-list.component.css",
+    selector: "app-category-list",
+    imports: [MatTableModule, MatPaginatorModule, MatPaginator],
+    providers: [MatTableDataSource],
+    templateUrl: "./category-list.component.html",
+    styleUrl: "./category-list.component.css"
 })
 export class CategoryListComponent {
   constructor(private categoryService: CategoryService, private readonly modalService: ModalMessageService) {}

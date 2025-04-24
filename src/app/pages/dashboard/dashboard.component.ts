@@ -15,23 +15,22 @@ import { LoaderComponent } from "../../components/loader/loader.component";
 import { LoaderService } from "../../services/loader.service";
 
 @Component({
-  selector: "app-dashboard",
-  standalone: true,
-  imports: [
-    MatGridListModule,
-    MatIcon,
-    RouterLink,
-    CommonModule,
-    MatExpansionModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    CommonModule,
-    LoaderComponent
-  ],
-  providers: [MatTableDataSource],
-  templateUrl: "./dashboard.component.html",
-  styleUrl: "./dashboard.component.css",
+    selector: "app-dashboard",
+    imports: [
+        MatGridListModule,
+        MatIcon,
+        RouterLink,
+        CommonModule,
+        MatExpansionModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        CommonModule,
+        LoaderComponent
+    ],
+    providers: [MatTableDataSource],
+    templateUrl: "./dashboard.component.html",
+    styleUrl: "./dashboard.component.css"
 })
 export class DashboardComponent implements OnInit {
   salesList: Sale[] = [];

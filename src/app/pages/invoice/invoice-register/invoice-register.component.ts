@@ -28,26 +28,25 @@ import { debounceTime } from "rxjs";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-  selector: "app-invoice-register",
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOption,
-    CommonModule,
-  ],
-  templateUrl: "./invoice-register.component.html",
-  styleUrl: "./invoice-register.component.css",
+    selector: "app-invoice-register",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOption,
+        CommonModule,
+    ],
+    templateUrl: "./invoice-register.component.html",
+    styleUrl: "./invoice-register.component.css"
 })
 export class InvoiceRegisterComponent implements OnInit {
   invoiceForm: FormGroup = new FormGroup({});

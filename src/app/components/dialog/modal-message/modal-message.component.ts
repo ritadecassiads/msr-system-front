@@ -18,19 +18,18 @@ export interface ModalMessageData {
 }
 
 @Component({
-  selector: "app-modal-message",
-  standalone: true,
-  imports: [
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatButtonModule,
-    MatIcon,
-    CommonModule,
-  ],
-  templateUrl: "./modal-message.component.html",
-  styleUrl: "./modal-message.component.css",
+    selector: "app-modal-message",
+    imports: [
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatButtonModule,
+        MatIcon,
+        CommonModule,
+    ],
+    templateUrl: "./modal-message.component.html",
+    styleUrl: "./modal-message.component.css"
 })
 export class ModalMessageComponent {
   constructor(

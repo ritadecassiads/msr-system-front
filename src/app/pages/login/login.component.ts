@@ -17,22 +17,21 @@ import { ModalMessageService } from "../../services/modal-message.service";
 import { LoaderComponent } from "../../components/loader/loader.component";
 
 @Component({
-  selector: "app-login",
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    RouterModule,
-    MatToolbarModule,
-    MatCardSubtitle,
-    LoaderComponent
-  ],
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+    selector: "app-login",
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        RouterModule,
+        MatToolbarModule,
+        MatCardSubtitle,
+        LoaderComponent
+    ],
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.css"]
 })
 export class LoginComponent {
   authService = inject(AuthService);

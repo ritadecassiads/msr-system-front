@@ -10,17 +10,16 @@ import {
 } from "@angular/material/dialog";
 
 @Component({
-  selector: "app-confirm-dialog",
-  standalone: true,
-  imports: [
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatButtonModule,
-  ],
-  templateUrl: "./confirm-dialog.component.html",
-  styleUrl: "./confirm-dialog.component.css",
+    selector: "app-confirm-dialog",
+    imports: [
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatButtonModule,
+    ],
+    templateUrl: "./confirm-dialog.component.html",
+    styleUrl: "./confirm-dialog.component.css"
 })
 export class ConfirmDialogComponent {
   constructor(

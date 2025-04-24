@@ -10,17 +10,16 @@ import {
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  selector: "app-delete-dialog",
-  standalone: true,
-  imports: [
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatButtonModule,
-  ],
-  templateUrl: "./delete-dialog.component.html",
-  styleUrl: "./delete-dialog.component.css",
+    selector: "app-delete-dialog",
+    imports: [
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatButtonModule,
+    ],
+    templateUrl: "./delete-dialog.component.html",
+    styleUrl: "./delete-dialog.component.css"
 })
 export class DeleteDialogComponent {
   readonly dialogRef = inject(MatDialogRef<DeleteDialogComponent>);

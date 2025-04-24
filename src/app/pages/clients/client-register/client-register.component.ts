@@ -28,24 +28,23 @@ import { ModalMessageService } from "../../../services/modal-message.service";
 import { SharedService } from "../../../shared/services/shared.service";
 
 @Component({
-  selector: "app-client-register",
-  standalone: true,
-  templateUrl: "./client-register.component.html",
-  styleUrl: "./client-register.component.css",
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatCardSubtitle,
-  ],
+    selector: "app-client-register",
+    templateUrl: "./client-register.component.html",
+    styleUrl: "./client-register.component.css",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatCardSubtitle,
+    ]
 })
 export class ClientRegisterComponent {
   clientForm: FormGroup = new FormGroup({});

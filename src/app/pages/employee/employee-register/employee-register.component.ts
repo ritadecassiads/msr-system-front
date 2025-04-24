@@ -37,30 +37,29 @@ import { SharedService } from "../../../shared/services/shared.service";
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-  selector: "app-employee-register",
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterModule,
-    MatCard,
-    MatButtonModule,
-    MatSlideToggleModule,
-    FormsModule,
-    CommonModule,
-    MatLabel,
-    MatFormField,
-    MatCardContent,
-    MatCardTitle,
-    MatCardHeader,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatCardSubtitle,
-    MatIconModule,
-  ],
-  templateUrl: "./employee-register.component.html",
-  styleUrls: ["./employee-register.component.css"],
+    selector: "app-employee-register",
+    imports: [
+        ReactiveFormsModule,
+        RouterModule,
+        MatCard,
+        MatButtonModule,
+        MatSlideToggleModule,
+        FormsModule,
+        CommonModule,
+        MatLabel,
+        MatFormField,
+        MatCardContent,
+        MatCardTitle,
+        MatCardHeader,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatCardSubtitle,
+        MatIconModule,
+    ],
+    templateUrl: "./employee-register.component.html",
+    styleUrls: ["./employee-register.component.css"]
 })
 export class EmployeeRegisterComponent implements OnInit {
   employeeForm: FormGroup = new FormGroup({});

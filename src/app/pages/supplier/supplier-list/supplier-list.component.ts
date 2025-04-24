@@ -5,12 +5,11 @@ import { SupplierService } from '../../../services/supplier.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
-  selector: "app-supplier-list",
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatPaginator],
-  providers: [MatTableDataSource],
-  templateUrl: "./supplier-list.component.html",
-  styleUrl: "./supplier-list.component.css",
+    selector: "app-supplier-list",
+    imports: [MatTableModule, MatPaginatorModule, MatPaginator],
+    providers: [MatTableDataSource],
+    templateUrl: "./supplier-list.component.html",
+    styleUrl: "./supplier-list.component.css"
 })
 export class SupplierListComponent implements OnInit {
   constructor(private supplierService: SupplierService) {}

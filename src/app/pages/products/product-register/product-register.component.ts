@@ -31,26 +31,25 @@ import { Supplier } from "../../../models/supplier";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-  selector: "app-product-register",
-  standalone: true,
-  templateUrl: "./product-register.component.html",
-  styleUrl: "./product-register.component.css",
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOption,
-    CommonModule,
-  ],
+    selector: "app-product-register",
+    templateUrl: "./product-register.component.html",
+    styleUrl: "./product-register.component.css",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOption,
+        CommonModule,
+    ]
 })
 export class ProductRegisterComponent implements OnInit {
   productForm: FormGroup = new FormGroup({});

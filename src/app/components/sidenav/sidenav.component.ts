@@ -17,28 +17,27 @@ import { SharedService } from "../../shared/services/shared.service";
 import { LoaderComponent } from "../loader/loader.component";
 
 @Component({
-  selector: "app-sidenav",
-  standalone: true,
-  templateUrl: "./sidenav.component.html",
-  styleUrl: "./sidenav.component.css",
-  imports: [
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MenuComponent,
-    ProductRegisterComponent,
-    MatToolbarModule,
-    MatListModule,
-    RouterOutlet,
-    RouterLink,
-    CommonModule,
-    LoginComponent,
-    MatMenuModule,
-    MatIcon,
-    InputUserDialogComponent,
-    RouterModule,
-    LoaderComponent
-  ],
+    selector: "app-sidenav",
+    templateUrl: "./sidenav.component.html",
+    styleUrl: "./sidenav.component.css",
+    imports: [
+        MatSidenavModule,
+        MatButtonModule,
+        MatIconModule,
+        MenuComponent,
+        ProductRegisterComponent,
+        MatToolbarModule,
+        MatListModule,
+        RouterOutlet,
+        RouterLink,
+        CommonModule,
+        LoginComponent,
+        MatMenuModule,
+        MatIcon,
+        InputUserDialogComponent,
+        RouterModule,
+        LoaderComponent
+    ]
 })
 export class SidenavComponent {
   authService = inject(AuthService);

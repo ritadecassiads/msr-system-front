@@ -12,23 +12,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: "app-invoice-list",
-  standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatPaginator, MatButtonModule,
-      MatIconModule,
-      // MatDatepickerModule,
-      MatCard,
-      MatCardHeader,
-      MatCardTitle,
-      MatCardContent,
-      MatCardSubtitle,
-      CommonModule,
-      MatSelectModule,
-      FormsModule,
-      ReactiveFormsModule],
-  providers: [MatTableDataSource],
-  templateUrl: "./invoice-list.component.html",
-  styleUrl: "./invoice-list.component.css",
+    selector: "app-invoice-list",
+    imports: [MatTableModule, MatPaginatorModule, MatPaginator, MatButtonModule,
+        MatIconModule,
+        // MatDatepickerModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        MatCardSubtitle,
+        CommonModule,
+        MatSelectModule,
+        FormsModule,
+        ReactiveFormsModule],
+    providers: [MatTableDataSource],
+    templateUrl: "./invoice-list.component.html",
+    styleUrl: "./invoice-list.component.css"
 })
 export class InvoiceListComponent {
   constructor(private invoiceService: InvoiceService, private readonly modalService: ModalMessageService) {}

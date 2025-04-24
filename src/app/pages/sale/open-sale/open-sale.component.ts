@@ -40,30 +40,29 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-  selector: "app-open-sale",
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    CommonModule,
-    MatSelectModule,
-    MatPaginatorModule,
-    CurrencyPipe,
-    MatTableModule,
-    MatCardSubtitle,
-    MatIcon,
-  ],
-  templateUrl: "./open-sale.component.html",
-  styleUrl: "./open-sale.component.css",
+    selector: "app-open-sale",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatFormFieldModule,
+        CommonModule,
+        MatSelectModule,
+        MatPaginatorModule,
+        CurrencyPipe,
+        MatTableModule,
+        MatCardSubtitle,
+        MatIcon,
+    ],
+    templateUrl: "./open-sale.component.html",
+    styleUrl: "./open-sale.component.css"
 })
 export class SaleRegisterComponent {
   saleForm: FormGroup = new FormGroup({});

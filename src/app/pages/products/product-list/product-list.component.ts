@@ -22,26 +22,25 @@ import { DeleteDialogComponent } from "../../../components/dialog/delete-dialog/
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-  selector: "app-product-list",
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatPaginatorModule,
-    MatPaginator,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatFormFieldModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatIcon,
-    MatButtonModule,
-  ],
-  providers: [MatTableDataSource],
-  templateUrl: "./product-list.component.html",
-  styleUrl: "./product-list.component.css",
+    selector: "app-product-list",
+    imports: [
+        MatTableModule,
+        MatPaginatorModule,
+        MatPaginator,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        MatFormFieldModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatIcon,
+        MatButtonModule,
+    ],
+    providers: [MatTableDataSource],
+    templateUrl: "./product-list.component.html",
+    styleUrl: "./product-list.component.css"
 })
 export class ProductListComponent {
   constructor(

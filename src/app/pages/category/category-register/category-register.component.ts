@@ -10,24 +10,23 @@ import { CommonModule } from '@angular/common';
 import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
-  selector: "app-category-register",
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    RouterModule,
-    MatFormFieldModule,
-    CommonModule,
-  ],
-  templateUrl: "./category-register.component.html",
-  styleUrl: "./category-register.component.css",
+    selector: "app-category-register",
+    imports: [
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCard,
+        MatCardHeader,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        RouterModule,
+        MatFormFieldModule,
+        CommonModule,
+    ],
+    templateUrl: "./category-register.component.html",
+    styleUrl: "./category-register.component.css"
 })
 export class CategoryRegisterComponent {
   categoryForm: FormGroup = new FormGroup({});
