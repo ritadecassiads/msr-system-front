@@ -8,10 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: "root",
 })
 export class CategoryService {
-  private apiUrl = `${environment.apiBaseUrl}/categories`;
+  private apiUrl = `${environment.apiUrl}/categories`;
 
   constructor(private http: HttpClient) {}
-  // ver como lidar com erros depois
   saveCategory(category: Category) {
     return this.http.post<Category>(this.apiUrl, category);
   }

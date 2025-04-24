@@ -11,6 +11,8 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { Invoice } from "../../models/invoice";
 import { ModalMessageService } from "../../services/modal-message.service";
+import { LoaderComponent } from "../../components/loader/loader.component";
+import { LoaderService } from "../../services/loader.service";
 
 @Component({
   selector: "app-dashboard",
@@ -25,6 +27,7 @@ import { ModalMessageService } from "../../services/modal-message.service";
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    LoaderComponent
   ],
   providers: [MatTableDataSource],
   templateUrl: "./dashboard.component.html",
@@ -84,11 +87,15 @@ export class DashboardComponent implements OnInit {
   invoiceList: Invoice[] = [];
   supplierName: string[] = [];
 
+  isLoading$ = this.loaderService.isLoading$;
+
+
   constructor(
     private saleService: SaleService,
     private router: Router,
     private invoiceService: InvoiceService,
-    private modalService: ModalMessageService
+    private modalService: ModalMessageService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {

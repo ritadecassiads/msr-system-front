@@ -4,11 +4,12 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { TokenJwt } from "../models/tokenJwt";
 import { inject } from "@angular/core";
+import { environment } from '../../enviroments/enviroments'; // Importa o arquivo de ambiente correto para produção
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   httpClient = inject(HttpClient);
-  private apiUrl = "http://localhost:3000/auth"; // nest
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 

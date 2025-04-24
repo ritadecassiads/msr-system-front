@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiBaseUrl: "http://localhost:3000",
+  // apiUrl: "https://msr-system-nestjs-production.up.railway.app",
+  apiUrl: "http://localhost:3000"
 };

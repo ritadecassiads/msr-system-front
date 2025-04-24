@@ -8,10 +8,9 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class InvoiceService {
-  private apiUrl = `${environment.apiBaseUrl}/invoices`;
+  private apiUrl = `${environment.apiUrl}/invoices`;
 
   constructor(private http: HttpClient) {}
-  // ver como lidar com erros depois
   saveInvoice(invoice: Invoice) {
     return this.http.post<Invoice>(this.apiUrl, invoice);
   }

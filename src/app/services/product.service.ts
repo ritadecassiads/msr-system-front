@@ -8,10 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: "root",
 })
 export class ProductService {
-  private apiUrl = `${environment.apiBaseUrl}/products`;
+  private apiUrl = `${environment.apiUrl}/products`;
 
   constructor(private http: HttpClient) {}
-  // ver como lidar com erros depois
   saveProduct(product: Product) {
     return this.http.post<Product>(this.apiUrl, product);
   }

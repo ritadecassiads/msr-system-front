@@ -171,3 +171,9 @@ mat-toolbar {
   z-index: 2;
   /* Certifique-se de que a toolbar fique sobre os conteúdos roláveis */
 }
+
+.main-content.loading {
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}

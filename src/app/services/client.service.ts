@@ -9,7 +9,7 @@ import { catchError } from "rxjs/operators";
   providedIn: "root",
 })
 export class ClientService {
-  private apiUrl = `${environment.apiBaseUrl}/clients`;
+  private apiUrl = `${environment.apiUrl}/clients`;
   constructor(private http: HttpClient) {}
 
   saveClient(client: Client): Observable<Client> {
