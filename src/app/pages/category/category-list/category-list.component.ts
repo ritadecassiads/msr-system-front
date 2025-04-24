@@ -7,7 +7,7 @@ import { ModalMessageService } from '../../../services/modal-message.service';
 
 @Component({
     selector: "app-category-list",
-    imports: [MatTableModule, MatPaginatorModule, MatPaginator],
+    imports: [MatTableModule, MatPaginatorModule],
     providers: [MatTableDataSource],
     templateUrl: "./category-list.component.html",
     styleUrl: "./category-list.component.css"

@@ -37,29 +37,29 @@ import { SharedService } from "../../../shared/services/shared.service";
 import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-    selector: "app-employee-register",
-    imports: [
-        ReactiveFormsModule,
-        RouterModule,
-        MatCard,
-        MatButtonModule,
-        MatSlideToggleModule,
-        FormsModule,
-        CommonModule,
-        MatLabel,
-        MatFormField,
-        MatCardContent,
-        MatCardTitle,
-        MatCardHeader,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatRadioModule,
-        MatCardSubtitle,
-        MatIconModule,
-    ],
-    templateUrl: "./employee-register.component.html",
-    styleUrls: ["./employee-register.component.css"]
+  selector: "app-employee-register",
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    MatCard,
+    MatButtonModule,
+    MatSlideToggleModule,
+    FormsModule,
+    CommonModule,
+    MatLabel,
+    MatFormField,
+    MatCardContent,
+    MatCardTitle,
+    MatCardHeader,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatCardSubtitle,
+    MatIconModule,
+  ],
+  templateUrl: "./employee-register.component.html",
+  styleUrls: ["./employee-register.component.css"]
 })
 export class EmployeeRegisterComponent implements OnInit {
   employeeForm: FormGroup = new FormGroup({});
@@ -146,10 +146,17 @@ export class EmployeeRegisterComponent implements OnInit {
         this.createEmployee();
       }
     } else {
-      this.modalService.showMessage(
-        "Preencha os campos obrigatórios antes de continuar.",
-        "alert"
-      );
+      let errorMessage = "Por favor, preencha todos os campos obrigatórios antes de continuar.";
+
+      if (this.cpf?.invalid) {
+        errorMessage = "O CPF informado é inválido. Verifique e tente novamente.";
+      }
+
+      if (this.passwordsMatchValidator(this.employeeForm)) {
+        errorMessage = "As senhas não coincidem. Certifique-se de digitá-las corretamente.";
+      }
+
+      this.modalService.showMessage(errorMessage, "alert");
     }
   }
 
@@ -172,25 +179,25 @@ export class EmployeeRegisterComponent implements OnInit {
     });
   }
 
-  createEmployee(){
+  createEmployee() {
     const employee: Employee = this.employeeForm.value;
 
-      this.employeeService.saveEmployee(employee).subscribe({
-        next: () => {
-          this.modalService.showMessage(
-            "As informações foram salvas.",
-            "success"
-          );
-          this.router.navigate(["/dashboard"]);
-        },
-        error: (error) => {
-          console.error("Error registering employee:", error);
-          this.modalService.showMessage(
-            "Algo deu errado. Tente novamente.",
-            "error"
-          );
-        },
-      });
+    this.employeeService.saveEmployee(employee).subscribe({
+      next: () => {
+        this.modalService.showMessage(
+          "As informações foram salvas.",
+          "success"
+        );
+        this.router.navigate(["/dashboard"]);
+      },
+      error: (error) => {
+        console.error("Error registering employee:", error);
+        this.modalService.showMessage(
+          "Algo deu errado. Tente novamente.",
+          "error"
+        );
+      },
+    });
   }
 
   handleIsAdminChange() {

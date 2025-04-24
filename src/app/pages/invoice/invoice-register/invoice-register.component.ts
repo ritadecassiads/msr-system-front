@@ -17,7 +17,7 @@ import {
 } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { InvoiceService } from "../../../services/invoice.service";
 import { SupplierService } from "../../../services/supplier.service";
 import { Supplier } from "../../../models/supplier";
@@ -60,16 +60,20 @@ export class InvoiceRegisterComponent implements OnInit {
   statusControl = new FormControl("");
   statusList = ["Aberta", "Paga", "Atrasada"];
 
+  isEditing: boolean = false;
+  invoiceToEdit!: Invoice;
+
   constructor(
     private invoiceService: InvoiceService,
     private supplierService: SupplierService,
     private fb: FormBuilder,
     private router: Router,
-    private modalService: ModalMessageService
+    private modalService: ModalMessageService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.initForm();
+    this.initializeForm()
     //this.onChangeSupplierControl();
     //this.onChangeStatusControl();
     this.getSuppliers();
@@ -79,20 +83,43 @@ export class InvoiceRegisterComponent implements OnInit {
     return this.invoiceForm.get("installments");
   }
 
-  initForm() {
+  // initializeForm(invoice?: Invoice) {
+  //   this.invoiceForm = this.fb.group({
+  //     totalAmount: [
+  //       0,
+  //       [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+  //     ],
+  //     issueDate: ["", Validators.required],
+  //     dueDate: ["", Validators.required],
+  //     supplierId: this.supplierControl,
+  //     installments: [0, Validators.pattern(/^\d+$/)],
+  //     installmentValue: [0],
+  //     notes: [""],
+  //   });
+  // }
+
+  initializeForm(invoice?: Invoice) {
     this.invoiceForm = this.fb.group({
-      totalAmount: [
-        0,
-        [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
-      ],
-      issueDate: ["", Validators.required],
-      dueDate: ["", Validators.required],
-      supplierId: this.supplierControl,
-      installments: [0, Validators.pattern(/^\d+$/)],
-      installmentValue: [0],
-      notes: [""],
+        code: [invoice?.code || null], // Código pode ser opcional
+        totalAmount: [
+            invoice?.totalAmount || 0,
+            [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+        ],
+        issueDate: [
+            invoice?.issueDate ? new Date(invoice.issueDate).toISOString().substring(0, 10) : "",
+            Validators.required,
+        ],
+        dueDate: [
+            invoice?.dueDate ? new Date(invoice.dueDate).toISOString().substring(0, 10) : "",
+            Validators.required,
+        ],
+        supplierId: [invoice?.supplierId || null, Validators.required],
+        installments: [invoice?.installments || []],
+        status: [invoice?.status || "unpaid", Validators.required],
+        notes: [invoice?.notes || ""],
+        description: [invoice?.description || ""],
     });
-  }
+}
 
   onChangeInstallmentControl(): void {
     this.installmentControl.valueChanges
@@ -167,4 +194,30 @@ export class InvoiceRegisterComponent implements OnInit {
   //   }
   //   console.log("calculateInstallmentValue", this.installmentValue);
   // }
+
+  recoverIdToEdit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get("id");
+      if (id) {
+        this.isEditing = true;
+        // this.invoiceId = id;
+        this.loadInvoice(id);
+      } else {
+        this.isEditing = false;
+      }
+    });
+  }
+
+  loadInvoice(invoiceId: string) {
+    this.invoiceService.getInvoice(invoiceId).subscribe({
+      next: (invoice) => {
+        this.invoiceToEdit = invoice;
+        this.initializeForm(invoice);
+      },
+      error: (err) => {
+        console.log(err);
+        this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
+      },
+    });
+  }
 }

@@ -159,6 +159,13 @@ export const routes: Routes = [
             (m) => m.InvoiceListComponent
           ),
       },
+      {
+        path: "invoice/edit/:_id",
+        loadComponent: () =>
+          import(
+            "./pages/invoice/invoice-register/invoice-register.component"
+          ).then((m) => m.InvoiceRegisterComponent),
+      },
     ],
   },
 ];

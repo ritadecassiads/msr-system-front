@@ -1,5 +1,95 @@
 <mat-card class="product-form-register">
   <mat-card-header>
+    <mat-card-title>Cadastro de duplicata / conta</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="m-t-3" [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+      <!-- Nome -->
+      <div class="div1">
+        
+        <!-- Descrição -->
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Descrição</mat-label>
+          <input
+          matInput
+          placeholder="Digite a descrição do produto"
+          formControlName="description"
+          name="description"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Valor total a pagar</mat-label>
+          <input
+            matInput
+            placeholder="Digite o nome do produto"
+            formControlName="totalAmount"
+            name="totalAmount"
+            required
+          />
+        </mat-form-field>
+
+        <!-- Preço -->
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Preço</mat-label>
+          <input
+            matInput
+            formControlName="issueDate"
+            placeholder="Digite o valor do produto"
+            name="issueDate"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="div2">
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Quantidade para estoque</mat-label>
+          <input
+            matInput
+            formControlName="dueDate"
+            placeholder="Digite a quantidade em estoque"
+            name="dueDate"
+            required
+          />
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="outline" class="product-form-input" >
+          <mat-label>Fornecedor</mat-label>
+          <mat-select [formControl]="supplierControl">
+            <mat-option
+              placeholder="Selecione o fornecedor"
+              *ngFor="let supplier of supplierList"
+              [value]="supplier._id"
+              >{{ supplier.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field> -->
+
+        <!-- <mat-form-field class="product-form-input">
+          <mat-label>Categorias</mat-label>
+          <mat-select [formControl]="categoriesControl" multiple>
+            <mat-option
+              placeholder="Selecione a categoria"
+              *ngFor="let category of categoryList"
+              [value]="category._id"
+              >{{ category.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+
+      <div class="product-div-button">
+        <button mat-flat-button color="primary" type="submit">Salvar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- <mat-card class="product-form-register">
+  <mat-card-header>
     <mat-card-title>Cadastro de Conta/Duplicata</mat-card-title>
   </mat-card-header>
   <br>
@@ -30,12 +120,6 @@
           >
         </mat-select>
 
-        <!-- <input
-          matInput
-          formControlName="installments"
-          (input)="calculateInstallmentValue()"
-          name="installments"
-        /> -->
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="product-form-input">
@@ -96,4 +180,4 @@
       </div>
     </form>
   </mat-card-content>
-</mat-card>
+</mat-card> -->

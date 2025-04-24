@@ -27,7 +27,6 @@ import { LoaderComponent } from "../../components/loader/loader.component";
         MatCardModule,
         RouterModule,
         MatToolbarModule,
-        MatCardSubtitle,
         LoaderComponent
     ],
     templateUrl: "./login.component.html",

@@ -1,33 +1,42 @@
-.product-form-register{
+.div1,
+.div2 {
     display: flex;
     flex-direction: column;
-    margin: 10px 20px;
-    width: 100vh;
+    flex: 1;
+    gap: 16px;
 }
 
-.product-form-input{
-    width: 100vh;
+.product-form-input {
+    width: 100%;
 }
 
-.product-form-dat {
-    margin-left: 15px;
-}
-
-.product-form-tree{
+.product-div-button {
+    margin-top: 16px;
+    text-align: right;
     display: flex;
-    flex-direction: row;
-    max-width: 100vh;
+    align-items: self-end;
+    margin-bottom: 17px;
 }
 
-.product-form-price, .product-form-quantity{
-    margin-right: 10px;
-}
-
-.product-div-button{
+form {
     display: flex;
-    justify-content: flex-end; 
+    flex-wrap: wrap;
+    gap: 32px;
 }
 
-/* .product-button{
-    background-color: #fbd0c3;
-} */
+.div1,
+.div2 {
+    flex: 1;
+    min-width: 300px;
+}
+
+@media (max-width: 768px) {
+    form {
+        flex-direction: column;
+    }
+
+    .div1,
+    .div2 {
+        min-width: unset;
+    }
+}

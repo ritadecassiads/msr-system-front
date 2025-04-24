@@ -6,7 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
     selector: "app-supplier-list",
-    imports: [MatTableModule, MatPaginatorModule, MatPaginator],
+    imports: [MatTableModule, MatPaginatorModule],
     providers: [MatTableDataSource],
     templateUrl: "./supplier-list.component.html",
     styleUrl: "./supplier-list.component.css"

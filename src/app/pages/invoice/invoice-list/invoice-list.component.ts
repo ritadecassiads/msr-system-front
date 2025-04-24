@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { InvoiceService } from '../../../services/invoice.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Invoice } from '../../../models/invoice';
@@ -10,40 +10,44 @@ import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle }
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { DeleteDialogComponent } from '../../../components/dialog/delete-dialog/delete-dialog.component';
 
 @Component({
-    selector: "app-invoice-list",
-    imports: [MatTableModule, MatPaginatorModule, MatPaginator, MatButtonModule,
-        MatIconModule,
-        // MatDatepickerModule,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatCardSubtitle,
-        CommonModule,
-        MatSelectModule,
-        FormsModule,
-        ReactiveFormsModule],
-    providers: [MatTableDataSource],
-    templateUrl: "./invoice-list.component.html",
-    styleUrl: "./invoice-list.component.css"
+  selector: "app-invoice-list",
+  imports: [MatTableModule, MatPaginatorModule, MatPaginator, MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatPaginator,
+    MatButtonModule,
+    MatIconModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardSubtitle,
+    CommonModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatExpansionModule
+  ],
+  providers: [MatTableDataSource],
+  templateUrl: "./invoice-list.component.html",
+  styleUrl: "./invoice-list.component.css"
 })
 export class InvoiceListComponent {
-  constructor(private invoiceService: InvoiceService, private readonly modalService: ModalMessageService) {}
+  invoicesList: Invoice[] = [];
+  filteredInvoices: Invoice[] = [];
+  pageSize = 20;
+  currentPage = 0;
+  readonly dialog = inject(MatDialog);
 
-  displayedColumns: string[] = [
-    "code",
-    "amount",
-    "installments",
-    "installmentAmounts",
-    "issueDate",
-    "dueDate",
-    "supplierId",
-    "notes",
-  ];
-
-  dataSource = new MatTableDataSource<Invoice>();
+  constructor(private invoiceService: InvoiceService, private readonly modalService: ModalMessageService, private readonly router: Router) { }
 
   ngOnInit() {
     this.loadInvoices();
@@ -52,7 +56,8 @@ export class InvoiceListComponent {
   loadInvoices() {
     this.invoiceService.getInvoices().subscribe({
       next: (invoices) => {
-        this.dataSource.data = invoices;
+        this.invoicesList = invoices;
+        this.filteredInvoices = invoices;
       },
       error: (err) => {
         console.log(err);
@@ -61,23 +66,47 @@ export class InvoiceListComponent {
     });
   }
 
-  applyFilter(event: Event): void {
-    // const filterValue = (event.target as HTMLInputElement).value
-    //   .trim()
-    //   .toLowerCase();
+  getPagedInvoices() {
+    const start = this.currentPage * this.pageSize;
+    return this.filteredInvoices.slice(start, start + this.pageSize);
+  }
 
-    // if (filterValue === "") {
-    //   this.filteredEmployees = this.employeesList;
-    // } else {
-    //   const filterValueNumber = Number(filterValue);
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
 
-    //   this.filteredEmployees = this.employeesList.filter((employee) => {
-    //     const matchesName = employee.name.toLowerCase().includes(filterValue);
-    //     const matchesCode =
-    //       !isNaN(filterValueNumber) &&
-    //       employee.code?.toString().includes(filterValue);
-    //     return matchesName || matchesCode;
-    //   });
-    // }
+  editInvoice(invoice: Invoice) {
+    this.router.navigate([`/invoice/edit/${invoice._id}`]);
+  }
+
+  openModalToConfirmDelete(invoice: Invoice): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: { invoice },
+      restoreFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+       if (invoice._id) {
+           this.deleteInvoice(invoice._id);
+       } else {
+           console.error("Invoice ID is undefined.");
+       }
+      }
+    });
+  }
+
+  deleteInvoice(idInvoice: string) {
+    this.invoiceService.deleteInvoice(idInvoice).subscribe({
+      next: () => {
+        this.modalService.showMessage("Nota fiscal excluída com sucesso.", "success");
+        this.loadInvoices();
+      },
+      error: (err) => {
+        console.error(err);
+        this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
+      },
+    });
   }
 }

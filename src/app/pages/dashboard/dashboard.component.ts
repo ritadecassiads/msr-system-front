@@ -26,7 +26,6 @@ import { LoaderService } from "../../services/loader.service";
         MatButtonModule,
         MatIconModule,
         CommonModule,
-        LoaderComponent
     ],
     providers: [MatTableDataSource],
     templateUrl: "./dashboard.component.html",

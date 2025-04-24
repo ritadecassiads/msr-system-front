@@ -19,15 +19,15 @@ export class InvoiceService {
     return this.http.get<Invoice[]>(this.apiUrl);
   }
 
-  getInvoice(id: number): Observable<Invoice> {
+  getInvoice(id: string): Observable<Invoice> {
     return this.http.get<Invoice>(`${this.apiUrl}/${id}`);
   }
 
   updateInvoice(invoice: Invoice) {
-    return this.http.put<Invoice>(`${this.apiUrl}/${invoice._id}`, invoice);
+    return this.http.patch<Invoice>(`${this.apiUrl}/${invoice._id}`, invoice);
   }
 
-  deleteInvoice(id: number) {
+  deleteInvoice(id: string) {
     return this.http.delete<Invoice>(`${this.apiUrl}/${id}`);
   }
 }

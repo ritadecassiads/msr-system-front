@@ -3,7 +3,6 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { CommonModule } from "@angular/common";
-import { MenuComponent } from "../menu/menu.component";
 import { ProductRegisterComponent } from "../../pages/products/product-register/product-register.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatListModule } from "@angular/material/list";
@@ -24,17 +23,13 @@ import { LoaderComponent } from "../loader/loader.component";
         MatSidenavModule,
         MatButtonModule,
         MatIconModule,
-        MenuComponent,
-        ProductRegisterComponent,
         MatToolbarModule,
         MatListModule,
         RouterOutlet,
         RouterLink,
         CommonModule,
-        LoginComponent,
         MatMenuModule,
         MatIcon,
-        InputUserDialogComponent,
         RouterModule,
         LoaderComponent
     ]
