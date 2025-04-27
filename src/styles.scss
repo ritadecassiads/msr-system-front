@@ -78,6 +78,10 @@ mat-card {
   margin-right: 10px !important;
 }
 
+.m-l-20{
+  margin-left: 20px !important;
+}
+
 .div-button {
   display: flex;
   justify-content: end;
@@ -89,38 +93,11 @@ mat-card {
 }
 
 .font-bold{
-  font-weight: 500;
+  font-weight: 550;
 }
 
-
-
-
-.loading-placeholder {
-  background: #f6f7f8;
-  background-image: linear-gradient(to right, #f6f7f8 0%, #e0e0e0 20%, #f6f7f8 40%, #f6f7f8 100%);
-  background-repeat: no-repeat;
-  background-size: 1000px 100%;
-  display: inline-block;
-  position: relative;
-  // animation: shimmer 1.5s infinite linear;
-  animation: pulse 1.5s infinite ease-in-out;
-  border-radius: 4px;
-  color: transparent;
-  z-index: 1;
-}
-
-/* animação shimmer */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
+.flex-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

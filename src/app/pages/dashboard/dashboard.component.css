@@ -37,11 +37,6 @@
   margin-right: 10px !important;
 }
 
-span {
-  font-size: 16px;
-  color: #0d47a1;
-}
-
 .sales-table th {
   background-color: rgb(48 62 185);
   color: white;
@@ -204,4 +199,28 @@ span {
 .div-board-buttons{
   display: flex;
     justify-content: space-around;
+}
+
+.installments-list {
+  margin-top: 10px;
+}
+
+.installment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+} 
+
+.icon-paid {
+  color: green;
+  margin: 10px !important;
+}
+
+.icon-unpaid {
+  color: rgb(171, 7, 7);
+  margin: 10px !important;
 }

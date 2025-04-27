@@ -3,93 +3,51 @@
 }
 
 .icon {
-    margin: 0px !important;
+    margin: 10px !important;
 }
 
-
-
-/* mat-card {
-    margin: 20px;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-mat-card-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-mat-expansion-panel {
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-mat-expansion-panel-header {
+.invoice-infos {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    padding: 10px;
-}
-
-mat-panel-title {
-    font-weight: 600;
-    font-size: 16px;
-    color: #222;
-}
-
-mat-panel-description {
-    font-size: 14px;
-    margin-left: 12px;
-    color: #666;
-}
-
-.client-infos {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 0 15px 15px 15px;
-}
-
-.col {
-    flex: 1;
-    padding: 10px;
+    margin-top: 15px;
 }
 
 .col1 {
-    min-width: 250px;
+    padding-right: 15px;
 }
 
 .col2 {
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding-top: 10px;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
-.font-bold {
-    font-weight: bold;
-    color: #333;
+.installments-list {
+    margin-top: 10px;
 }
 
-.div-button {
+.installment-item {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+} 
+
+.icon-paid {
+    color: green;
 }
 
-.icon-button {
-    background-color: #f5f5f5;
-    color: #444;
-    transition: 0.3s ease;
+.icon-unpaid {
+    color: rgb(171, 7, 7);
 }
 
-.icon-button:hover {
-    background-color: #e0e0e0;
-    color: #000;
+.mat-card-content {
+    padding: 15px;
 }
 
-mat-paginator {
-    margin-top: 20px;
-} */
+.sale-filter {
+    width: 30%;
+  }

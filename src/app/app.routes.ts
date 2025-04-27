@@ -160,7 +160,7 @@ export const routes: Routes = [
           ),
       },
       {
-        path: "invoice/edit/:_id",
+        path: "invoice/edit/:id",
         loadComponent: () =>
           import(
             "./pages/invoice/invoice-register/invoice-register.component"

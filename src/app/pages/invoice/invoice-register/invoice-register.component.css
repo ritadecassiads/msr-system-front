@@ -40,3 +40,8 @@ form {
         min-width: unset;
     }
 }
+
+.div-flex {
+    display: flex;
+    gap: 15px;
+  }

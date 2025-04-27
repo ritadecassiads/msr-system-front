@@ -1,5 +1,6 @@
 export interface Installment {
-  dueDate?: Date; // vencimento
+  _id?: string;
+  dueDate?: Date;
   amount: number;
   status:  "unpaid" | "paid" | "overdue";
 }
