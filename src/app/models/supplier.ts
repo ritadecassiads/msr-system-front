@@ -2,7 +2,7 @@ import { Address } from "./address";
 
 export interface Supplier {
   _id?: string;
-  code: number;
+  code?: number;
   name: string;
   cnpj: string;
   phone?: string;
