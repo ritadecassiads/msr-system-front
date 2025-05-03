@@ -47,10 +47,10 @@ export class InvoiceListComponent {
   pageSize = 20;
   currentPage = 0;
   statusFilter = new FormControl();
-  statusList: string[] = ["paid", "unpaid", "overdue"];
+  statusList: string[] = ["paid", "pending", "overdue"];
   statusMap: { [key: string]: string } = {
     paid: "Pagas",
-    unpaid: "Pendentes",
+    pending: "Pendentes",
     overdue: "Vencidas",
   };
   readonly dialog = inject(MatDialog);

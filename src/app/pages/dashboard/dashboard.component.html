@@ -95,7 +95,7 @@
       <h6>Contas a pagar</h6>
 
       <mat-accordion *ngFor="let invoice of invoiceList">
-        <mat-expansion-panel *ngIf="invoice.status == 'unpaid'">
+        <mat-expansion-panel *ngIf="invoice.status == 'pending'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{
@@ -137,12 +137,12 @@
                       <div class="flex-div">
   
                         <mat-icon *ngIf="installment.status == 'paid'" class="icon icon-paid"> done </mat-icon>
-                        <mat-icon *ngIf="installment.status == 'unpaid'" class="icon icon-unpaid"> pending_actions
+                        <mat-icon *ngIf="installment.status == 'pending'" class="icon icon-pending"> pending_actions
                         </mat-icon>
                         <span>{{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : "" }} -
                           <span class="font-bold" > {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }} </span>
                         </span>
-                        <button *ngIf="installment.status == 'unpaid'" mat-raised-button class="icon-button m-l-20 m-r-10"
+                        <button *ngIf="installment.status == 'pending'" mat-raised-button class="icon-button m-l-20 m-r-10"
                           title="Marcar como pago" type="button" (click)="maskInstallmentAsPaid(invoice, installment)">
                           <mat-icon class="icon"> done </mat-icon>
                         </button>

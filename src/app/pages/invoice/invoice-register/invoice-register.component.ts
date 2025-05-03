@@ -60,9 +60,9 @@ export class InvoiceRegisterComponent implements OnInit {
   installmentControl = new FormControl(1);
   installmentList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  statusControl = new FormControl("unpaid", Validators.required);
+  statusControl = new FormControl("pending", Validators.required);
   statusList = [
-    { label: "Aberta", value: "unpaid" },
+    { label: "Aberta", value: "pending" },
     { label: "Paga", value: "paid" },
     { label: "Atrasada", value: "overdue" },
   ];
@@ -120,12 +120,12 @@ export class InvoiceRegisterComponent implements OnInit {
       ],
       supplierId: [invoice?.supplierId || null],
       installments: [invoice?.installments || []],
-      status: [invoice?.status || "unpaid", Validators.required],
+      status: [invoice?.status || "pending", Validators.required],
       notes: [invoice?.notes || ""],
       description: [invoice?.description || ""],
     });
 
-    this.statusControl.setValue(invoice?.status || "unpaid");
+    this.statusControl.setValue(invoice?.status || "pending");
 
     const installmentCount = invoice?.installments?.length || 1;
     this.installmentControl.setValue(installmentCount);
@@ -191,7 +191,7 @@ export class InvoiceRegisterComponent implements OnInit {
       installments.push({
         dueDate: new Date(dueDate.toISOString().substring(0, 10)),
         amount: value,
-        status: "unpaid",
+        status: "pending",
       });
     }
   

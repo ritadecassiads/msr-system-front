@@ -9,7 +9,7 @@ export interface Invoice {
   dueDate?: Date; // vencimento
   supplierId: Supplier;
   installments?: Installment[]; // parcelas
-  status: "unpaid" | "paid" | "overdue";
+  status: "pending" | "paid" | "overdue";
   notes?: string;
   description?: string;
 }

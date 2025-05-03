@@ -1,0 +1,16 @@
+.payment-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .payment-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px; /* Espaçamento entre os campos */
+  }
+  
+  .payment-field {
+    flex: 1; /* Faz os campos ocuparem o mesmo espaço disponível */
+    min-width: 200px; /* Define um tamanho mínimo para os campos */
+  }
+  

@@ -4,6 +4,7 @@ import { environment } from "../../enviroments/enviroments";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { Sale } from "../models/sale";
 
 @Injectable({
   providedIn: "root",
@@ -27,6 +28,11 @@ export class ClientService {
 
   getClient(id: string) {
     return this.http.get<Client>(`${this.apiUrl}/${id}`);
+  }
+
+  getSalesByClient(clientId: string): Observable<Sale[]> {
+    console.log("clientId: ", clientId);
+    return this.http.get<Sale[]>(`${this.apiUrl}/${clientId}/installments`);
   }
 
   updateClient(client: Client) {

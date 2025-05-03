@@ -35,7 +35,6 @@ import { MatIconModule } from "@angular/material/icon";
     MatFormField,
     MatCheckboxModule,
     MatRadioModule,
-    MatCardSubtitle,
     MatIconModule,
   ],
   templateUrl: "./supplier-register.component.html",

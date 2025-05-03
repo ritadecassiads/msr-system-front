@@ -1,5 +1,6 @@
 import { Client } from "./client";
 import { Employee } from "./employee";
+import { Installment } from "./installment";
 import { Product } from "./products";
 import { SaleProduct } from "./sale-product";
 
@@ -22,7 +23,5 @@ export interface Sale {
     | "client-account";
   discount: number;
   createdAt: Date;
-  installments?: number;
-  installmentValue?: number;
-  dueDates?: Date[];
+  installments?: Installment[];
 }

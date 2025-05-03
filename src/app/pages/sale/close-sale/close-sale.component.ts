@@ -38,34 +38,35 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
 import { ModalMessageService } from "../../../services/modal-message.service";
+import { Installment } from "../../../models/installment";
 
 @Component({
-    selector: "app-close-sale",
-    imports: [
-        MatGridListModule,
-        CommonModule,
-        MatExpansionModule,
-        MatRadioModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatTableModule,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatCardSubtitle,
-        MatPaginatorModule,
-        MatIcon,
-        MatSortModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatOption,
-    ],
-    // providers: [MatTableDataSource],
-    templateUrl: "./close-sale.component.html",
-    styleUrls: ["./close-sale.component.css"]
+  selector: "app-close-sale",
+  imports: [
+    MatGridListModule,
+    CommonModule,
+    MatExpansionModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatTableModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardSubtitle,
+    MatPaginatorModule,
+    MatIcon,
+    MatSortModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatOption,
+  ],
+  // providers: [MatTableDataSource],
+  templateUrl: "./close-sale.component.html",
+  styleUrls: ["./close-sale.component.css"]
 })
 export class CloseSaleComponent implements OnInit {
   saleId!: string;
@@ -102,10 +103,14 @@ export class CloseSaleComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild("clientSort") clientSort!: MatSort;
 
-  selectedInstallments = new FormControl("", Validators.required);
+  installmentControl = new FormControl(1);
   installmentsOptions: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  // selectedInstallments = new FormControl("", Validators.required);
+  // installmentsOptions: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   installmentValue: number = 0;
   dueDates: Date[] = [];
+  isSaleClosed: boolean = false;
 
   constructor(
     private router: Router,
@@ -114,13 +119,12 @@ export class CloseSaleComponent implements OnInit {
     private productService: ProductService,
     private clientService: ClientService,
     private readonly modalService: ModalMessageService,
-  ) {}
+  ) { }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.paginator._intl.itemsPerPageLabel = "Itens por página";
-    this.dataSource.sort = this.clientSort;
+  get installments() {
+    return this.installmentControl.get("installments");
   }
+
 
   ngOnInit(): void {
     this.saleId = this.route.snapshot.paramMap.get("_id")!;
@@ -128,15 +132,21 @@ export class CloseSaleComponent implements OnInit {
     this.getClients();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = "Itens por página";
+    this.dataSource.sort = this.clientSort;
+  }
+
   loadSaleDetails(): void {
     this.saleService.getSale(this.saleId).subscribe((sale) => {
       if (sale.status === "closed") {
-        this.router.navigate(["/dashboard"]);
-        return;
+        this.isSaleClosed = true;
+        this.modalService.showMessage("Venda já finalizada.", "alert");
       }
       this.sale = sale;
       this.subtotal = this.sale.total;
-      // this.loadProducts(sale.products);
+      this.installmentValue = this.sale.total;
     });
   }
 
@@ -144,11 +154,10 @@ export class CloseSaleComponent implements OnInit {
     this.change = this.amountReceived - this.sale.total;
   }
 
-  confirmSale(): void {
+  closeSale(): void {
     this.sale.status = "closed";
     this.sale.paymentMethod = this.selectedPaymentMethod as any;
-
-    console.log("sale -----> ", this.sale);
+    this.sale.clientId = this.selectedClient;
 
     this.saleService.updateSale({ ...this.sale }).subscribe(() => {
       this.modalService.showMessage('Venda finalizada.', 'success');
@@ -208,45 +217,49 @@ export class CloseSaleComponent implements OnInit {
   selectClient(client: Client): void {
     this.selectedClient = client;
     this.sale.clientId = client;
-    this.sale.installments = this.selectedInstallments
-      .value as unknown as number;
-
-    this.sale.installmentValue = this.installmentValue;
-    this.sale.dueDates = this.dueDates;
     console.log("sale: ", this.sale);
   }
 
-  calculateInstallmentValue(): void {
-    const selectedInstallments = this.selectedInstallments.value || 1;
+  onChangeInstallmentControl(selectedInstallment: number): void {
+    this.installments?.setValue(selectedInstallment, { emitEvent: false });
+    console.log("Parcelas selecionadas:", selectedInstallment);
+
+    this.calculateInstallmentValue(selectedInstallment);
+  }
+
+  calculateInstallmentValue(selectedInstallment: number): void {
+    const selectedInstallments = selectedInstallment;
     this.installmentValue =
       Number(this.sale.total) / Number(selectedInstallments);
 
-      this.calculateDueDates();
+    this.sale.installments = this.generateInstallments(selectedInstallments, this.installmentValue);
+    console.log("installments no form", this.sale.installments);
   }
 
-  calculateDueDates(): void {
+  private generateInstallments(count: number, value: number): Installment[] {
     const today = new Date();
-    const selectedInstallments = this.selectedInstallments.value || 1;
-    this.dueDates = [];
+    const installments: Installment[] = [];
 
-    for (let i = 0; i < Number(selectedInstallments); i++) {
+    for (let i = 0; i < count; i++) {
       const dueDate = new Date(today);
       dueDate.setMonth(today.getMonth() + i + 1);
-      this.dueDates.push(dueDate);
+
+      installments.push({
+        dueDate: new Date(dueDate.toISOString().substring(0, 10)),
+        amount: parseFloat(value.toFixed(2)),
+        status: "pending",
+      });
     }
 
-    console.log("dueDates: ", this.dueDates);
+    return installments;
   }
 
   onPaymentMethodChange(event: any): void {
     this.selectedPaymentMethod = event.value;
-    // const saleDetailsElement =      this.el.nativeElement.querySelector("#sale-details");
     if (this.selectedPaymentMethod === "client-account") {
       this.isClientTableVisible = true;
-      // this.renderer.addClass(saleDetailsElement, "sale-installments-client");
     } else {
       this.isClientTableVisible = false;
-      // this.renderer.removeClass(saleDetailsElement, "sale-installments-client");
     }
   }
 }
