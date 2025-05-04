@@ -1,15 +1,6 @@
-<mat-grid-list
-  class="spaced-grid-list"
-  cols="5"
-  rowHeight="100px"
-  gutterSize="5px"
->
+<mat-grid-list class="spaced-grid-list" cols="5" rowHeight="100px" gutterSize="5px">
   <mat-grid-tile *ngFor="let tile of buttonTiles" [colspan]="1" [rowspan]="1">
-    <button
-      mat-button
-      class="full-width-button menu-buttons"
-      [routerLink]="tile.link"
-    >
+    <button mat-button class="full-width-button menu-buttons" [routerLink]="tile.link">
       <div class="item">
         <mat-icon class="icon-button">{{ tile.icon }}</mat-icon>
         <span>{{ tile.text }}</span>
@@ -23,11 +14,7 @@
     <div class="sale-products-summary">
       <div class="sale-products">
         <h6>Vendas abertas</h6>
-        <table
-          mat-table
-          [dataSource]="salesList"
-          class="mat-elevation-z8 sales-table"
-        >
+        <table mat-table [dataSource]="salesList" class="mat-elevation-z8 sales-table">
           <ng-container matColumnDef="code">
             <th class="th-text-align" mat-header-cell *matHeaderCellDef>
               Código
@@ -65,12 +52,8 @@
           <ng-container matColumnDef="arrow">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let sale">
-              <button
-                title="Fechar venda"
-                *ngIf="sale.status == 'open'"
-                mat-raised-button
-                (click)="navigateToCloseSale(sale._id!)"
-              >
+              <button title="Fechar venda" *ngIf="sale.status == 'open'" mat-raised-button
+                (click)="navigateToCloseSale(sale._id!)">
                 <mat-icon class="icon">arrow_forward</mat-icon>
               </button>
             </td>
@@ -80,12 +63,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </div>
-      <button
-        mat-raised-button
-        color="primary"
-        class="confirm-button"
-        (click)="navigateToSaleList()"
-      >
+      <button mat-raised-button color="primary" class="confirm-button" (click)="navigateToSaleList()">
         <mat-icon class="icon-button">view_list</mat-icon>
         Ver todas
       </button>
@@ -99,16 +77,16 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{
-                invoice.supplierId
-                  ? invoice.supplierId.name
-                  : invoice.description
+              invoice.supplierId
+              ? invoice.supplierId.name
+              : invoice.description
               }}
             </mat-panel-title>
             <mat-panel-description>
               {{
-                invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2"
+              invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2"
               }}
-              
+
             </mat-panel-description>
 
             <mat-panel-description>
@@ -125,57 +103,56 @@
                 Fornecedor:
                 <span class="font-bold">{{ invoice.supplierId ? invoice.supplierId.name : "" }}</span>
               </p>
+              <p *ngIf="invoice.notes">Notas: {{ invoice.notes }}</p>
 
               <div *ngIf="invoice.installments?.length">
-                Quantidade de parcelas: <span class="font-bold">{{ invoice.installments?.length }}</span>
-                <br>
+                <p>
+                  Quantidade de parcelas: <span class="font-bold">{{ invoice.installments?.length }}</span>
+                </p>
                 Valor e vencimento de cada parcela:
-  
+
                 <div class="installments-list">
                   <div *ngFor="let installment of invoice.installments" class="installment-item">
                     <div class="installment-detail">
                       <div class="flex-div">
-  
+
                         <mat-icon *ngIf="installment.status == 'paid'" class="icon icon-paid"> done </mat-icon>
                         <mat-icon *ngIf="installment.status == 'pending'" class="icon icon-pending"> pending_actions
                         </mat-icon>
                         <span>{{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : "" }} -
-                          <span class="font-bold" > {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }} </span>
+                          <span class="font-bold"> {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }}
+                          </span>
                         </span>
-                        <button *ngIf="installment.status == 'pending'" mat-raised-button class="icon-button m-l-20 m-r-10"
-                          title="Marcar como pago" type="button" (click)="maskInstallmentAsPaid(invoice, installment)">
+                        <button *ngIf="installment.status == 'pending'" mat-raised-button
+                          class="icon-button m-l-20 m-r-10" title="Marcar como pago" type="button"
+                          (click)="maskInstallmentAsPaid(invoice, installment)">
                           <mat-icon class="icon"> done </mat-icon>
                         </button>
-  
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <p *ngIf="invoice.notes">Notas: {{ invoice.notes }}</p>
+              
+              <div class="div-button">
+                <button *ngIf="invoice.installments?.length == 0" mat-raised-button class="icon-button m-r-10"
+                  title="Marcar como pago" type="button" (click)="maskAsPaid(invoice)">
+                  <mat-icon class="icon"> done </mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
 
       <div class="div-board-buttons m-t-10">
-        <button
-          class="board-button"
-          mat-raised-button
-          color="primary"
-          (click)="navigateToInvoiceRegister()"
-        >
+        <button class="board-button" mat-raised-button color="primary" (click)="navigateToInvoiceRegister()">
           <mat-icon class="icon-button">add_circle</mat-icon>
           Adicionar nova
         </button>
 
-        <button
-          class="board-button"
-          mat-raised-button
-          color="primary"
-          (click)="navigateToInvoiceList()"
-        >
+        <button class="board-button" mat-raised-button color="primary" (click)="navigateToInvoiceList()">
           <mat-icon class="icon-button">view_list</mat-icon>
           Ver todas
         </button>

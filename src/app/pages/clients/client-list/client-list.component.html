@@ -57,7 +57,7 @@
               <!-- <p *ngIf="installment.status === 'paid'" class="paid-text">✔️ Pago</p> -->
 
               <button *ngIf="installment.status !== 'paid'" mat-raised-button color="primary"
-                (click)="initiatePayment(installment)" class="pay-button">
+                (click)="initiatePayment(client._id ?? '', installment)" class="pay-button">
                 Pagar
               </button>
             </div>

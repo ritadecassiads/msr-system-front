@@ -3,6 +3,7 @@ import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Sale } from "../models/sale";
 import { Observable } from "rxjs";
+import { Installment } from "../models/installment";
 
 @Injectable({
   providedIn: "root",
@@ -26,6 +27,10 @@ export class SaleService {
 
   updateSale(sale: Sale) {
     return this.http.patch<Sale>(`${this.apiUrl}/${sale._id}`, sale);
+  }
+
+  updateInstallment(saleId: string, installment: Installment){
+    return this.http.patch<Installment>(`${this.apiUrl}/${saleId}/installment`, installment);
   }
 
   deleteSale(id: number) {

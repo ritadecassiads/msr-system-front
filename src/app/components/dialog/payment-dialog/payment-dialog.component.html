@@ -10,14 +10,15 @@
         <mat-select formControlName="paymentMethod">
           <mat-option value="cash">Dinheiro</mat-option>
           <mat-option value="pix">PIX</mat-option>
-          <mat-option value="credit">Cartão de Crédito</mat-option>
-          <mat-option value="debit">Cartão de Débito</mat-option>
+          <mat-option value="credit-card">Cartão de Crédito</mat-option>
+          <mat-option value="debit-card">Cartão de Débito</mat-option>
+          <mat-option value="bank-transfer">Transferència</mat-option>          
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="payment-field">
         <mat-label>Valor Pago</mat-label>
-        <input matInput formControlName="amountPaid" type="number" step="0.01" />
+        <input matInput formControlName="amount" type="number" step="0.01" />
       </mat-form-field>
     </div>
   </form>

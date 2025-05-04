@@ -61,6 +61,7 @@ export class ClientListComponent implements OnInit {
   // pendingInstallments: Installment[] = [];
   pendingInstallments: { [clientId: string]: Installment[] } = {};
   overdueInstallments: { [clientId: string]: Installment[] } = {};
+  salesByClient: { [clientId: string]: Sale[] } = {};
 
   paidInstallments: Installment[] = [];
 
@@ -96,16 +97,21 @@ export class ClientListComponent implements OnInit {
     });
   }
 
-  initiatePayment(installment: Installment): void {
+  initiatePayment(clientId: string, installment: Installment): void {
+    let sale = this.getSaleIdFromInstallment(clientId, installment);
+    console.log('Sale ID: ', sale);
+
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
       height: '310px',
-      data: { installment: installment }
+      data: { installment: installment,
+        saleId: sale
+       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        
+       
         console.log('Pagamento confirmado!');
       }
     });
@@ -156,7 +162,9 @@ export class ClientListComponent implements OnInit {
   async getSalesByClient(clientId: string) {
     this.clientService.getSalesByClient(clientId).subscribe({
       next: (sales) => {
-        console.log("Sales: ", sales);
+        this.salesByClient[clientId] = sales;
+
+        console.log("salesByClient: ", this.salesByClient);
         this.getInstallments(clientId, sales);
       },
       error: (error) => {
@@ -176,8 +184,18 @@ export class ClientListComponent implements OnInit {
     this.pendingInstallments[clientId] = allInstallments.filter(i => i.status === 'pending');
     this.overdueInstallments[clientId] = allInstallments.filter(i => i.status === 'overdue');
     // this.paidInstallments[clientId] = allInstallments.filter(i => i.status === 'paid');
+  }
 
-    console.log("Pending Installments: ", this.pendingInstallments);
-    console.log("Paid Installments: ", this.paidInstallments);
+  getSaleIdFromInstallment(clientId: string, installment: Installment): string {
+    const sales = this.salesByClient[clientId] ?? [];
+    let saleId: string = '';
+
+    sales.forEach((sale) => {
+      if (sale.installments?.some(inst => inst._id === installment._id)) {
+          saleId = sale._id ?? '';
+      }
+    })
+  
+    return saleId;
   }
 }
