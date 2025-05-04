@@ -4,7 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { TokenJwt } from "../models/tokenJwt";
 import { inject } from "@angular/core";
-import { environment } from '../../environments/environments'; // Importa o arquivo de ambiente correto para produção
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
