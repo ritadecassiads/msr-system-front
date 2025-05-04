@@ -111,6 +111,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: "category/edit/:id",
+        loadComponent: () =>
+          import(
+            "./pages/category/category-register/category-register.component"
+          ).then((m) => m.CategoryRegisterComponent),
+      },
+      {
         path: "supplier/register",
         loadComponent: () =>
           import(
@@ -123,6 +130,13 @@ export const routes: Routes = [
           import("./pages/supplier/supplier-list/supplier-list.component").then(
             (m) => m.SupplierListComponent
           ),
+      },
+      {
+        path: "supplier/edit/:id",
+        loadComponent: () =>
+          import(
+            "./pages/supplier/supplier-register/supplier-register.component"
+          ).then((m) => m.SupplierRegisterComponent),
       },
       {
         path: "open-sale",
@@ -160,7 +174,7 @@ export const routes: Routes = [
           ),
       },
       {
-        path: "invoice/edit/:_id",
+        path: "invoice/edit/:id",
         loadComponent: () =>
           import(
             "./pages/invoice/invoice-register/invoice-register.component"

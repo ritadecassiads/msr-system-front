@@ -9,12 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { DeleteDialogComponent } from '../../../components/dialog/delete-dialog/delete-dialog.component';
+import { Installment } from '../../../models/installment';
 
 @Component({
   selector: "app-invoice-list",
@@ -45,13 +46,35 @@ export class InvoiceListComponent {
   filteredInvoices: Invoice[] = [];
   pageSize = 20;
   currentPage = 0;
+  statusFilter = new FormControl();
+  statusList: string[] = ["paid", "pending", "overdue"];
+  statusMap: { [key: string]: string } = {
+    paid: "Pagas",
+    pending: "Pendentes",
+    overdue: "Vencidas",
+  };
   readonly dialog = inject(MatDialog);
 
   constructor(private invoiceService: InvoiceService, private readonly modalService: ModalMessageService, private readonly router: Router) { }
 
   ngOnInit() {
     this.loadInvoices();
+
+    this.statusFilter.valueChanges.subscribe((selectedStatus) => {
+      this.applyStatusFilter(selectedStatus);
+    });
   }
+
+  applyStatusFilter(selectedStatus: string[]): void {
+    if (selectedStatus.length === 0) {
+      this.filteredInvoices = this.invoicesList;
+    } else {
+      this.filteredInvoices = this.invoicesList.filter(
+        (sale) => sale.status && selectedStatus.includes(sale.status)
+      );
+    }
+  }
+
 
   loadInvoices() {
     this.invoiceService.getInvoices().subscribe({
@@ -88,11 +111,11 @@ export class InvoiceListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-       if (invoice._id) {
-           this.deleteInvoice(invoice._id);
-       } else {
-           console.error("Invoice ID is undefined.");
-       }
+        if (invoice._id) {
+          this.deleteInvoice(invoice._id);
+        } else {
+          console.error("Invoice ID is undefined.");
+        }
       }
     });
   }
@@ -108,5 +131,48 @@ export class InvoiceListComponent {
         this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
       },
     });
+  }
+
+  maskAsPaid(invoice: Invoice) {
+    invoice.status = "paid";
+
+    this.updateInvoice(invoice);
+  }
+
+  maskInstallmentAsPaid(invoice: Invoice, installment: Installment) {
+    invoice.installments?.forEach((item) => {
+      if (item._id === installment._id) {
+        item.status = "paid";
+      }
+    })
+
+    const allInstallmentsPaid = invoice.installments?.every((item) => item.status === "paid");
+
+    if (allInstallmentsPaid) {
+      invoice.status = "paid";
+    }
+
+    this.updateInvoice(invoice);
+  }
+
+  updateInvoice(invoice: Invoice) {
+    this.invoiceService.updateInvoice(invoice).subscribe({
+      next: () => {
+        this.modalService.showMessage("Registro atualizado.", "success");
+        this.loadInvoices();
+      },
+      error: (err) => {
+        console.error(err);
+        this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
+      },
+    });
+  }
+
+  getStatusFilterText() {
+    return (
+      this.statusFilter.value
+        ?.map((status: string) => this.statusMap[status])
+        .join(", ") || ""
+    );
   }
 }

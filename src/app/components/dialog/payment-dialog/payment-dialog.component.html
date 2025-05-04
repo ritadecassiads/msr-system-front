@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Realizar pagamento</h2>
+<mat-dialog-content>
+  <p><strong>Parcela:</strong> {{ data.installment.amount | currency: 'BRL' }}</p>
+  <p><strong>Vencimento:</strong> {{ data.installment.dueDate | date: 'dd/MM/yyyy' }}</p>
+
+  <form [formGroup]="paymentForm" class="payment-form">
+    <div class="payment-row">
+      <mat-form-field appearance="outline" class="payment-field">
+        <mat-label>Forma de Pagamento</mat-label>
+        <mat-select formControlName="paymentMethod">
+          <mat-option value="cash">Dinheiro</mat-option>
+          <mat-option value="pix">PIX</mat-option>
+          <mat-option value="credit">Cartão de Crédito</mat-option>
+          <mat-option value="debit">Cartão de Débito</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="payment-field">
+        <mat-label>Valor Pago</mat-label>
+        <input matInput formControlName="amountPaid" type="number" step="0.01" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onConfirmPayment()">Confirmar Pagamento</button>
+</mat-dialog-actions>

@@ -7,81 +7,98 @@
 
   <mat-card-content>
 
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Filtrar por situação</mat-label>
+      <mat-select [formControl]="statusFilter" multiple>
+        <mat-select-trigger>
+          {{ getStatusFilterText() }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let status of statusList" [value]="status">{{
+          statusMap[status]
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-accordion class="example-headers-align" multi *ngIf="filteredInvoices.length > 0">
       <mat-expansion-panel *ngFor="let invoice of getPagedInvoices()">
-        
-         <mat-expansion-panel-header>
+
+        <mat-expansion-panel-header>
           <mat-panel-title>
+            <mat-icon *ngIf="invoice.status == 'paid'" class="icon icon-paid"> done </mat-icon>
+            <mat-icon *ngIf="invoice.status == 'pending'" class="icon icon-pending"> pending_actions
+            </mat-icon> 
             {{ invoice.supplierId ? invoice.supplierId.name : invoice.description }}
           </mat-panel-title>
-        
+
           <mat-panel-description>
             {{ invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2" }}
           </mat-panel-description>
-        
+
           <mat-panel-description>
             {{ invoice.dueDate | date : "dd/MM/yyyy" }}
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div class="client-infos">
+        <div class="invoice-infos">
           <div class="col col1">
             <div *ngIf="invoice.description">
-              <span class="font-bold">Descrição:</span> {{ invoice.description }}
+             Descrição: <span class="font-bold">{{ invoice.description }}</span>
             </div>
             <div>
-              <span class="font-bold">Código:</span> {{ invoice.code }}
+              Código: <span class="font-bold">{{ invoice.code }}</span>
             </div>
             <div *ngIf="invoice.supplierId">
-              <span class="font-bold">Fornecedor:</span> {{ invoice.supplierId ? invoice.supplierId.name : "" }}
+              Fornecedor:<span class="font-bold">{{ invoice.supplierId ? invoice.supplierId.name : "" }}</span>
+            </div>
+            <div *ngIf="invoice.notes">
+              Notas: <span class="font-bold">{{ invoice.notes }}</span>
             </div>
             <div *ngIf="invoice.installments?.length">
-              <span class="font-bold">Quantidade de parcelas:</span> {{ invoice.installments?.length }}
+              Quantidade de parcelas: <span class="font-bold">{{ invoice.installments?.length }}</span>
               <br>
-              <span class="font-bold">
-                Valor e vencimento de cada parcela:
-              </span>
-              <p *ngFor="let installment of invoice.installments">
+              Valor e vencimento de cada parcela:
 
-                {{
-                installment
-                ? (installment.amount
-                | currency : "BRL" : "symbol" : "1.2-2")
-                : ""
-                }}
+              <div class="installments-list">
+                <div *ngFor="let installment of invoice.installments" class="installment-item">
+                  <div class="installment-detail">
+                    <div class="flex-div">
 
-                -
-                <b>
-                  {{
-                  installment
-                  ? (installment.dueDate | date : "dd/MM/yyyy")
-                  : ""
-                  }}
+                      <mat-icon *ngIf="installment.status == 'paid'" class="icon icon-paid"> done </mat-icon>
+                      <mat-icon *ngIf="installment.status == 'pending'" class="icon icon-pending"> pending_actions
+                      </mat-icon>
+                      <span>{{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : "" }} -
+                        <span class="font-bold"> {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }} </span>
+                      </span>
+                      <button *ngIf="installment.status == 'pending'" mat-raised-button class="icon-button m-l-20 m-r-10"
+                        title="Marcar como pago" type="button" (click)="maskInstallmentAsPaid(invoice, installment)">
+                        <mat-icon class="icon"> done </mat-icon>
+                      </button>
 
-                </b>
-              </p>
-            </div>
-
-            <div *ngIf="invoice.notes">
-              <span class="font-bold">Notas:</span>
-              {{ invoice.notes }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
 
           <div class="col col2">
-
             <div class="div-button m-t-10">
-              <button mat-raised-button class="icon-button m-r-10" type="button" (click)="editInvoice(invoice)">
-                
+              <button *ngIf="invoice.installments?.length == 0 && invoice.status != 'paid' " mat-raised-button class="icon-button m-r-10" title="Marcar como pago" type="button"
+                (click)="maskAsPaid(invoice)">
+                <mat-icon class="icon"> done </mat-icon>
+              </button>
+
+              <button mat-raised-button class="icon-button m-r-10" title="Editar" type="button"
+                (click)="editInvoice(invoice)">
                 <mat-icon class="icon"> edit </mat-icon>
               </button>
 
-              <button mat-raised-button class="icon-button" type="button" (click)="openModalToConfirmDelete(invoice)">
+              <button mat-raised-button class="icon-button" title="Excluir" type="button"
+                (click)="openModalToConfirmDelete(invoice)" color="warn">
                 <mat-icon class="icon"> delete </mat-icon>
               </button>
             </div>
-
           </div>
         </div>
       </mat-expansion-panel>

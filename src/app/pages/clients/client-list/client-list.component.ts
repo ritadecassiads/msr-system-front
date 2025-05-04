@@ -20,49 +20,94 @@ import {
 import { MatSelectModule } from "@angular/material/select";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { SaleService } from "../../../services/sale.service";
+import { Installment } from "../../../models/installment";
+import { Sale } from "../../../models/sale";
+import { MatDialog } from "@angular/material/dialog";
+import { PaymentDialogComponent } from "../../../components/dialog/payment-dialog/payment-dialog.component";
 
 @Component({
-    selector: "app-client-list",
-    imports: [
-        MatTableModule,
-        MatPaginatorModule,
-        MatPaginator,
-        MatFormFieldModule,
-        MatInputModule,
-        MatExpansionModule,
-        MatButtonModule,
-        MatIconModule,
-        MatDatepickerModule,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        MatCardSubtitle,
-        CommonModule,
-        MatSelectModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
-    providers: [CurrencyPipe, DatePipe],
-    templateUrl: "./client-list.component.html",
-    styleUrl: "./client-list.component.css"
+  selector: "app-client-list",
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatPaginator,
+    MatFormFieldModule,
+    MatInputModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatCardSubtitle,
+    CommonModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [CurrencyPipe, DatePipe],
+  templateUrl: "./client-list.component.html",
+  styleUrl: "./client-list.component.css"
 })
 export class ClientListComponent implements OnInit {
   clientsList: Client[] = [];
   filteredClients: Client[] = [];
   pageSize = 20;
   currentPage = 0;
+  expandedClientInfos: { [clientId: string]: boolean } = {};
+  // pendingInstallments: Installment[] = [];
+  pendingInstallments: { [clientId: string]: Installment[] } = {};
+  overdueInstallments: { [clientId: string]: Installment[] } = {};
 
-  constructor(private clientService: ClientService, private router: Router) {}
+  paidInstallments: Installment[] = [];
+
+  installments!: { saleCode: string; installmentNumber: number; dueDate: string; amount: number; status: string; }[];
+
+  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadClients();
+
+    this.installments = [
+      {
+        saleCode: 'VENDA001',
+        installmentNumber: 1,
+        dueDate: '2025-06-10',
+        amount: 120,
+        status: 'pending'
+      },
+      {
+        saleCode: 'VENDA001',
+        installmentNumber: 2,
+        dueDate: '2025-07-10',
+        amount: 120,
+        status: 'paid'
+      }
+    ]
   }
 
   loadClients() {
     this.clientService.getAllClients().subscribe((data: Client[]) => {
       this.clientsList = data;
       this.filteredClients = data;
+    });
+  }
+
+  initiatePayment(installment: Installment): void {
+    const dialogRef = this.dialog.open(PaymentDialogComponent, {
+      width: '600px',
+      height: '300px',
+      data: { installment: installment }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Atualiza a lista ou a interface após o pagamento
+        console.log('Pagamento confirmado!');
+      }
     });
   }
 
@@ -98,5 +143,41 @@ export class ClientListComponent implements OnInit {
 
   editClient(client: Client) {
     this.router.navigate([`/client/edit/${client._id}`]);
+  }
+
+  toggleClientInfos(clientId: string): void {
+    this.expandedClientInfos[clientId] = !this.expandedClientInfos[clientId];
+  }
+
+  isClientInfosExpanded(clientId: string): boolean {
+    return this.expandedClientInfos[clientId];
+  }
+
+  async getSalesByClient(clientId: string) {
+    this.clientService.getSalesByClient(clientId).subscribe({
+      next: (sales) => {
+        console.log("Sales: ", sales);
+        this.getInstallments(clientId, sales);
+      },
+      error: (error) => {
+        console.error("Error fetching sales: ", error);
+      }
+    })
+  }
+
+  getInstallments(clientId: string, sales: Sale[]) {
+    const allInstallments: Installment[] = [];
+
+    if(sales.length > 0) {
+      sales.forEach((sale) => {
+        allInstallments.push(...(sale.installments ?? []));
+      })
+    }
+    this.pendingInstallments[clientId] = allInstallments.filter(i => i.status === 'pending');
+    this.overdueInstallments[clientId] = allInstallments.filter(i => i.status === 'overdue');
+    // this.paidInstallments[clientId] = allInstallments.filter(i => i.status === 'paid');
+
+    console.log("Pending Installments: ", this.pendingInstallments);
+    console.log("Paid Installments: ", this.paidInstallments);
   }
 }

@@ -1,19 +1,109 @@
-<div class="mat-elevation-z8">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Consultar produtos</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="m-t-3">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar categoria</mat-label>
+      <input
+        matInput
+        (input)="applyFilter($event)"
+        placeholder="Digite o nome ou código da categoria.."
+      />
+      <mat-icon matSuffix class="icon">search</mat-icon>
+    </mat-form-field>
+
+    <div class="product-list-container">
+      <mat-table [dataSource]="dataSource" class="product-table" matSort>
+        <ng-container matColumnDef="code">
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
+            >Código</mat-header-cell
+          >
+          <mat-cell class="small-column" *matCellDef="let category">{{
+            category.code
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+            >Nome</mat-header-cell
+          >
+          <mat-cell *matCellDef="let category">{{ category.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
+            >Descrição</mat-header-cell
+          >
+          <mat-cell class="small-column" *matCellDef="let category">{{
+            category.description
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell
+            class="small-column"
+            *matHeaderCellDef
+            mat-sort-header
+          ></mat-header-cell>
+          <mat-cell class="small-column" *matCellDef="let category">
+            <button
+              mat-icon-button
+              class="icon-button"
+              type="button"
+              (click)="navigateToEditCategory(category)"
+              >
+              <mat-icon class="icon"> edit </mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              class="icon-button"
+              type="button"
+              (click)="openModalToConfirmDelete(category)"
+              >
+              <mat-icon class="icon"> delete </mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <mat-paginator
+        [length]="categoryList.length"
+        [pageSize]="20"
+        [pageSizeOptions]="[10, 20]"
+      ></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
 
-    <!-- Code Column -->
+   
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Code </th>
       <td mat-cell *matCellDef="let element"> {{element.code}} </td>
     </ng-container>
 
-    <!-- Name Column -->
+    
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Nome </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
-    <!-- Username Column -->
+   
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> Descrição </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
@@ -22,10 +112,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-<!-- 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of employees">
-  </mat-paginator> -->
-</div>
+
+</div> -->
 

@@ -1,5 +1,13 @@
 export interface Installment {
-  dueDate?: Date; // vencimento
+  _id?: string;
+  dueDate?: Date;
   amount: number;
-  status:  "unpaid" | "paid" | "overdue";
+  status:  "pending" | "paid" | "overdue";
+  paymentDate?: Date;
+  paymentMethod?:
+  | "credit-card"
+  | "debit-card"
+  | "cash"
+  | "pix"
+  | "bank-transfer";
 }

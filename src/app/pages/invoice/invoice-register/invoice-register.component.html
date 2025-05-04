@@ -6,77 +6,91 @@
     <form class="m-t-3" [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
       <!-- Nome -->
       <div class="div1">
-        
-        <!-- Descrição -->
+
         <mat-form-field appearance="outline" class="product-form-input">
           <mat-label>Descrição</mat-label>
-          <input
-          matInput
-          placeholder="Digite a descrição do produto"
-          formControlName="description"
-          name="description"
-          />
+          <input matInput placeholder="Digite a descrição da duplicata" formControlName="description"
+            name="description" />
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="product-form-input">
-          <mat-label>Valor total a pagar</mat-label>
-          <input
-            matInput
-            placeholder="Digite o nome do produto"
-            formControlName="totalAmount"
-            name="totalAmount"
-            required
-          />
-        </mat-form-field>
+        <div class="div-flex">
+          <mat-form-field appearance="outline" class="product-form-input">
+            <mat-label>Valor total a pagar</mat-label>
+            <input matInput placeholder="Digite o total a pagar" formControlName="totalAmount" name="totalAmount"
+              required />
+          </mat-form-field>
 
-        <!-- Preço -->
-        <mat-form-field appearance="outline" class="product-form-input">
-          <mat-label>Preço</mat-label>
-          <input
-            matInput
-            formControlName="issueDate"
-            placeholder="Digite o valor do produto"
-            name="issueDate"
-            required
-          />
-        </mat-form-field>
+          <mat-form-field appearance="outline" class="product-form-input">
+            <mat-label>Parcelas</mat-label>
+            <mat-select [formControl]="installmentControl" (valueChange)="
+                onChangeInstallmentControl();">
+              <mat-option *ngFor="let installment of installmentList" [value]="installment">{{ installment
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="div-flex">
+          <mat-form-field appearance="outline" class="product-form-input">
+            <mat-label>Data de emissão</mat-label>
+            <input matInput formControlName="issueDate" placeholder="Digite a data de emissão" name="issueDate" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="product-form-input">
+            <mat-label>Data de vencimento</mat-label>
+            <input matInput formControlName="dueDate" placeholder="Digite a data de vencimento" name="dueDate" />
+          </mat-form-field>
+        </div>
+
+
       </div>
 
       <div class="div2">
-        <mat-form-field appearance="outline" class="product-form-input">
-          <mat-label>Quantidade para estoque</mat-label>
-          <input
-            matInput
-            formControlName="dueDate"
-            placeholder="Digite a quantidade em estoque"
-            name="dueDate"
-            required
-          />
-        </mat-form-field>
 
-        <!-- <mat-form-field appearance="outline" class="product-form-input" >
+        <mat-form-field appearance="outline" class="product-form-input">
           <mat-label>Fornecedor</mat-label>
           <mat-select [formControl]="supplierControl">
-            <mat-option
-              placeholder="Selecione o fornecedor"
-              *ngFor="let supplier of supplierList"
-              [value]="supplier._id"
-              >{{ supplier.name }}</mat-option
-            >
+            <mat-option placeholder="Selecione o fornecedor" *ngFor="let supplier of supplierList"
+              [value]="supplier._id">{{ supplier.name }}</mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
 
-        <!-- <mat-form-field class="product-form-input">
-          <mat-label>Categorias</mat-label>
-          <mat-select [formControl]="categoriesControl" multiple>
-            <mat-option
-              placeholder="Selecione a categoria"
-              *ngFor="let category of categoryList"
-              [value]="category._id"
-              >{{ category.name }}</mat-option
-            >
+        <mat-form-field appearance="outline" class="product-form-input">
+          <mat-label>Anotações</mat-label>
+          <input matInput formControlName="notes" placeholder="Digite as notes" name="dueDate" />
+        </mat-form-field>
+
+        <mat-form-field class="product-form-input" appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select [formControl]="statusControl">
+            <mat-option placeholder="Selecione a categoria" *ngFor="let status of statusList" [value]="status.value">{{
+              status.label }}</mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="installmentControl.value && +installmentControl.value > 1 && totalAmount?.value > 0"
+        class="installment-summary">
+        <h3>Resumo das Parcelas</h3>
+        <table mat-table [dataSource]="installments?.value" class="mat-elevation-z8">
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let installment; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef>Data de Vencimento</th>
+            <td mat-cell *matCellDef="let installment">{{ installment.dueDate | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Valor</th>
+            <td mat-cell *matCellDef="let installment">{{ installment.amount | currency: 'BRL' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['index', 'dueDate', 'amount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['index', 'dueDate', 'amount'];"></tr>
+        </table>
       </div>
 
       <div class="product-div-button">
@@ -85,99 +99,3 @@
     </form>
   </mat-card-content>
 </mat-card>
-
-
-
-<!-- <mat-card class="product-form-register">
-  <mat-card-header>
-    <mat-card-title>Cadastro de Conta/Duplicata</mat-card-title>
-  </mat-card-header>
-  <br>
-  <mat-card-content>
-    <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Valor</mat-label>
-        <input
-          matInput
-          placeholder="Valor"
-          formControlName="amount"
-          name="amount"
-          required
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Parcelas</mat-label>
-        <mat-select
-          [formControl]="installmentControl"
-          (valueChange)="
-            onChangeInstallmentControl();"
-        >
-          <mat-option
-            *ngFor="let installment of installmentList"
-            [value]="installment"
-            >{{ installment }}</mat-option
-          >
-        </mat-select>
-
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Valor de cada parcela</mat-label>
-        <input
-          matInput
-          placeholder="Valor de cada parcela"
-          [value]="installmentValue | currency"
-          readonly
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Data de emissão</mat-label>
-        <input
-          matInput
-          placeholder="Descrição"
-          formControlName="issueDate"
-          name="issueDate"
-          type="date"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Data de vencimento</mat-label>
-        <input
-          matInput
-          placeholder="Data de vencimento"
-          formControlName="dueDate"
-          name="dueDate"
-          type="date"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Fornecedor</mat-label>
-        <mat-select [formControl]="supplierControl">
-          <mat-option
-            *ngFor="let supplier of supplierList"
-            [value]="supplier._id"
-            >{{ supplier.name }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Observações</mat-label>
-        <input
-          matInput
-          placeholder="Observações"
-          formControlName="notes"
-          name="notes"
-        />
-      </mat-form-field>
-
-      <div class="product-div-button">
-        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card> -->

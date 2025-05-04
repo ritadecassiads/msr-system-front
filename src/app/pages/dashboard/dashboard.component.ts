@@ -13,6 +13,7 @@ import { Invoice } from "../../models/invoice";
 import { ModalMessageService } from "../../services/modal-message.service";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { LoaderService } from "../../services/loader.service";
+import { Installment } from "../../models/installment";
 
 @Component({
     selector: "app-dashboard",
@@ -147,4 +148,33 @@ export class DashboardComponent implements OnInit {
   navigateToInvoiceRegister(): void {
     this.router.navigate(["/invoice/register"]);
   }
+
+    maskInstallmentAsPaid(invoice: Invoice, installment: Installment) {
+      invoice.installments?.forEach((item) => {
+        if (item._id === installment._id) {
+          item.status = "paid";
+        }
+      })
+  
+      const allInstallmentsPaid = invoice.installments?.every((item) => item.status === "paid");
+  
+      if (allInstallmentsPaid) {
+        invoice.status = "paid";
+      }
+  
+      this.updateInvoice(invoice);
+    }
+  
+    updateInvoice(invoice: Invoice) {
+      this.invoiceService.updateInvoice(invoice).subscribe({
+        next: () => {
+          this.modalService.showMessage("Registro atualizado.", "success");
+          this.getInvoices();
+        },
+        error: (err) => {
+          console.error(err);
+          this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
+        },
+      });
+    }
 }

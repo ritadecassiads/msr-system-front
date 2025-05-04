@@ -8,20 +8,12 @@
   <mat-card-content>
     <mat-form-field appearance="outline" class="search-input">
       <mat-label>Buscar cliente</mat-label>
-      <input
-        matInput
-        (input)="applyFilter($event)"
-        placeholder="Digite o nome ou código do cliente.."
-      />
+      <input matInput (input)="applyFilter($event)" placeholder="Digite o nome ou código do cliente.." />
       <mat-icon matSuffix class="icon">search</mat-icon>
     </mat-form-field>
 
-    <mat-accordion
-      class="example-headers-align"
-      multi
-      *ngIf="filteredClients.length > 0"
-    >
-      <mat-expansion-panel *ngFor="let client of getPagedClients()">
+    <mat-accordion class="example-headers-align" multi *ngIf="filteredClients.length > 0">
+      <mat-expansion-panel *ngFor="let client of getPagedClients()" (opened)="getSalesByClient(client._id ?? '')">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ client.name }}
@@ -42,7 +34,61 @@
         <hr />
         <br />
 
-        <div class="client-infos">
+        <div class="no-installments-container" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) === 0">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+          <h5>Sem parcelas pendentes</h5>
+          <p>Este cliente está em dia com todos os pagamentos.</p>
+        </div>
+
+        <div class="installments-section" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) > 0">
+          <h3>Parcelas Pendentes</h3>
+          <div class="installments-grid">
+            <div class="installment-card"
+              *ngFor="let installment of pendingInstallments[client._id ?? '']; let i = index"
+              [ngClass]="{ 'paid': installment.status === 'paid' }">
+              <!-- <mat-checkbox [(ngModel)]="installment.selected" class="payment-checkbox"> -->
+
+
+              <!-- </mat-checkbox> -->
+              <!-- <p><strong>Venda:</strong> {{ installment.saleCode }}</p> -->
+              <p><strong>Parcela:</strong> {{ i+1 }}</p>
+              <p><strong>Valor:</strong> {{ installment.amount | currency: 'BRL' }}</p>
+              <p><strong>Vencimento:</strong> {{ installment.dueDate | date: 'dd/MM/yyyy' }}</p>
+              <!-- <p *ngIf="installment.status === 'paid'" class="paid-text">✔️ Pago</p> -->
+
+              <button *ngIf="installment.status !== 'paid'" mat-raised-button color="primary"
+                (click)="initiatePayment(installment)" class="pay-button">
+                Pagar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="installments-section" *ngIf="(overdueInstallments[client._id ?? '']?.length ?? 0) > 0">
+          <h3>Parcelas Pendentes</h3>
+          <div class="installments-grid">
+            <div class="installment-card"
+              *ngFor="let installment of overdueInstallments[client._id ?? '']; let i = index" class="overdue">
+              <!-- <p><strong>Venda:</strong> {{ installment.saleCode }}</p> -->
+              <p><strong>Parcela:</strong> {{ i+1 }}</p>
+              <p><strong>Valor:</strong> {{ installment.amount | currency: 'BRL' }}</p>
+              <p><strong>Vencimento:</strong> {{ installment.dueDate | date: 'dd/MM/yyyy' }}</p>
+              <!-- <p *ngIf="installment.status === 'paid'" class="paid-text">✔️ Pago</p> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-infos-button m-t-10">
+          <button mat-raised-button color="primary" (click)="toggleClientInfos(client._id ?? '')">
+            <mat-icon class="toggle-icon" style="margin-right: 4px;">
+              {{ isClientInfosExpanded(client._id ?? '') ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+            {{ isClientInfosExpanded(client._id ?? '') ? 'Ocultar informações do cliente' : 'Mostrar informações do
+            cliente' }}
+          </button>
+        </div>
+
+        <div class="client-infos m-t-10" *ngIf="isClientInfosExpanded(client._id ?? '')">
           <div class="col col1">
             <div><span class="font-bold">Nome:</span> {{ client.name }}</div>
             <div><span class="font-bold">Código:</span> {{ client.code }}</div>
@@ -62,9 +108,12 @@
               {{ client.address.number }}, {{ client.address.city }},
               {{ client.address.state }}
             </div>
-            <div><span class="font-bold" [ngClass]="{ disabled: !client.fathersName }">Nome do pai:</span> {{ client.fathersName }}</div>
-            <div><span class="font-bold" [ngClass]="{ disabled: !client.mothersName }">Nome da mãe:</span> {{ client.mothersName }}</div>
-            <div><span class="font-bold" [ngClass]="{ disabled: !client.peopleAuthorized }">Pessoas autorizadas:</span> {{ client.peopleAuthorized }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.fathersName }">Nome do pai:</span> {{
+              client.fathersName }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.mothersName }">Nome da mãe:</span> {{
+              client.mothersName }}</div>
+            <div><span class="font-bold" [ngClass]="{ disabled: !client.peopleAuthorized }">Pessoas autorizadas:</span>
+              {{ client.peopleAuthorized }}</div>
             <div>
               <span class="font-bold">Limite de compra:</span>
               {{ client.purchaseLimit | currency : "BRL" : "symbol" : "1.2-2" }}
@@ -89,30 +138,16 @@
           </div>
 
           <div class="div-button m-t-10">
-            <button
-              mat-raised-button
-              class="icon-button m-r-10"
-              type="button"
-              (click)="editClient(client)"
-              >
+            <button mat-raised-button class="icon-button m-r-10" type="button" (click)="editClient(client)">
               <mat-icon class="icon"> edit </mat-icon>
             </button>
-  
-            <div class="">
-              <button  mat-raised-button color="warn">Cliente incluído no SPC</button>
-            </div>
           </div>
-
-          </div>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
 
-    <mat-paginator class="m-t-10"
-      [length]="filteredClients.length"
-      [pageSizeOptions]="[20, 50, 100]"
-      [pageSize]="pageSize"
-      (page)="onPageChange($event)"
-    >
+    <mat-paginator class="m-t-10" [length]="filteredClients.length" [pageSizeOptions]="[20, 50, 100]"
+      [pageSize]="pageSize" (page)="onPageChange($event)">
     </mat-paginator>
   </mat-card-content>
 </mat-card>

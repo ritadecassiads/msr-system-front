@@ -3,32 +3,35 @@
     <mat-card-title>Cadastro de Categoria</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-      <!-- Nome -->
-      <mat-form-field appearance="outline" class="category-form-input">
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          placeholder="Nome"
-          formControlName="name"
-          name="name"
-          required
-        />
-      </mat-form-field>
+    <form class="m-t-3" [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
 
-      <!-- Descrição -->
-      <mat-form-field appearance="outline" class="category-form-input">
-        <mat-label>Descrição</mat-label>
-        <textarea
-          matInput
-          placeholder="Descrição"
-          formControlName="description"
-          name="description"
-        ></textarea>
-      </mat-form-field>
+      <div class="div1"> 
+        <mat-form-field appearance="outline" class="category-form-input">
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            placeholder="Nome"
+            formControlName="name"
+            name="name"
+            required
+          />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="category-form-input">
+          <mat-label>Descrição</mat-label>
+          <textarea
+            matInput
+            placeholder="Descrição"
+            formControlName="description"
+            name="description"
+          ></textarea>
+        </mat-form-field>
+
+      </div>
+
 
       <div class="category-div-button">
-        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
+        <button mat-flat-button color="primary" type="submit">Salvar</button>
       </div>
     </form>
   </mat-card-content>

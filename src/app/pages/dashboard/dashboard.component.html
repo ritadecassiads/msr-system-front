@@ -95,7 +95,7 @@
       <h6>Contas a pagar</h6>
 
       <mat-accordion *ngFor="let invoice of invoiceList">
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="invoice.status == 'pending'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{
@@ -108,43 +108,48 @@
               {{
                 invoice.totalAmount | currency : "BRL" : "symbol" : "1.2-2"
               }}
-              - {{ invoice.dueDate | date : "dd/MM/yyyy" }}
+              
+            </mat-panel-description>
+
+            <mat-panel-description>
+              {{ invoice.dueDate | date : "dd/MM/yyyy" }}
             </mat-panel-description>
           </mat-expansion-panel-header>
 
           <div class="client-summary">
             <div>
               <p *ngIf="invoice.description">
-                Descrição: <b>{{ invoice.description }}</b>
+                Descrição: <span class="font-bold">{{ invoice.description }}</span>
               </p>
               <p *ngIf="invoice.supplierId">
                 Fornecedor:
-                <b>{{ invoice.supplierId ? invoice.supplierId.name : "" }}</b>
+                <span class="font-bold">{{ invoice.supplierId ? invoice.supplierId.name : "" }}</span>
               </p>
 
               <div *ngIf="invoice.installments?.length">
-                <p>
-                  Quantidade de parcelas: {{ invoice.installments?.length }}
-                </p>
-
-                <div>
-                  Valor e vencimento de cada parcela:
-                  <p *ngFor="let installment of invoice.installments">
-                    <b>
-                      {{
-                        installment
-                          ? (installment.amount
-                            | currency : "BRL" : "symbol" : "1.2-2")
-                          : ""
-                      }}
-                    </b>
-                    -
-                    {{
-                      installment
-                        ? (installment.dueDate | date : "dd/MM/yyyy")
-                        : ""
-                    }}
-                  </p>
+                Quantidade de parcelas: <span class="font-bold">{{ invoice.installments?.length }}</span>
+                <br>
+                Valor e vencimento de cada parcela:
+  
+                <div class="installments-list">
+                  <div *ngFor="let installment of invoice.installments" class="installment-item">
+                    <div class="installment-detail">
+                      <div class="flex-div">
+  
+                        <mat-icon *ngIf="installment.status == 'paid'" class="icon icon-paid"> done </mat-icon>
+                        <mat-icon *ngIf="installment.status == 'pending'" class="icon icon-pending"> pending_actions
+                        </mat-icon>
+                        <span>{{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : "" }} -
+                          <span class="font-bold" > {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }} </span>
+                        </span>
+                        <button *ngIf="installment.status == 'pending'" mat-raised-button class="icon-button m-l-20 m-r-10"
+                          title="Marcar como pago" type="button" (click)="maskInstallmentAsPaid(invoice, installment)">
+                          <mat-icon class="icon"> done </mat-icon>
+                        </button>
+  
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 

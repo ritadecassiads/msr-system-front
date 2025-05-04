@@ -19,22 +19,25 @@ export class SharedService {
     console.log("dateString: ", dateString);
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     console.log("date: ", `${day}/${month}/${year}`);
     return `${day}/${month}/${year}`;
   }
 
+  convertToDate(dateString: string): Date {
+    const [day, month, year] = dateString.split("/").map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+    return date;
+  }
+
   formatCpf(value: string): string {
-    // Remove qualquer caractere não numérico
     let cpf = value.replace(/\D/g, '');
     
-    // Limita o número de caracteres a 11
     if (cpf.length > 11) {
       cpf = cpf.slice(0, 11);
     }
     
-    // Formata o CPF com pontos e hífen
     if (cpf.length <= 3) {
       return cpf;
     }
@@ -48,10 +51,8 @@ export class SharedService {
   }
 
   validateCpf(cpf: string): boolean {
-    // Remove todos os caracteres não numéricos
     cpf = cpf.replace(/[^\d]+/g, '');
 
-    // Validações iniciais
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
       return false;
     }
@@ -59,7 +60,6 @@ export class SharedService {
     let sum: number;
     let remainder: number;
 
-    // Verificação do primeiro dígito verificador
     sum = 0;
     for (let i = 1; i <= 9; i++) {
       sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
@@ -73,7 +73,6 @@ export class SharedService {
       return false;
     }
 
-    // Verificação do segundo dígito verificador
     sum = 0;
     for (let i = 1; i <= 10; i++) {
       sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
