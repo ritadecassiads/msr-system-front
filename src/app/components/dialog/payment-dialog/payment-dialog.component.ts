@@ -33,25 +33,24 @@ export class PaymentDialogComponent {
     private fb: FormBuilder,
     // private installmentService: InstallmentService 
   ) {
-    // Inicializa o formulário com validação
     this.paymentForm = this.fb.group({
       paymentMethod: ['', Validators.required], // Forma de pagamento
       amountPaid: [this.data.installment.amount, [Validators.required, Validators.min(0.1)]], // Valor pago
     });
   }
 
-  // Fecha o modal sem fazer nada
   onCancel(): void {
     this.dialogRef.close();
   }
 
-  // Chama o serviço para dar baixa na parcela
   onConfirmPayment(): void {
     if (this.paymentForm.valid) {
       const paymentData = {
         amountPaid: this.paymentForm.value.amountPaid,
         paymentMethod: this.paymentForm.value.paymentMethod
       };
+
+      console.log('Dados do pagamento:', paymentData);
 
       // this.installmentService.payInstallment(this.data.installment._id, paymentData).subscribe(
       //   response => {

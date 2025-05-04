@@ -3,7 +3,7 @@
   <p><strong>Parcela:</strong> {{ data.installment.amount | currency: 'BRL' }}</p>
   <p><strong>Vencimento:</strong> {{ data.installment.dueDate | date: 'dd/MM/yyyy' }}</p>
 
-  <form [formGroup]="paymentForm" class="payment-form">
+  <form [formGroup]="paymentForm" class="payment-form m-t-10">
     <div class="payment-row">
       <mat-form-field appearance="outline" class="payment-field">
         <mat-label>Forma de Pagamento</mat-label>

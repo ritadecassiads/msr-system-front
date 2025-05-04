@@ -78,6 +78,8 @@
     padding: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: background 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .installment-card.paid {

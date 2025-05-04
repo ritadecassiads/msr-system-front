@@ -58,16 +58,16 @@ export class DashboardComponent implements OnInit {
       link: "/open-sale",
     },
     {
-      text: "Ver lista de vendas",
-      color: "lightgreen",
-      icon: "check_circle",
-      link: "/sale/list",
-    },
-    {
       text: "Acessar conta do cliente",
       color: "#DDBDF1",
       icon: "account_circle",
       link: "/client/list",
+    },
+    {
+      text: "Ver lista de vendas",
+      color: "lightgreen",
+      icon: "check_circle",
+      link: "/sale/list",
     },
     {
       text: "Fechar caixa",

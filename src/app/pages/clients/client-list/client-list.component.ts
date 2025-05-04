@@ -99,13 +99,13 @@ export class ClientListComponent implements OnInit {
   initiatePayment(installment: Installment): void {
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
-      height: '300px',
+      height: '310px',
       data: { installment: installment }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Atualiza a lista ou a interface após o pagamento
+        
         console.log('Pagamento confirmado!');
       }
     });
