@@ -34,7 +34,7 @@
         <hr />
         <br />
 
-        <div class="no-installments-container" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) === 0">
+        <div class="no-installments-container" *ngIf="salesByClient[client._id ?? '']?.length === 0">
           <mat-icon class="success-icon">check_circle</mat-icon>
           <h5>Sem parcelas pendentes</h5>
           <p>Este cliente está em dia com todos os pagamentos.</p>
