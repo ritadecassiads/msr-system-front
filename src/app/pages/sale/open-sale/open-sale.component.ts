@@ -158,7 +158,6 @@ export class SaleRegisterComponent {
 
   recoverUser() {
     this.employeeUsernameOrCode = StorageUtils.getUserSale() ?? "";
-    console.log("Username shared: ", this.employeeUsernameOrCode);
   }
 
   applyFilter(event: Event): void {
@@ -313,7 +312,6 @@ export class SaleRegisterComponent {
   }
 
   getSellerByUsername(): void {
-    console.log("recuperando user do banco USER: ", this.employeeUsernameOrCode);
     if (this.employeeUsernameOrCode) {
       this.employeeService
         .getEmployeeByUsername(this.employeeUsernameOrCode.toString())
@@ -335,8 +333,6 @@ export class SaleRegisterComponent {
   }
 
   getSellerByCode(): void {
-    console.log("recuperando user do banco CODE: ", this.employeeUsernameOrCode);
-
     if (this.employeeUsernameOrCode) {
       this.employeeService
         .getEmployeeByCode(Number(this.employeeUsernameOrCode))

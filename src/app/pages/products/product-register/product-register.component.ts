@@ -155,7 +155,6 @@ export class ProductRegisterComponent implements OnInit {
     if (product?.categories) {
       this.categoriesControl.setValue(product.categories.map(category => category._id).filter((id): id is string => !!id)); // Preenche o controle de seleção
     }
-    console.log("categorias: ", product?.categories);
   }
 
   onSubmit() {
@@ -193,8 +192,6 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   updateProduct(product: Product): void {
-    console.log("Product to update: ", product);
-
     this.productService.updateProduct(product).subscribe({
       next: () => {
         this.modalService.showMessage('As informações foram salvas.', 'success');
@@ -225,8 +222,6 @@ export class ProductRegisterComponent implements OnInit {
       next: (product) => {
         this.productToEdit = product;
         this.initializeForm(product);
-
-        console.log("carregou o produto: ", product);
       },
       error: (err) => {
         console.error(err);

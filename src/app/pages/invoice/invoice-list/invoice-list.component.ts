@@ -81,12 +81,38 @@ export class InvoiceListComponent {
       next: (invoices) => {
         this.invoicesList = invoices;
         this.filteredInvoices = invoices;
+
+        this.sortInvoicesByDate();
       },
       error: (err) => {
         console.log(err);
         this.modalService.showMessage('Algo deu errado ao carregar dados. Tente novamente.', 'error');
       },
     });
+  }
+
+  sortInvoicesByDate(): void {
+    this.filteredInvoices = [...this.filteredInvoices].sort((a, b) => {
+      const statusPriority = this.getStatusPriority(a.status) - this.getStatusPriority(b.status);
+  
+      if (statusPriority !== 0) {
+        return statusPriority;
+      }
+  
+      const dateA = new Date(a.createdAt ?? 0).getTime();
+      const dateB = new Date(b.createdAt ?? 0).getTime();
+      return dateB - dateA;
+    });
+  }
+
+  getStatusPriority(status: string): number {
+    const priorityMap: { [key: string]: number } = {
+      overdue: 1,
+      pending: 2,
+      paid: 3,    
+    };
+  
+    return priorityMap[status] ?? 4;
   }
 
   getPagedInvoices() {

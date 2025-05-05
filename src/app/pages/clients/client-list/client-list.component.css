@@ -44,11 +44,6 @@
     margin: 0px !important;
 }
 
-
-
-
-
-
 .installments-section {
     padding: 16px;
     background-color: #fff8e1;
@@ -59,7 +54,7 @@
 .installments-section h3 {
     margin-bottom: 16px;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
     color: #ff9800;
 }
 
@@ -78,6 +73,8 @@
     padding: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: background 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .installment-card.paid {
@@ -120,4 +117,45 @@
 .payment-checkbox {
     display: block;
     margin-bottom: 10px;
-  }
+}
+
+.installment-card.overdue {
+    border-left-color: #f44336;
+    /* Vermelho */
+    background-color: #ffebee;
+    /* Vermelho claro */
+}
+
+.installment-card.overdue p {
+    color: #b71c1c;
+    /* Texto mais escuro */
+}
+
+
+
+.overdue {
+    flex: 1 1 200px;
+    background-color: #ffffff;
+    border: 1px solid #eeeeee;
+    border-left: 6px solid #c80404;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: background 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.installments-section-overdue {
+    padding: 16px;
+    background-color: #e86b6b2e !important;
+    border: 1px solid #ffecb3;
+    border-radius: 8px;
+}
+
+.installments-section-overdue h3 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #a20b0b;
+}

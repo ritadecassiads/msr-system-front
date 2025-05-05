@@ -100,7 +100,7 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   get cpf() {
-    return this.employeeForm.get("cpf");
+    return this.employeeForm.get("cpf") as FormControl;
   }
 
   initializeForm(employee?: Employee) {
@@ -207,9 +207,9 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   handleChangeCPF() {
-    this.cpfControl.valueChanges.subscribe((value) => {
+    this.cpf.valueChanges.subscribe((value) => {
       if (value) {
-        this.cpfControl.setValue(this.sharedService.formatCpf(value), {
+        this.cpf.setValue(this.sharedService.formatCpf(value), {
           emitEvent: false,
         });
       }
@@ -263,7 +263,6 @@ export class EmployeeRegisterComponent implements OnInit {
       next: (employee) => {
         this.employeeToEdit = employee;
         this.initializeForm(employee);
-        console.log("carregou o funcionario: ", employee);
       },
       error: (err) => {
         console.error(err);

@@ -90,7 +90,6 @@ export class CategoryListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.deleteCategory(category);
       }
     });

@@ -25,6 +25,7 @@ import { Installment } from "../../../models/installment";
 import { Sale } from "../../../models/sale";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentDialogComponent } from "../../../components/dialog/payment-dialog/payment-dialog.component";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-client-list",
@@ -61,12 +62,13 @@ export class ClientListComponent implements OnInit {
   // pendingInstallments: Installment[] = [];
   pendingInstallments: { [clientId: string]: Installment[] } = {};
   overdueInstallments: { [clientId: string]: Installment[] } = {};
+  salesByClient: { [clientId: string]: Sale[] } = {};
 
   paidInstallments: Installment[] = [];
 
   installments!: { saleCode: string; installmentNumber: number; dueDate: string; amount: number; status: string; }[];
 
-  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog) { }
+  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService) { }
 
   ngOnInit() {
     this.loadClients();
@@ -96,18 +98,32 @@ export class ClientListComponent implements OnInit {
     });
   }
 
-  initiatePayment(installment: Installment): void {
+  initiatePayment(clientId: string, installment: Installment): void {
+    let sale = this.getSaleIdFromInstallment(clientId, installment);
+    console.log('Sale ID: ', sale);
+
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
-      height: '300px',
-      data: { installment: installment }
+      height: '310px',
+      data: { installment: installment,
+        saleId: sale
+       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Atualiza a lista ou a interface após o pagamento
-        console.log('Pagamento confirmado!');
+        this.modalService.showMessage(
+          "Pagamento registrado.",
+          "success"
+        );
+        window.location.reload();
       }
+    });
+  }
+
+  refreshPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([this.router.url]);
     });
   }
 
@@ -156,7 +172,9 @@ export class ClientListComponent implements OnInit {
   async getSalesByClient(clientId: string) {
     this.clientService.getSalesByClient(clientId).subscribe({
       next: (sales) => {
-        console.log("Sales: ", sales);
+        this.salesByClient[clientId] = sales;
+
+        console.log("salesByClient: ", this.salesByClient);
         this.getInstallments(clientId, sales);
       },
       error: (error) => {
@@ -176,8 +194,18 @@ export class ClientListComponent implements OnInit {
     this.pendingInstallments[clientId] = allInstallments.filter(i => i.status === 'pending');
     this.overdueInstallments[clientId] = allInstallments.filter(i => i.status === 'overdue');
     // this.paidInstallments[clientId] = allInstallments.filter(i => i.status === 'paid');
+  }
 
-    console.log("Pending Installments: ", this.pendingInstallments);
-    console.log("Paid Installments: ", this.paidInstallments);
+  getSaleIdFromInstallment(clientId: string, installment: Installment): string {
+    const sales = this.salesByClient[clientId] ?? [];
+    let saleId: string = '';
+
+    sales.forEach((sale) => {
+      if (sale.installments?.some(inst => inst._id === installment._id)) {
+          saleId = sale._id ?? '';
+      }
+    })
+  
+    return saleId;
   }
 }

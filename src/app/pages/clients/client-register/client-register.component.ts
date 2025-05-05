@@ -52,7 +52,7 @@ export class ClientRegisterComponent {
   isEditing: boolean = false;
   clientId: string = "";
   clientToEdit!: Client;
-  cpfControl = new FormControl('');;
+  // cpfControl = new FormControl('');;
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +63,10 @@ export class ClientRegisterComponent {
     private modalService: ModalMessageService,
     private sharedService: SharedService
   ) {}
+
+  get cpf(){
+    return this.clientForm.get('cpf') as FormControl;
+  }
 
   ngOnInit() {
     this.idUserLogged = this.authService.getLoggedUser();
@@ -115,8 +119,6 @@ export class ClientRegisterComponent {
   }
 
   updateClient(client: Client) {
-    console.log("Product to update: ", client);
-
     this.clientService.updateClient(client).subscribe({
       next: () => {
         this.modalService.showMessage(
@@ -183,8 +185,6 @@ export class ClientRegisterComponent {
       next: (client) => {
         this.clientToEdit = client;
         this.initializeForm(client);
-
-        console.log("carregou o cliente: ", client);
       },
       error: (err) => {
         console.error(err);
@@ -193,9 +193,10 @@ export class ClientRegisterComponent {
   }
 
   handleChangeCPF(){
-    this.cpfControl.valueChanges.subscribe(value => {
+    this.cpf.valueChanges.subscribe(value => {
       if(value){
-        this.cpfControl.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
+        // this.cpfControl.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
+        this.cpf.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
       }
     });
   }
