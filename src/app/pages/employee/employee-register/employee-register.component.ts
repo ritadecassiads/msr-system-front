@@ -263,7 +263,6 @@ export class EmployeeRegisterComponent implements OnInit {
       next: (employee) => {
         this.employeeToEdit = employee;
         this.initializeForm(employee);
-        console.log("carregou o funcionario: ", employee);
       },
       error: (err) => {
         console.error(err);

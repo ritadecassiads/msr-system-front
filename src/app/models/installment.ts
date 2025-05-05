@@ -5,9 +5,9 @@ export interface Installment {
   status:  "pending" | "paid" | "overdue";
   paymentDate?: Date;
   paymentMethod?:
-  | "credit-card"
-  | "debit-card"
+  | "credit"
+  | "debit"
   | "cash"
   | "pix"
-  | "bank-transfer";
+  | "bankTransfer";
 }

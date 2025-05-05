@@ -25,6 +25,7 @@ import { Installment } from "../../../models/installment";
 import { Sale } from "../../../models/sale";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentDialogComponent } from "../../../components/dialog/payment-dialog/payment-dialog.component";
+import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
   selector: "app-client-list",
@@ -67,7 +68,7 @@ export class ClientListComponent implements OnInit {
 
   installments!: { saleCode: string; installmentNumber: number; dueDate: string; amount: number; status: string; }[];
 
-  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog) { }
+  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService) { }
 
   ngOnInit() {
     this.loadClients();
@@ -111,9 +112,18 @@ export class ClientListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       
-        console.log('Pagamento confirmado!');
+        this.modalService.showMessage(
+          "Pagamento registrado.",
+          "success"
+        );
+        window.location.reload();
       }
+    });
+  }
+
+  refreshPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([this.router.url]);
     });
   }
 

@@ -59,7 +59,6 @@ export class PaymentDialogComponent {
         status: 'paid'
       };
 
-      console.log('Dados do pagamento:', paymentData);
       this.updateInstallmentOnSale(paymentData);
     } else {
       this.modalService.showMessage(
@@ -72,11 +71,6 @@ export class PaymentDialogComponent {
   updateInstallmentOnSale(paymentData: Installment): void {
     this.saleService.updateInstallment(this.data.saleId, paymentData).subscribe({
       next: (response) => {
-        this.modalService.showMessage(
-          "Pagamento registrado.",
-          "success"
-        );
-        this.router.navigate(["/client/list"]);
         this.dialogRef.close(true);
       },
       error: (error) => {
