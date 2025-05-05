@@ -17,7 +17,6 @@ export class SaleService {
   }
 
   getSales(): Observable<Sale[]> {
-    console.log("API ", this.apiUrl);
     return this.http.get<Sale[]>(this.apiUrl);
   }
 

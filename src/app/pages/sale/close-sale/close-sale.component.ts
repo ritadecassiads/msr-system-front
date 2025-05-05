@@ -217,13 +217,10 @@ export class CloseSaleComponent implements OnInit {
   selectClient(client: Client): void {
     this.selectedClient = client;
     this.sale.clientId = client;
-    console.log("sale: ", this.sale);
   }
 
   onChangeInstallmentControl(selectedInstallment: number): void {
     this.installments?.setValue(selectedInstallment, { emitEvent: false });
-    console.log("Parcelas selecionadas:", selectedInstallment);
-
     this.calculateInstallmentValue(selectedInstallment);
   }
 
@@ -233,7 +230,6 @@ export class CloseSaleComponent implements OnInit {
       Number(this.sale.total) / Number(selectedInstallments);
 
     this.sale.installments = this.generateInstallments(selectedInstallments, this.installmentValue);
-    console.log("installments no form", this.sale.installments);
   }
 
   private generateInstallments(count: number, value: number): Installment[] {

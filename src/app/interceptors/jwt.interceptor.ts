@@ -31,10 +31,7 @@ export const JwtInterceptor: HttpInterceptorFn = (
 
     return next(cloned).pipe(
       catchError((error) => {
-        // Verifica se o erro é um Unauthorized (token expirado ou inválido)
         if (error.status === 401) {
-          console.log("Sessão expirada");
-          // Mostra a modal de confirmação
           const dialogRef = dialog.open(ConfirmDialogComponent, {
             data: {
               message:
@@ -44,9 +41,7 @@ export const JwtInterceptor: HttpInterceptorFn = (
 
           dialogRef.afterClosed().subscribe((result) => {
             if (result === "confirm") {
-              // Chama o serviço de logout
-              authService.logout(); // Limpa o token e dados do usuário
-              // Redireciona para a tela de login
+              authService.logout();
               router.navigate(["/login"]);
             }
           });

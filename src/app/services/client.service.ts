@@ -31,7 +31,6 @@ export class ClientService {
   }
 
   getSalesByClient(clientId: string): Observable<Sale[]> {
-    console.log("clientId: ", clientId);
     return this.http.get<Sale[]>(`${this.apiUrl}/${clientId}/installments`);
   }
 

@@ -46,18 +46,18 @@ button {
 }
 
 .error-message {
-  color: red;
+  color: #b80505;
   font-size: 12px;
   margin-top: -20px;
   display: flex;
-  
+  justify-content: end;
 }
 
-.error-message-cpf{
+.error-message-cpf {
   justify-content: flex-start;
   margin-bottom: 10px;
 }
 
-.error-message-password{
+.error-message-password {
   justify-content: end;
 }

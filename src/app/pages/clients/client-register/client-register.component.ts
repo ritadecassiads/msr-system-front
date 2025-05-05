@@ -76,7 +76,6 @@ export class ClientRegisterComponent {
   }
 
   onSubmit() {
-    console.log("Form submitted: ", this.clientForm.value);
     if (this.clientForm.valid) {
       if (this.isEditing) {
         const updatedClient = {
@@ -120,8 +119,6 @@ export class ClientRegisterComponent {
   }
 
   updateClient(client: Client) {
-    console.log("Product to update: ", client);
-
     this.clientService.updateClient(client).subscribe({
       next: () => {
         this.modalService.showMessage(
@@ -188,8 +185,6 @@ export class ClientRegisterComponent {
       next: (client) => {
         this.clientToEdit = client;
         this.initializeForm(client);
-
-        console.log("carregou o cliente: ", client);
       },
       error: (err) => {
         console.error(err);
