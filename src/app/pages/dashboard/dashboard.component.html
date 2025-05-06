@@ -1,6 +1,6 @@
 <mat-grid-list class="spaced-grid-list" cols="5" rowHeight="100px" gutterSize="5px">
   <mat-grid-tile *ngFor="let tile of buttonTiles" [colspan]="1" [rowspan]="1">
-    <button mat-button class="full-width-button menu-buttons" [routerLink]="tile.link">
+    <button mat-button class="full-width-button menu-buttons" [routerLink]="tile.link" (click)="fecharCaixa(tile.text)">
       <div class="item">
         <mat-icon class="icon-button">{{ tile.icon }}</mat-icon>
         <span>{{ tile.text }}</span>
