@@ -229,9 +229,9 @@ export class EmployeeRegisterComponent implements OnInit {
 
   openModalAdminConfirm() {
     this.modalService.showMessage(
-      "Você está prestes a criar um usuário administrador. Deseja continuar?",
+      "Usuário administrador terá acesso total ao sistema. Se deseja limitar os acessos, selecione 'Funcionário padrão'.",
       "alert",
-      "Continuar"
+      "Ok"
     );
   }
 

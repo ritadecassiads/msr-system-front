@@ -70,16 +70,16 @@ export class DashboardComponent implements OnInit {
       link: "/sale/list",
     },
     {
-      text: "Fechar caixa",
-      color: "lightpink",
-      icon: "account_balance",
-      link: "/product/list",
-    },
-    {
       text: "Acessar produto",
       color: "#DDBDF1",
       icon: "add_circle",
       link: "/product/list",
+    },
+    {
+      text: "Fechar caixa",
+      color: "lightpink",
+      icon: "account_balance",
+      link: "/dashboard",
     },
   ];
 
@@ -182,5 +182,11 @@ export class DashboardComponent implements OnInit {
     invoice.status = "paid";
 
     this.updateInvoice(invoice);
+  }
+
+  fecharCaixa(titulo: string){
+    if(titulo === "Fechar caixa"){
+      this.modalService.showMessage(`Módulo em construção...`, "alert");
+    }
   }
 }
