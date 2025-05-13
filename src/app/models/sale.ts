@@ -8,7 +8,7 @@ export interface Sale {
   _id?: string;
   code?: number;
   products: SaleProduct[];
-  clientId?: Client;
+  clientId?: Client | null;
   openedByEmployee: Employee;
   itensQuantity: number;
   total: number;

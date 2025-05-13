@@ -32,7 +32,7 @@ export class SaleService {
     return this.http.patch<Installment>(`${this.apiUrl}/${saleId}/installment`, installment);
   }
 
-  deleteSale(id: number) {
+  deleteSale(id: string) {
     return this.http.delete<Sale>(`${this.apiUrl}/${id}`);
   }
 }

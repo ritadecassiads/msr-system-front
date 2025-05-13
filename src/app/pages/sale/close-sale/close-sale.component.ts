@@ -81,7 +81,7 @@ export class CloseSaleComponent implements OnInit {
   clientList: Client[] = [];
   filteredClients: Client[] = [];
   isClientTableVisible: boolean = false;
-  selectedClient: Client = {} as Client;
+  selectedClient: Client | null = null;
 
   displayedProductColumns: string[] = [
     "code",
@@ -157,7 +157,6 @@ export class CloseSaleComponent implements OnInit {
   closeSale(): void {
     this.sale.status = "closed";
     this.sale.paymentMethod = this.selectedPaymentMethod as any;
-    this.sale.clientId = this.selectedClient;
 
     this.saleService.updateSale({ ...this.sale }).subscribe(() => {
       this.modalService.showMessage('Venda finalizada.', 'success');
@@ -172,7 +171,7 @@ export class CloseSaleComponent implements OnInit {
   getTodayDate(): string {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
 
     return `${day}/${month}/${year}`;

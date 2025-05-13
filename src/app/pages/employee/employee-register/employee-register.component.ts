@@ -35,6 +35,7 @@ import { ModalMessageService } from "../../../services/modal-message.service";
 import { MatRadioModule } from "@angular/material/radio";
 import { SharedService } from "../../../shared/services/shared.service";
 import { MatIconModule } from "@angular/material/icon";
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: "app-employee-register",
@@ -57,6 +58,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatRadioModule,
     MatCardSubtitle,
     MatIconModule,
+    NgxMaskDirective
   ],
   templateUrl: "./employee-register.component.html",
   styleUrls: ["./employee-register.component.css"]
@@ -115,9 +117,7 @@ export class EmployeeRegisterComponent implements OnInit {
         phone: [employee?.phone || "", Validators.required],
         isAdmin: [employee?.isAdmin || false],
         birthDate: [
-          employee?.birthDate
-            ? this.sharedService.formatDate(employee.birthDate)
-            : "",
+          employee?.birthDate ? this.sharedService.formatDate(employee.birthDate) : "",
           Validators.required,
         ],
         address: this.fb.group({
@@ -134,21 +134,27 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    const employee: Employee = this.employeeForm.value;
+    
+    employee.birthDate = this.sharedService.convertToDate(
+      employee.birthDate.toString()
+    );
+
     if (this.employeeForm.valid) {
       if (this.isEditing) {
         const updatedClient = {
           ...this.employeeToEdit,
-          ...this.employeeForm.value,
+          ...employee,
         };
 
         this.updateEmployee(updatedClient);
       } else {
-        this.createEmployee();
+        this.createEmployee(employee);
       }
     } else {
       let errorMessage = "Por favor, preencha todos os campos obrigatórios antes de continuar.";
 
-      if (this.cpf?.invalid) {
+      if (this.cpf?.invalid && this.cpf?.touched) {
         errorMessage = "O CPF informado é inválido. Verifique e tente novamente.";
       }
 
@@ -179,16 +185,14 @@ export class EmployeeRegisterComponent implements OnInit {
     });
   }
 
-  createEmployee() {
-    const employee: Employee = this.employeeForm.value;
-
+  createEmployee(employee: Employee) {
     this.employeeService.saveEmployee(employee).subscribe({
       next: () => {
         this.modalService.showMessage(
           "As informações foram salvas.",
           "success"
         );
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/employee/list"]);
       },
       error: (error) => {
         console.error("Error registering employee:", error);

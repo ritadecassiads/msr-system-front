@@ -29,6 +29,7 @@ import { ModalMessageService } from "../../../services/modal-message.service";
 import { Installment } from "../../../models/installment";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SharedService } from "../../../shared/services/shared.service";
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: "app-invoice-register",
@@ -46,7 +47,8 @@ import { SharedService } from "../../../shared/services/shared.service";
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
-    MatTableModule
+    MatTableModule,
+    NgxMaskDirective
   ],
   providers: [MatTableDataSource],
   templateUrl: "./invoice-register.component.html",
@@ -110,7 +112,7 @@ export class InvoiceRegisterComponent implements OnInit {
     this.invoiceForm = this.fb.group({
       totalAmount: [
         invoice?.totalAmount,
-        [Validators.required, Validators.pattern(/^\d{1,3}(\.\d{3})*,\d{2}$/)],
+        [Validators.required],
       ],
       issueDate: [
         invoice?.issueDate ? new Date(invoice.issueDate).toISOString().substring(0, 10) : "",

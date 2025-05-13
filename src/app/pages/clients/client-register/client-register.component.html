@@ -4,11 +4,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form
-      class="m-t-3"
-      [formGroup]="clientForm"
-      (ngSubmit)="onSubmit()"
-    >
+    <form class="m-t-3" [formGroup]="clientForm" (ngSubmit)="onSubmit()">
       <div class="container-top">
         <div class="div1">
           <mat-form-field appearance="outline" class="form-input">
@@ -21,13 +17,8 @@
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Data de Nascimento</mat-label>
               <!-- <mat-datepicker formControlName="birthDate"  name="birthDate" #picker></mat-datepicker>  ajeitar depois -->
-              <input
-                matInput
-                formControlName="birthDate"
-                name="birthDate"
-                type="date"
-                required
-              />
+              <input matInput formControlName="birthDate" name="birthDate" required mask="00/00/0000"
+                placeholder="dd/mm/aaaa" />
             </mat-form-field>
             <!-- CPF -->
             <mat-form-field appearance="outline" class="form-input-50">
@@ -38,20 +29,21 @@
             <!-- RG -->
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>RG</mat-label>
-              <input matInput formControlName="rg" name="rg" required />
+              <input matInput formControlName="rg" name="rg" required/>
             </mat-form-field>
 
             <!-- Telefone -->
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="phone" name="phone" required />
+              <input matInput formControlName="phone" name="phone" required mask="(00) 00000-0000"
+                placeholder="(00) 00000-0000" />
             </mat-form-field>
           </div>
 
           <!-- E-mail -->
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>E-mail</mat-label>
-            <input matInput formControlName="email" name="email" type="email" />
+            <input matInput formControlName="email" name="email" type="email" placeholder="exemplo@email.com" />
           </mat-form-field>
         </div>
 
@@ -77,17 +69,13 @@
           <!-- Pessoas Autorizadas -->
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Pessoas autorizadas a comprar</mat-label>
-            <input
-              matInput
-              formControlName="peopleAuthorized"
-              name="peopleAuthorized"
-            />
+            <input matInput formControlName="peopleAuthorized" name="peopleAuthorized" />
           </mat-form-field>
 
           <!-- Observações -->
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Observações</mat-label>
-            <input matInput formControlName="notes" name="notes"/>
+            <input matInput formControlName="notes" name="notes" />
           </mat-form-field>
         </div>
       </div>
@@ -100,12 +88,7 @@
             <!-- CEP -->
             <mat-form-field appearance="outline" class="address-postalCode">
               <mat-label>CEP</mat-label>
-              <input
-                matInput
-                formControlName="postalCode"
-                name="postalCode"
-                required
-              />
+              <input matInput formControlName="postalCode" name="postalCode" required mask="00000-000" placeholder="00000-000" />
             </mat-form-field>
             <!-- Cidade -->
             <mat-form-field appearance="outline" class="address-city">

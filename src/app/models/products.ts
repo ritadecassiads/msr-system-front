@@ -10,4 +10,5 @@ export interface Product {
   stock: number;
   supplierId?: Supplier;
   categories: Category[];
+  createdAt?: Date;
 }
