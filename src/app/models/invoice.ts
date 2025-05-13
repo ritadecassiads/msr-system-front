@@ -12,4 +12,5 @@ export interface Invoice {
   status: "pending" | "paid" | "overdue";
   notes?: string;
   description?: string;
+  createdAt?: Date;
 }

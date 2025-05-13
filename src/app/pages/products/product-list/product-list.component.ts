@@ -76,8 +76,16 @@ export class ProductListComponent {
 
   loadProducts() {
     this.productService.getProducts().subscribe((products: Product[]) => {
-      this.productList = products;
-      this.dataSource.data = products;
+      this.productList = this.sortProducts(products);
+      this.dataSource.data = this.productList;
+    });
+  }
+
+  sortProducts(products: Product[]) {
+    return products.sort((a, b) => {
+      const dateA = new Date(a.createdAt ?? 0).getTime();
+      const dateB = new Date(b.createdAt ?? 0).getTime();
+      return dateB - dateA;
     });
   }
 

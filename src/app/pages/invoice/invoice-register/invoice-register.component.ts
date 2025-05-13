@@ -29,6 +29,7 @@ import { ModalMessageService } from "../../../services/modal-message.service";
 import { Installment } from "../../../models/installment";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SharedService } from "../../../shared/services/shared.service";
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: "app-invoice-register",
@@ -46,7 +47,8 @@ import { SharedService } from "../../../shared/services/shared.service";
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
-    MatTableModule
+    MatTableModule,
+    NgxMaskDirective
   ],
   providers: [MatTableDataSource],
   templateUrl: "./invoice-register.component.html",
@@ -109,8 +111,8 @@ export class InvoiceRegisterComponent implements OnInit {
   initializeForm(invoice?: Invoice) {
     this.invoiceForm = this.fb.group({
       totalAmount: [
-        invoice?.totalAmount || 0,
-        [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+        invoice?.totalAmount,
+        [Validators.required],
       ],
       issueDate: [
         invoice?.issueDate ? new Date(invoice.issueDate).toISOString().substring(0, 10) : "",
@@ -140,10 +142,7 @@ export class InvoiceRegisterComponent implements OnInit {
       .pipe(debounceTime(300))
       .subscribe((selectedInstallment) => {
         this.installments?.setValue(selectedInstallment, { emitEvent: false });
-        console.log("Parcelas selecionadas:", selectedInstallment);
-
         this.updateInstallmentValue();
-
       });
   }
 
@@ -156,15 +155,18 @@ export class InvoiceRegisterComponent implements OnInit {
   }
 
   updateInstallmentValue(): void {
-    const totalAmount = parseFloat(this.invoiceForm.get("totalAmount")?.value || "0");
+    // debugger;
+    const rawValue = this.totalAmount?.value || "0";
+  
+    const normalizedValue = rawValue
+      .toString()
+      .replace(/\./g, '')
+      .replace(',', '.');
+  
+    const totalAmount = parseFloat(normalizedValue);
     const installmentsCount = this.installments?.value || 0;
   
-    if (installmentsCount <= 1 || totalAmount <= 0) {
-      this.clearInstallments();
-      return;
-    }
-  
-    if (isNaN(totalAmount) || isNaN(installmentsCount)) {
+    if (installmentsCount <= 1 || totalAmount <= 0 || isNaN(totalAmount) || isNaN(installmentsCount)) {
       this.clearInstallments();
       return;
     }
@@ -173,35 +175,33 @@ export class InvoiceRegisterComponent implements OnInit {
     const installments = this.generateInstallments(installmentsCount, installmentValue);
   
     this.installments?.setValue(installments, { emitEvent: false });
-    console.log("installments no form", this.installments?.value);
   }
   
+
   private clearInstallments(): void {
     this.installments?.setValue([], { emitEvent: false });
   }
-  
+
   private generateInstallments(count: number, value: number): Installment[] {
     const today = new Date();
     const installments: Installment[] = [];
-  
+
     for (let i = 0; i < count; i++) {
       const dueDate = new Date(today);
       dueDate.setMonth(today.getMonth() + i + 1);
-  
+
       installments.push({
         dueDate: new Date(dueDate.toISOString().substring(0, 10)),
         amount: value,
         status: "pending",
       });
     }
-  
+
     return installments;
   }
 
   onSubmit() {
     const invoice: Invoice = this.validateFields();
-
-    console.log("invoice", invoice);
 
     if (this.invoiceForm.valid) {
       if (this.isEditing) {
@@ -217,13 +217,13 @@ export class InvoiceRegisterComponent implements OnInit {
     } else {
       this.modalService.showMessage('Preencha os campos obrigatórios antes de continuar.', 'alert');
     }
-
   }
 
   validateFields() {
     const invoice: Invoice = this.invoiceForm.value;
 
-    invoice.totalAmount = parseFloat(this.totalAmount?.value);
+    const totalAmount = this.totalAmount?.value.replace(/\./g, '').replace(',', '.');
+    invoice.totalAmount = parseFloat(totalAmount);
 
     if (invoice.issueDate) {
       invoice.issueDate = this.sharedService.convertToDate(this.issueDate?.value);
@@ -235,6 +235,10 @@ export class InvoiceRegisterComponent implements OnInit {
       invoice.dueDate = this.sharedService.convertToDate(this.dueDate?.value);
     } else {
       delete invoice.dueDate;
+    }
+
+    if(invoice.status){
+      invoice.status = this.statusControl.value as "pending" | "paid" | "overdue" || "pending";
     }
 
     return invoice;
@@ -281,7 +285,6 @@ export class InvoiceRegisterComponent implements OnInit {
   recoverIdToEdit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get("id");
-      console.log("id", id);
       if (id) {
         this.isEditing = true;
         this.loadInvoice(id);
@@ -296,7 +299,6 @@ export class InvoiceRegisterComponent implements OnInit {
       next: (invoice) => {
         this.invoiceToEdit = invoice;
         this.initializeForm(invoice);
-        console.log("invoiceToEdit", this.invoiceToEdit);
       },
       error: (err) => {
         console.log(err);

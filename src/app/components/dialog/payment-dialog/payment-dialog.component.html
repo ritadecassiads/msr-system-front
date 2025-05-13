@@ -3,7 +3,7 @@
   <p><strong>Parcela:</strong> {{ data.installment.amount | currency: 'BRL' }}</p>
   <p><strong>Vencimento:</strong> {{ data.installment.dueDate | date: 'dd/MM/yyyy' }}</p>
 
-  <form [formGroup]="paymentForm" class="payment-form">
+  <form [formGroup]="paymentForm" class="payment-form m-t-10">
     <div class="payment-row">
       <mat-form-field appearance="outline" class="payment-field">
         <mat-label>Forma de Pagamento</mat-label>
@@ -12,12 +12,13 @@
           <mat-option value="pix">PIX</mat-option>
           <mat-option value="credit">Cartão de Crédito</mat-option>
           <mat-option value="debit">Cartão de Débito</mat-option>
+          <mat-option value="bankTransfer">Transferência</mat-option>          
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="payment-field">
         <mat-label>Valor Pago</mat-label>
-        <input matInput formControlName="amountPaid" type="number" step="0.01" />
+        <input matInput formControlName="amount" type="number" step="0.01" />
       </mat-form-field>
     </div>
   </form>

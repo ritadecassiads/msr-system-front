@@ -40,36 +40,36 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-    selector: "app-open-sale",
-    imports: [
-        MatFormFieldModule,
-        FormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        ReactiveFormsModule,
-        RouterModule,
-        MatFormFieldModule,
-        CommonModule,
-        MatSelectModule,
-        MatPaginatorModule,
-        CurrencyPipe,
-        MatTableModule,
-        MatCardSubtitle,
-        MatIcon,
-    ],
-    templateUrl: "./open-sale.component.html",
-    styleUrl: "./open-sale.component.css"
+  selector: "app-open-sale",
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    RouterModule,
+    MatFormFieldModule,
+    CommonModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    CurrencyPipe,
+    MatTableModule,
+    MatCardSubtitle,
+    MatIcon,
+  ],
+  templateUrl: "./open-sale.component.html",
+  styleUrl: "./open-sale.component.css"
 })
 export class SaleRegisterComponent {
   saleForm: FormGroup = new FormGroup({});
   productList: Product[] = [];
   // filteredProducts: Product[] = [];
   selectedProducts: FormArray = this.fb.array([]);
-  employeeUsernameOrCode: string |number = "";
+  employeeUsernameOrCode: string | number = "";
   displayedColumns: string[] = [
     "code",
     "name",
@@ -97,7 +97,7 @@ export class SaleRegisterComponent {
     private sharedService: SharedService,
     private employeeService: EmployeeService,
     private modalService: ModalMessageService
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -158,7 +158,6 @@ export class SaleRegisterComponent {
 
   recoverUser() {
     this.employeeUsernameOrCode = StorageUtils.getUserSale() ?? "";
-    console.log("Username shared: ", this.employeeUsernameOrCode);
   }
 
   applyFilter(event: Event): void {
@@ -313,7 +312,6 @@ export class SaleRegisterComponent {
   }
 
   getSellerByUsername(): void {
-    console.log("recuperando user do banco USER: ", this.employeeUsernameOrCode);
     if (this.employeeUsernameOrCode) {
       this.employeeService
         .getEmployeeByUsername(this.employeeUsernameOrCode.toString())
@@ -335,16 +333,18 @@ export class SaleRegisterComponent {
   }
 
   getSellerByCode(): void {
-    console.log("recuperando user do banco CODE: ", this.employeeUsernameOrCode);
-
     if (this.employeeUsernameOrCode) {
       this.employeeService
         .getEmployeeByCode(Number(this.employeeUsernameOrCode))
         .subscribe({
           next: (employee) => {
-            this.saleForm.get("openedByEmployee")?.setValue(employee._id);
-            this.employeeFirstName = employee.name.split(" ")[0];
-            StorageUtils.setUserSale(employee.username);
+            if (employee) {
+              this.saleForm.get("openedByEmployee")?.setValue(employee._id);
+              this.employeeFirstName = employee.name.split(" ")[0];
+              StorageUtils.setUserSale(employee.username);
+            } else {
+              this.modalService.showMessage('Vendedor não encontrado. Tente novamente.', 'error').subscribe(() => this.openModalToColectUser());
+            }
           },
           error: (err) => {
             if (err.status === 404) {

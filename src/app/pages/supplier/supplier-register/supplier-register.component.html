@@ -1,6 +1,6 @@
 <mat-card class="employee-form-register">
   <mat-card-header>
-    <mat-card-title>Cadastro de Funcionário</mat-card-title>
+    <mat-card-title>Cadastro de fornecedor</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
@@ -9,79 +9,46 @@
         <div class="div1">
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Nome</mat-label>
-            <input
-              matInput
-              placeholder="Nome"
-              formControlName="name"
-              name="name"
-              required
-            />
+            <input matInput placeholder="Nome" formControlName="name" name="name" required />
           </mat-form-field>
 
           <div class="div-flex">
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>CNPJ</mat-label>
-              <input
-                matInput
-                formControlName="cnpj"
-                name="cpf"
-                maxlength="14"
-                required
-                />
-              </mat-form-field>
+              <input matInput formControlName="cnpj" name="cnpj" required mask="00.000.000/0000-00"
+                placeholder="00.000.000/0000-00" />
+            </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Pessoa para contato</mat-label>
-              <input
-                matInput
-                formControlName="contactPerson"
-                name="contactPerson"
-              />
+              <input matInput formControlName="contactPerson" name="contactPerson" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="phone" name="phone" required />
+              <input matInput formControlName="phone" name="phone" required mask="(00) 00000-0000"
+              placeholder="(00) 00000-0000" />
             </mat-form-field>
           </div>
-          
+
 
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>E-mail</mat-label>
-            <input
-              matInput
-              formControlName="email"
-              name="email"
-              type="email"
-              required
-            />
+            <input matInput formControlName="email" name="email" type="email" required />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Anotações</mat-label>
-            <input
-              matInput
-              formControlName="notes"
-              name="email"
-              type="email"
-            />
+            <input matInput formControlName="notes" name="email" type="email" />
           </mat-form-field>
         </div>
 
         <div class="div2">
           <div formGroupName="address">
             <div class="div-flex">
-              <mat-form-field
-                appearance="outline"
-                class="employee-form-password"
-              >
+              <mat-form-field appearance="outline" class="employee-form-password">
                 <mat-label>CEP</mat-label>
-                <input
-                  matInput
-                  formControlName="postalCode"
-                  name="postalCode"
-                  required
-                />
+                <input matInput formControlName="postalCode" name="postalCode" required mask="00000-000" placeholder="00000-000"/>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="employee-form-name">
@@ -89,10 +56,7 @@
                 <input matInput formControlName="city" name="city" required />
               </mat-form-field>
 
-              <mat-form-field
-                appearance="outline"
-                class="employee-form-username"
-              >
+              <mat-form-field appearance="outline" class="employee-form-username">
                 <mat-label>Estado</mat-label>
                 <input matInput formControlName="state" name="state" required />
               </mat-form-field>
@@ -106,26 +70,17 @@
             <div class="div-flex">
               <mat-form-field appearance="outline" class="form-input-50">
                 <mat-label>Número</mat-label>
-                <input
-                  matInput
-                  formControlName="number"
-                  name="number"
-                  required
-                />
+                <input matInput formControlName="number" name="number" required />
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="form-input-50">
                 <mat-label>Complemento</mat-label>
-                <input
-                  matInput
-                  formControlName="complement"
-                  name="complement"
-                />
+                <input matInput formControlName="complement" name="complement" />
               </mat-form-field>
             </div>
           </div>
 
-          
+
           <div class="div-button">
             <button mat-flat-button color="primary" type="submit">Salvar</button>
           </div>
@@ -134,131 +89,3 @@
     </form>
   </mat-card-content>
 </mat-card>
-
-
-
-
-<!-- <mat-card class="supplier-form-register">
-  <mat-card-header>
-    <mat-card-title>Cadastro de Fornecedor</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
-
-      <mat-form-field appearance="outline" class="supplier-form-input">
-        <mat-label>Nome</mat-label>
-        <input
-          matInput
-          placeholder="Nome"
-          formControlName="name"
-          name="name"
-          required
-        />
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" class="supplier-form-input">
-        <mat-label>CNPJ</mat-label>
-        <input matInput formControlName="cnpj" name="cnpj" required />
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" class="supplier-form-input">
-        <mat-label>Telefone</mat-label>
-        <input matInput formControlName="phone" name="phone" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="supplier-form-input">
-        <mat-label>E-mail</mat-label>
-        <input
-          matInput
-          formControlName="email"
-          name="email"
-          type="email"
-          required
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="supplier-form-input">
-        <mat-label>Pessoa para contato</mat-label>
-        <input
-          matInput
-          formControlName="contactPerson"
-          name="contactPerson"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="product-form-input">
-        <mat-label>Observações</mat-label>
-        <textarea
-          matInput
-          placeholder="Observações"
-          formControlName="notes"
-          name="notes"
-        ></textarea>
-      </mat-form-field>
-
-      <h3>Endereço</h3>
-
-      <div formGroupName="address">
-        <div class="supplier-form-address">
-
-          <mat-form-field
-            appearance="outline"
-            class="supplier-form-address-street"
-          >
-            <mat-label>Rua</mat-label>
-            <input matInput formControlName="street" name="street" required />
-          </mat-form-field>
-
-
-          <mat-form-field
-            appearance="outline"
-            class="supplier-form-address-number"
-          >
-            <mat-label>Número</mat-label>
-            <input matInput formControlName="number" name="number" required />
-          </mat-form-field>
-
-
-          <mat-form-field
-            appearance="outline"
-            class="supplier-form-address-complement"
-          >
-            <mat-label>Complemento</mat-label>
-            <input matInput formControlName="complement" name="complement" />
-          </mat-form-field>
-        </div>
-
-        <div class="supplier-form-tree">
-
-          <mat-form-field appearance="outline" class="supplier-form-name">
-            <mat-label>Cidade</mat-label>
-            <input matInput formControlName="city" name="city" required />
-          </mat-form-field>
-
-
-          <mat-form-field appearance="outline" class="supplier-form-username">
-            <mat-label>Estado</mat-label>
-            <input matInput formControlName="state" name="state" required />
-          </mat-form-field>
-
-
-          <mat-form-field appearance="outline" class="supplier-form-password">
-            <mat-label>CEP</mat-label>
-            <input
-              matInput
-              formControlName="postalCode"
-              name="postalCode"
-              required
-            />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="supplier-div-button">
-        <button mat-flat-button color="primary" type="submit">Cadastrar</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card> -->

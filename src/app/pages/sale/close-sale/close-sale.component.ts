@@ -81,7 +81,7 @@ export class CloseSaleComponent implements OnInit {
   clientList: Client[] = [];
   filteredClients: Client[] = [];
   isClientTableVisible: boolean = false;
-  selectedClient: Client = {} as Client;
+  selectedClient: Client | null = null;
 
   displayedProductColumns: string[] = [
     "code",
@@ -157,7 +157,6 @@ export class CloseSaleComponent implements OnInit {
   closeSale(): void {
     this.sale.status = "closed";
     this.sale.paymentMethod = this.selectedPaymentMethod as any;
-    this.sale.clientId = this.selectedClient;
 
     this.saleService.updateSale({ ...this.sale }).subscribe(() => {
       this.modalService.showMessage('Venda finalizada.', 'success');
@@ -172,7 +171,7 @@ export class CloseSaleComponent implements OnInit {
   getTodayDate(): string {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Janeiro é 0!
+    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
 
     return `${day}/${month}/${year}`;
@@ -217,13 +216,10 @@ export class CloseSaleComponent implements OnInit {
   selectClient(client: Client): void {
     this.selectedClient = client;
     this.sale.clientId = client;
-    console.log("sale: ", this.sale);
   }
 
   onChangeInstallmentControl(selectedInstallment: number): void {
     this.installments?.setValue(selectedInstallment, { emitEvent: false });
-    console.log("Parcelas selecionadas:", selectedInstallment);
-
     this.calculateInstallmentValue(selectedInstallment);
   }
 
@@ -233,7 +229,6 @@ export class CloseSaleComponent implements OnInit {
       Number(this.sale.total) / Number(selectedInstallments);
 
     this.sale.installments = this.generateInstallments(selectedInstallments, this.installmentValue);
-    console.log("installments no form", this.sale.installments);
   }
 
   private generateInstallments(count: number, value: number): Installment[] {

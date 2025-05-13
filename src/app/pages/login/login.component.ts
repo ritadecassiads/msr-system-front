@@ -57,7 +57,6 @@ export class LoginComponent {
       if (username && password) {
         this.authService.login(username, password).subscribe({
           next: (response) => {
-            console.log("Login successful!", response);
             sessionStorage.setItem("access_token", response.access_token);
             this.router.navigate(["/dashboard"]);
           },

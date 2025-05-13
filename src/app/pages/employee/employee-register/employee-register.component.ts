@@ -35,6 +35,7 @@ import { ModalMessageService } from "../../../services/modal-message.service";
 import { MatRadioModule } from "@angular/material/radio";
 import { SharedService } from "../../../shared/services/shared.service";
 import { MatIconModule } from "@angular/material/icon";
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: "app-employee-register",
@@ -57,6 +58,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatRadioModule,
     MatCardSubtitle,
     MatIconModule,
+    NgxMaskDirective
   ],
   templateUrl: "./employee-register.component.html",
   styleUrls: ["./employee-register.component.css"]
@@ -100,7 +102,7 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   get cpf() {
-    return this.employeeForm.get("cpf");
+    return this.employeeForm.get("cpf") as FormControl;
   }
 
   initializeForm(employee?: Employee) {
@@ -115,9 +117,7 @@ export class EmployeeRegisterComponent implements OnInit {
         phone: [employee?.phone || "", Validators.required],
         isAdmin: [employee?.isAdmin || false],
         birthDate: [
-          employee?.birthDate
-            ? this.sharedService.formatDate(employee.birthDate)
-            : "",
+          employee?.birthDate ? this.sharedService.formatDate(employee.birthDate) : "",
           Validators.required,
         ],
         address: this.fb.group({
@@ -134,21 +134,27 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    const employee: Employee = this.employeeForm.value;
+    
+    employee.birthDate = this.sharedService.convertToDate(
+      employee.birthDate.toString()
+    );
+
     if (this.employeeForm.valid) {
       if (this.isEditing) {
         const updatedClient = {
           ...this.employeeToEdit,
-          ...this.employeeForm.value,
+          ...employee,
         };
 
         this.updateEmployee(updatedClient);
       } else {
-        this.createEmployee();
+        this.createEmployee(employee);
       }
     } else {
       let errorMessage = "Por favor, preencha todos os campos obrigatórios antes de continuar.";
 
-      if (this.cpf?.invalid) {
+      if (this.cpf?.invalid && this.cpf?.touched) {
         errorMessage = "O CPF informado é inválido. Verifique e tente novamente.";
       }
 
@@ -179,16 +185,14 @@ export class EmployeeRegisterComponent implements OnInit {
     });
   }
 
-  createEmployee() {
-    const employee: Employee = this.employeeForm.value;
-
+  createEmployee(employee: Employee) {
     this.employeeService.saveEmployee(employee).subscribe({
       next: () => {
         this.modalService.showMessage(
           "As informações foram salvas.",
           "success"
         );
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/employee/list"]);
       },
       error: (error) => {
         console.error("Error registering employee:", error);
@@ -207,9 +211,9 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   handleChangeCPF() {
-    this.cpfControl.valueChanges.subscribe((value) => {
+    this.cpf.valueChanges.subscribe((value) => {
       if (value) {
-        this.cpfControl.setValue(this.sharedService.formatCpf(value), {
+        this.cpf.setValue(this.sharedService.formatCpf(value), {
           emitEvent: false,
         });
       }
@@ -229,9 +233,9 @@ export class EmployeeRegisterComponent implements OnInit {
 
   openModalAdminConfirm() {
     this.modalService.showMessage(
-      "Você está prestes a criar um usuário administrador. Deseja continuar?",
+      "Usuário administrador terá acesso total ao sistema. Se deseja limitar os acessos, selecione 'Funcionário padrão'.",
       "alert",
-      "Continuar"
+      "Ok"
     );
   }
 
@@ -263,7 +267,6 @@ export class EmployeeRegisterComponent implements OnInit {
       next: (employee) => {
         this.employeeToEdit = employee;
         this.initializeForm(employee);
-        console.log("carregou o funcionario: ", employee);
       },
       error: (err) => {
         console.error(err);

@@ -31,25 +31,25 @@ import { Supplier } from "../../../models/supplier";
 import { ModalMessageService } from "../../../services/modal-message.service";
 
 @Component({
-    selector: "app-product-register",
-    templateUrl: "./product-register.component.html",
-    styleUrl: "./product-register.component.css",
-    imports: [
-        MatFormFieldModule,
-        FormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        MatCardContent,
-        ReactiveFormsModule,
-        RouterModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatOption,
-        CommonModule,
-    ]
+  selector: "app-product-register",
+  templateUrl: "./product-register.component.html",
+  styleUrl: "./product-register.component.css",
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOption,
+    CommonModule,
+  ]
 })
 export class ProductRegisterComponent implements OnInit {
   productForm: FormGroup = new FormGroup({});
@@ -65,7 +65,7 @@ export class ProductRegisterComponent implements OnInit {
     private readonly supplierService: SupplierService,
     private readonly route: ActivatedRoute,
     private readonly modalService: ModalMessageService
-  ) {}
+  ) { }
 
   supplierList: Supplier[] = [];
   supplierControl = new FormControl("");
@@ -134,11 +134,11 @@ export class ProductRegisterComponent implements OnInit {
 
   initializeForm(product?: Product) {
     this.productForm = this.fb.group({
-      name: [product?.name || "", Validators.required],
+      name: [product?.name || "", [Validators.required]],
       description: product?.description || "",
       price: [product?.price || "", Validators.required],
       stock: [product?.stock || "", Validators.required],
-      supplierId: [product?.supplierId || ""],
+      supplierId: [product?.supplierId || null],
       categories: this.fb.array(
         product?.categories?.map((cat) => this.fb.control(cat)) || []
       ),
@@ -155,7 +155,6 @@ export class ProductRegisterComponent implements OnInit {
     if (product?.categories) {
       this.categoriesControl.setValue(product.categories.map(category => category._id).filter((id): id is string => !!id)); // Preenche o controle de seleção
     }
-    console.log("categorias: ", product?.categories);
   }
 
   onSubmit() {
@@ -193,8 +192,6 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   updateProduct(product: Product): void {
-    console.log("Product to update: ", product);
-
     this.productService.updateProduct(product).subscribe({
       next: () => {
         this.modalService.showMessage('As informações foram salvas.', 'success');
@@ -225,8 +222,6 @@ export class ProductRegisterComponent implements OnInit {
       next: (product) => {
         this.productToEdit = product;
         this.initializeForm(product);
-
-        console.log("carregou o produto: ", product);
       },
       error: (err) => {
         console.error(err);

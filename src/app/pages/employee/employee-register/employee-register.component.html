@@ -9,126 +9,74 @@
         <div class="div1">
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>Nome</mat-label>
-            <input
-              matInput
-              placeholder="Nome"
-              formControlName="name"
-              name="name"
-              required
-            />
+            <input matInput placeholder="Nome" formControlName="name" name="name" required />
           </mat-form-field>
 
           <div class="div-flex">
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>CPF</mat-label>
-              <input
-                matInput
-                [formControl]="cpfControl"
-                formControlName="cpf"
-                name="cpf"
-                maxlength="14"
-                required
-                />
-              </mat-form-field>
-              <!-- (blur)="onCpfBlur();" -->
+              <input matInput [formControl]="cpf" name="cpf" maxlength="14" required />
+            </mat-form-field>
+            <!-- (blur)="onCpfBlur();" -->
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Data de nascimento</mat-label>
-              <input
-                matInput
-                formControlName="birthDate"
-                name="birthDate"
-                required
-              />
+              <input matInput formControlName="birthDate" name="birthDate" required mask="00/00/0000"
+                placeholder="dd/mm/aaaa" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Telefone</mat-label>
-              <input matInput formControlName="phone" name="phone" required />
+              <input matInput formControlName="phone" name="phone" required mask="(00) 00000-0000"
+                placeholder="(00) 00000-0000" />
             </mat-form-field>
           </div>
           <div *ngIf="!cpfIsValid" class="error-message-cpf error-message">
-            
+
             O CPF informado não é válido. Por favor, verifique e tente novamente.
-            
+
           </div>
 
           <mat-form-field appearance="outline" class="form-input">
             <mat-label>E-mail</mat-label>
-            <input
-              matInput
-              formControlName="email"
-              name="email"
-              type="email"
-              required
-            />
+            <input matInput formControlName="email" name="email" type="email" required />
           </mat-form-field>
 
           <div class="div-flex">
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Nome de Usuário</mat-label>
-              <input
-                matInput
-                formControlName="username"
-                required
-                name="username"
-              />
+              <input matInput formControlName="username" required name="username" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Senha</mat-label>
-              <input
-                matInput
-                formControlName="password"
-                [type]="hidePassword ? 'password' : 'text'"
-                name="password"
-                required
-              />
-              <button
-                mat-icon-button
-                matSuffix
-                type="button"
-                (click)="togglePasswordVisibility($event)"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword"
-              >
+              <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" name="password"
+                required />
+              <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility($event)"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                 <mat-icon>{{
                   hidePassword ? "visibility_off" : "visibility"
-                }}</mat-icon>
+                  }}</mat-icon>
               </button>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="form-input-50">
               <mat-label>Confirme a senha</mat-label>
-              <input
-                matInput
-                formControlName="confirmPassword"
-                [type]="hidePassword ? 'password' : 'text'"
-                name="confirmPassword"
-                required
-              />
-              <button
-                mat-icon-button
-                matSuffix
-                type="button"
-                (click)="togglePasswordVisibility($event)"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword"
-              >
+              <input matInput formControlName="confirmPassword" [type]="hidePassword ? 'password' : 'text'"
+                name="confirmPassword" required />
+              <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility($event)"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                 <mat-icon>{{
                   hidePassword ? "visibility_off" : "visibility"
-                }}</mat-icon>
+                  }}</mat-icon>
               </button>
             </mat-form-field>
           </div>
 
-          <div
-            class="error-message"
-            *ngIf="
+          <div class="error-message" *ngIf="
               employeeForm.hasError('passwordsMismatch') &&
               confirmPassword?.touched
-            "
-          >
+            ">
             As senhas não coincidem.
           </div>
         </div>
@@ -136,17 +84,9 @@
         <div class="div2">
           <div formGroupName="address">
             <div class="div-flex">
-              <mat-form-field
-                appearance="outline"
-                class="employee-form-password"
-              >
+              <mat-form-field appearance="outline" class="employee-form-password">
                 <mat-label>CEP</mat-label>
-                <input
-                  matInput
-                  formControlName="postalCode"
-                  name="postalCode"
-                  required
-                />
+                <input matInput formControlName="postalCode" name="postalCode" required mask="00000-000" placeholder="00000-000"/>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="employee-form-name">
@@ -154,10 +94,7 @@
                 <input matInput formControlName="city" name="city" required />
               </mat-form-field>
 
-              <mat-form-field
-                appearance="outline"
-                class="employee-form-username"
-              >
+              <mat-form-field appearance="outline" class="employee-form-username">
                 <mat-label>Estado</mat-label>
                 <input matInput formControlName="state" name="state" required />
               </mat-form-field>
@@ -171,21 +108,12 @@
             <div class="div-flex">
               <mat-form-field appearance="outline" class="form-input-50">
                 <mat-label>Número</mat-label>
-                <input
-                  matInput
-                  formControlName="number"
-                  name="number"
-                  required
-                />
+                <input matInput formControlName="number" name="number" required />
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="form-input-50">
                 <mat-label>Complemento</mat-label>
-                <input
-                  matInput
-                  formControlName="complement"
-                  name="complement"
-                />
+                <input matInput formControlName="complement" name="complement" />
               </mat-form-field>
             </div>
           </div>
@@ -193,12 +121,8 @@
           <mat-card-subtitle>Permissões</mat-card-subtitle>
 
           <mat-radio-group [formControl]="isAdminControl">
-            <mat-radio-button [value]="false"
-              >Funcionário padrão</mat-radio-button
-            >
-            <mat-radio-button (click)="openModalAdminConfirm()" [value]="true"
-              >Administrador</mat-radio-button
-            >
+            <mat-radio-button [value]="false">Funcionário padrão</mat-radio-button>
+            <mat-radio-button (click)="openModalAdminConfirm()" [value]="true">Administrador</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>

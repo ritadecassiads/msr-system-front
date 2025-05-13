@@ -26,6 +26,8 @@ import { ClientService } from "../../../services/client.service";
 import { AuthService } from "../../../services/auth.service";
 import { ModalMessageService } from "../../../services/modal-message.service";
 import { SharedService } from "../../../shared/services/shared.service";
+import { CommonModule } from "@angular/common";
+import { NgxMaskDirective, NgxMaskPipe } from "ngx-mask";
 
 @Component({
     selector: "app-client-register",
@@ -44,6 +46,9 @@ import { SharedService } from "../../../shared/services/shared.service";
         ReactiveFormsModule,
         RouterModule,
         MatCardSubtitle,
+        CommonModule,
+        // NgxMaskPipe,
+        NgxMaskDirective
     ]
 })
 export class ClientRegisterComponent {
@@ -52,7 +57,7 @@ export class ClientRegisterComponent {
   isEditing: boolean = false;
   clientId: string = "";
   clientToEdit!: Client;
-  cpfControl = new FormControl('');;
+  // cpfControl = new FormControl('');;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +69,10 @@ export class ClientRegisterComponent {
     private sharedService: SharedService
   ) {}
 
+  get cpf(){
+    return this.clientForm.get('cpf') as FormControl;
+  }
+
   ngOnInit() {
     this.idUserLogged = this.authService.getLoggedUser();
     this.initializeForm();
@@ -72,16 +81,20 @@ export class ClientRegisterComponent {
   }
 
   onSubmit() {
+    const client: Client = this.clientForm.value;
+    
+    client.birthDate = this.sharedService.convertToDate(client.birthDate.toString());
+
     if (this.clientForm.valid) {
       if (this.isEditing) {
         const updatedClient = {
           ...this.clientToEdit,
-          ...this.clientForm.value,
+          ...client,
         };
 
         this.updateClient(updatedClient);
       } else {
-        this.createClient();
+        this.createClient(client);
       }
     } else {
       this.modalService.showMessage(
@@ -91,9 +104,7 @@ export class ClientRegisterComponent {
     }
   }
 
-  createClient() {
-    const client: Client = this.clientForm.value;
-
+  createClient(client: Client) {
     client.createdByEmployee = this.idUserLogged;
 
     this.clientService.saveClient(client).subscribe({
@@ -115,8 +126,6 @@ export class ClientRegisterComponent {
   }
 
   updateClient(client: Client) {
-    console.log("Product to update: ", client);
-
     this.clientService.updateClient(client).subscribe({
       next: () => {
         this.modalService.showMessage(
@@ -139,14 +148,13 @@ export class ClientRegisterComponent {
     this.clientForm = this.fb.group({
       name: [client?.name ?? "", Validators.required],
       birthDate: [
-        client?.birthDate
-          ? this.sharedService.formatDate(client.birthDate)
-          : "",
+        client?.birthDate ? this.sharedService.formatDate(client?.birthDate) : "",
         Validators.required,
       ],
       cpf: [client?.cpf || "", Validators.required],
       rg: [client?.rg || ""],
-      phone: [client?.phone || "", Validators.required],
+      phone: [client?.phone || "", 
+        [Validators.required]],
       email: [client?.email || "", [Validators.email]],
       purchaseLimit: [client?.purchaseLimit || 10000],
       notes: [client?.notes || ""],
@@ -183,8 +191,6 @@ export class ClientRegisterComponent {
       next: (client) => {
         this.clientToEdit = client;
         this.initializeForm(client);
-
-        console.log("carregou o cliente: ", client);
       },
       error: (err) => {
         console.error(err);
@@ -193,9 +199,10 @@ export class ClientRegisterComponent {
   }
 
   handleChangeCPF(){
-    this.cpfControl.valueChanges.subscribe(value => {
+    this.cpf.valueChanges.subscribe(value => {
       if(value){
-        this.cpfControl.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
+        // this.cpfControl.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
+        this.cpf.setValue(this.sharedService.formatCpf(value), { emitEvent: false });
       }
     });
   }

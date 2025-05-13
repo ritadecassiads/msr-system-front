@@ -16,21 +16,21 @@ import { LoaderService } from "../../services/loader.service";
 import { Installment } from "../../models/installment";
 
 @Component({
-    selector: "app-dashboard",
-    imports: [
-        MatGridListModule,
-        MatIcon,
-        RouterLink,
-        CommonModule,
-        MatExpansionModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        CommonModule,
-    ],
-    providers: [MatTableDataSource],
-    templateUrl: "./dashboard.component.html",
-    styleUrl: "./dashboard.component.css"
+  selector: "app-dashboard",
+  imports: [
+    MatGridListModule,
+    MatIcon,
+    RouterLink,
+    CommonModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+  ],
+  providers: [MatTableDataSource],
+  templateUrl: "./dashboard.component.html",
+  styleUrl: "./dashboard.component.css"
 })
 export class DashboardComponent implements OnInit {
   salesList: Sale[] = [];
@@ -58,28 +58,28 @@ export class DashboardComponent implements OnInit {
       link: "/open-sale",
     },
     {
-      text: "Ver lista de vendas",
-      color: "lightgreen",
-      icon: "check_circle",
-      link: "/sale/list",
-    },
-    {
       text: "Acessar conta do cliente",
       color: "#DDBDF1",
       icon: "account_circle",
       link: "/client/list",
     },
     {
-      text: "Fechar caixa",
-      color: "lightpink",
-      icon: "account_balance",
-      link: "/product/list",
+      text: "Ver lista de vendas",
+      color: "lightgreen",
+      icon: "check_circle",
+      link: "/sale/list",
     },
     {
       text: "Acessar produto",
       color: "#DDBDF1",
       icon: "add_circle",
       link: "/product/list",
+    },
+    {
+      text: "Fechar caixa",
+      color: "lightpink",
+      icon: "account_balance",
+      link: "/dashboard",
     },
   ];
 
@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
     private invoiceService: InvoiceService,
     private modalService: ModalMessageService,
     private loaderService: LoaderService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getSales();
@@ -149,32 +149,44 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(["/invoice/register"]);
   }
 
-    maskInstallmentAsPaid(invoice: Invoice, installment: Installment) {
-      invoice.installments?.forEach((item) => {
-        if (item._id === installment._id) {
-          item.status = "paid";
-        }
-      })
-  
-      const allInstallmentsPaid = invoice.installments?.every((item) => item.status === "paid");
-  
-      if (allInstallmentsPaid) {
-        invoice.status = "paid";
+  maskInstallmentAsPaid(invoice: Invoice, installment: Installment) {
+    invoice.installments?.forEach((item) => {
+      if (item._id === installment._id) {
+        item.status = "paid";
       }
-  
-      this.updateInvoice(invoice);
+    })
+
+    const allInstallmentsPaid = invoice.installments?.every((item) => item.status === "paid");
+
+    if (allInstallmentsPaid) {
+      invoice.status = "paid";
     }
-  
-    updateInvoice(invoice: Invoice) {
-      this.invoiceService.updateInvoice(invoice).subscribe({
-        next: () => {
-          this.modalService.showMessage("Registro atualizado.", "success");
-          this.getInvoices();
-        },
-        error: (err) => {
-          console.error(err);
-          this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
-        },
-      });
+
+    this.updateInvoice(invoice);
+  }
+
+  updateInvoice(invoice: Invoice) {
+    this.invoiceService.updateInvoice(invoice).subscribe({
+      next: () => {
+        this.modalService.showMessage("Registro atualizado.", "success");
+        this.getInvoices();
+      },
+      error: (err) => {
+        console.error(err);
+        this.modalService.showMessage("Algo deu errado. Tente novamente.", "error");
+      },
+    });
+  }
+
+  maskAsPaid(invoice: Invoice) {
+    invoice.status = "paid";
+
+    this.updateInvoice(invoice);
+  }
+
+  fecharCaixa(titulo: string){
+    if(titulo === "Fechar caixa"){
+      this.modalService.showMessage(`Módulo em construção...`, "alert");
     }
+  }
 }

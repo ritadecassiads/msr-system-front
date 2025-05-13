@@ -116,7 +116,6 @@ export class SaleListComponent implements OnInit {
         this.filteredSales = sales;
         this.saleProductsList = sales.flatMap((sale) => sale.products);
         this.dataSource.data = this.filteredSales;
-        console.log("sales: ", this.salesList);
       },
       error: (err) => {
         console.error(err);

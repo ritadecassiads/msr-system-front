@@ -24,7 +24,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link">
+    <a mat-list-item routerLink="sale" routerLinkActive="active-link">
       <div [matMenuTriggerFor]="menuSale" mat-button class="item">
         <mat-icon class="icon"> credit_card </mat-icon>
         <span class="menu-text">Vendas</span>
@@ -35,7 +35,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
+    <a mat-list-item routerLink="product" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
       <div mat-button [matMenuTriggerFor]="menuProduct" class="item">
         <mat-icon class="icon"> inventory </mat-icon>
         <span class="menu-text">Produtos</span>
@@ -48,7 +48,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
+    <a mat-list-item routerLink="client" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
       <div mat-button [matMenuTriggerFor]="menuClient" class="item">
         <mat-icon class="icon"> person </mat-icon>
         <span class="menu-text">Clientes</span>
@@ -59,7 +59,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
+    <a mat-list-item routerLink="employee"  routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
       <div mat-button [matMenuTriggerFor]="menuEmployee" class="item">
         <mat-icon class="icon"> badge </mat-icon>
         <span class="menu-text">Funcionários</span>
@@ -72,10 +72,10 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link">
+    <a mat-list-item routerLink="/invoice" routerLinkActive="active-link">
       <div mat-button [matMenuTriggerFor]="menuInvoice" class="item">
         <mat-icon class="icon"> description </mat-icon>
-        <span class="menu-text">Duplicatas</span>
+        <span class="menu-text">Contas a pagar</span>
         <mat-menu #menuInvoice="matMenu">
           <button mat-menu-item routerLink="invoice/list">Consultar</button>
           <button mat-menu-item routerLink="invoice/register">Cadastrar</button>
@@ -83,7 +83,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link">
+    <a mat-list-item routerLink="category" routerLinkActive="active-link">
       <div mat-button [matMenuTriggerFor]="menuCategory" class="item">
         <mat-icon class="icon"> label </mat-icon>
         <span class="menu-text">Categorias</span>
@@ -96,7 +96,7 @@
       </div>
     </a>
 
-    <a mat-list-item routerLinkActive="active-link">
+    <a mat-list-item routerLink="supplier" routerLinkActive="active-link">
       <div mat-button [matMenuTriggerFor]="menuSupplier" class="item">
         <mat-icon class="icon"> local_shipping </mat-icon>
         <span class="menu-text">Fornecedores</span>

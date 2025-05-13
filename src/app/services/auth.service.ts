@@ -59,7 +59,7 @@ export class AuthService {
     const decodedPayload = atob(payload); // decodifica a string base64
     const jsonUser = JSON.parse(decodedPayload);
     const idUserLogged = jsonUser.sub;
-    console.log("idUserLogged ---> ", idUserLogged);
+    
     return idUserLogged;
   }
 }

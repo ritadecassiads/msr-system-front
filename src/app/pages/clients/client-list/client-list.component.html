@@ -34,46 +34,42 @@
         <hr />
         <br />
 
-        <div class="no-installments-container" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) === 0">
+        <div class="no-installments-container" *ngIf="salesByClient[client._id ?? '']?.length === 0">
           <mat-icon class="success-icon">check_circle</mat-icon>
           <h5>Sem parcelas pendentes</h5>
           <p>Este cliente está em dia com todos os pagamentos.</p>
         </div>
 
-        <div class="installments-section" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) > 0">
-          <h3>Parcelas Pendentes</h3>
+        <div class="installments-section-overdue" *ngIf="(overdueInstallments[client._id ?? '']?.length ?? 0) > 0">
+          <h3>Parcelas Atrasadas</h3>
           <div class="installments-grid">
-            <div class="installment-card"
-              *ngFor="let installment of pendingInstallments[client._id ?? '']; let i = index"
-              [ngClass]="{ 'paid': installment.status === 'paid' }">
-              <!-- <mat-checkbox [(ngModel)]="installment.selected" class="payment-checkbox"> -->
-
-
-              <!-- </mat-checkbox> -->
-              <!-- <p><strong>Venda:</strong> {{ installment.saleCode }}</p> -->
+            <div class="overdue installment-card-overdue" *ngFor="let installment of overdueInstallments[client._id ?? '']; let i = index" class="overdue">
               <p><strong>Parcela:</strong> {{ i+1 }}</p>
               <p><strong>Valor:</strong> {{ installment.amount | currency: 'BRL' }}</p>
               <p><strong>Vencimento:</strong> {{ installment.dueDate | date: 'dd/MM/yyyy' }}</p>
-              <!-- <p *ngIf="installment.status === 'paid'" class="paid-text">✔️ Pago</p> -->
 
               <button *ngIf="installment.status !== 'paid'" mat-raised-button color="primary"
-                (click)="initiatePayment(installment)" class="pay-button">
+                (click)="initiatePayment(client._id ?? '', installment)" class="pay-button">
                 Pagar
               </button>
             </div>
           </div>
         </div>
 
-        <div class="installments-section" *ngIf="(overdueInstallments[client._id ?? '']?.length ?? 0) > 0">
+        <div class="installments-section m-t-10" *ngIf="(pendingInstallments[client._id ?? '']?.length ?? 0) > 0">
           <h3>Parcelas Pendentes</h3>
           <div class="installments-grid">
             <div class="installment-card"
-              *ngFor="let installment of overdueInstallments[client._id ?? '']; let i = index" class="overdue">
-              <!-- <p><strong>Venda:</strong> {{ installment.saleCode }}</p> -->
+              *ngFor="let installment of pendingInstallments[client._id ?? '']; let i = index">
+
               <p><strong>Parcela:</strong> {{ i+1 }}</p>
               <p><strong>Valor:</strong> {{ installment.amount | currency: 'BRL' }}</p>
               <p><strong>Vencimento:</strong> {{ installment.dueDate | date: 'dd/MM/yyyy' }}</p>
-              <!-- <p *ngIf="installment.status === 'paid'" class="paid-text">✔️ Pago</p> -->
+
+              <button *ngIf="installment.status !== 'paid'" mat-raised-button color="primary"
+                (click)="initiatePayment(client._id ?? '', installment)" class="pay-button">
+                Pagar
+              </button>
             </div>
           </div>
         </div>
@@ -83,8 +79,7 @@
             <mat-icon class="toggle-icon" style="margin-right: 4px;">
               {{ isClientInfosExpanded(client._id ?? '') ? 'expand_less' : 'expand_more' }}
             </mat-icon>
-            {{ isClientInfosExpanded(client._id ?? '') ? 'Ocultar informações do cliente' : 'Mostrar informações do
-            cliente' }}
+            {{ isClientInfosExpanded(client._id ?? '') ? 'Ocultar informações do cliente' : 'Mostrar informações do cliente' }}
           </button>
         </div>
 

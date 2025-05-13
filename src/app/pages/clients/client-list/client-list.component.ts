@@ -26,6 +26,7 @@ import { Sale } from "../../../models/sale";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentDialogComponent } from "../../../components/dialog/payment-dialog/payment-dialog.component";
 import { ModalMessageService } from "../../../services/modal-message.service";
+import { SharedService } from "../../../shared/services/shared.service";
 
 @Component({
   selector: "app-client-list",
@@ -62,46 +63,45 @@ export class ClientListComponent implements OnInit {
   // pendingInstallments: Installment[] = [];
   pendingInstallments: { [clientId: string]: Installment[] } = {};
   overdueInstallments: { [clientId: string]: Installment[] } = {};
+  salesByClient: { [clientId: string]: Sale[] } = {};
 
   paidInstallments: Installment[] = [];
 
   installments!: { saleCode: string; installmentNumber: number; dueDate: string; amount: number; status: string; }[];
 
-  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService) { }
+  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService, private sharedService: SharedService) { }
 
   ngOnInit() {
     this.loadClients();
-
-    this.installments = [
-      {
-        saleCode: 'VENDA001',
-        installmentNumber: 1,
-        dueDate: '2025-06-10',
-        amount: 120,
-        status: 'pending'
-      },
-      {
-        saleCode: 'VENDA001',
-        installmentNumber: 2,
-        dueDate: '2025-07-10',
-        amount: 120,
-        status: 'paid'
-      }
-    ]
   }
 
   loadClients() {
-    this.clientService.getAllClients().subscribe((data: Client[]) => {
-      this.clientsList = data;
-      this.filteredClients = data;
+    this.clientService.getAllClients().subscribe((clients: Client[]) => {
+      this.formatClientPhoneNumber(clients);
+      this.clientsList = clients;
+      this.filteredClients = clients;
+
     });
   }
 
-  initiatePayment(installment: Installment): void {
+  formatClientPhoneNumber(clients: Client[]): void {
+    clients.forEach((client) => {
+      client.phone = this.sharedService.formatPhoneNumber(client.phone);
+      console.log("client.phone", client.phone);
+    }) 
+  }
+
+  initiatePayment(clientId: string, installment: Installment): void {
+    let sale = this.getSaleIdFromInstallment(clientId, installment);
+    console.log('Sale ID: ', sale);
+
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
-      height: '300px',
-      data: { installment: installment }
+      height: '310px',
+      data: {
+        installment: installment,
+        saleId: sale
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -113,6 +113,12 @@ export class ClientListComponent implements OnInit {
         this.loadClients();
         // window.location.reload();
       }
+    });
+  }
+
+  refreshPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([this.router.url]);
     });
   }
 
@@ -161,7 +167,9 @@ export class ClientListComponent implements OnInit {
   async getSalesByClient(clientId: string) {
     this.clientService.getSalesByClient(clientId).subscribe({
       next: (sales) => {
-        console.log("Sales: ", sales);
+        this.salesByClient[clientId] = sales;
+
+        console.log("salesByClient: ", this.salesByClient);
         this.getInstallments(clientId, sales);
       },
       error: (error) => {
@@ -173,7 +181,7 @@ export class ClientListComponent implements OnInit {
   getInstallments(clientId: string, sales: Sale[]) {
     const allInstallments: Installment[] = [];
 
-    if(sales.length > 0) {
+    if (sales.length > 0) {
       sales.forEach((sale) => {
         allInstallments.push(...(sale.installments ?? []));
       })
@@ -181,8 +189,18 @@ export class ClientListComponent implements OnInit {
     this.pendingInstallments[clientId] = allInstallments.filter(i => i.status === 'pending');
     this.overdueInstallments[clientId] = allInstallments.filter(i => i.status === 'overdue');
     // this.paidInstallments[clientId] = allInstallments.filter(i => i.status === 'paid');
+  }
 
-    console.log("Pending Installments: ", this.pendingInstallments);
-    console.log("Paid Installments: ", this.paidInstallments);
+  getSaleIdFromInstallment(clientId: string, installment: Installment): string {
+    const sales = this.salesByClient[clientId] ?? [];
+    let saleId: string = '';
+
+    sales.forEach((sale) => {
+      if (sale.installments?.some(inst => inst._id === installment._id)) {
+        saleId = sale._id ?? '';
+      }
+    })
+
+    return saleId;
   }
 }

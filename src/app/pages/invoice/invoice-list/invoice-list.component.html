@@ -1,6 +1,6 @@
 <mat-card class="">
   <mat-card-header>
-    <mat-card-title>Consultar duplicatas</mat-card-title>
+    <mat-card-title>Consultar contas a pagar</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
   <br />
@@ -56,7 +56,7 @@
             <div *ngIf="invoice.installments?.length">
               Quantidade de parcelas: <span class="font-bold">{{ invoice.installments?.length }}</span>
               <br>
-              Valor e vencimento de cada parcela:
+              Parcelas:
 
               <div class="installments-list">
                 <div *ngFor="let installment of invoice.installments" class="installment-item">

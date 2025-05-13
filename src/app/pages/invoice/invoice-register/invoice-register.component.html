@@ -4,7 +4,6 @@
   </mat-card-header>
   <mat-card-content>
     <form class="m-t-3" [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
-      <!-- Nome -->
       <div class="div1">
 
         <mat-form-field appearance="outline" class="product-form-input">
@@ -16,8 +15,15 @@
         <div class="div-flex">
           <mat-form-field appearance="outline" class="product-form-input">
             <mat-label>Valor total a pagar</mat-label>
-            <input matInput placeholder="Digite o total a pagar" formControlName="totalAmount" name="totalAmount"
-              required />
+            <input
+              matInput
+              placeholder="Ex: 1299,90"
+              formControlName="totalAmount"
+              name="totalAmount"
+              required
+            />
+            <!-- <input matInput placeholder="Digite o total a pagar" formControlName="totalAmount" name="totalAmount"
+              required /> -->
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="product-form-input">
@@ -33,12 +39,14 @@
         <div class="div-flex">
           <mat-form-field appearance="outline" class="product-form-input">
             <mat-label>Data de emissão</mat-label>
-            <input matInput formControlName="issueDate" placeholder="Digite a data de emissão" name="issueDate" />
+            <input matInput formControlName="issueDate" placeholder="Digite a data de emissão" name="issueDate" mask="00/00/0000"
+            placeholder="dd/mm/aaaa" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="product-form-input">
             <mat-label>Data de vencimento</mat-label>
-            <input matInput formControlName="dueDate" placeholder="Digite a data de vencimento" name="dueDate" />
+            <input matInput formControlName="dueDate" placeholder="Digite a data de vencimento" name="dueDate" mask="00/00/0000"
+            placeholder="dd/mm/aaaa" />
           </mat-form-field>
         </div>
 
@@ -69,7 +77,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="installmentControl.value && +installmentControl.value > 1 && totalAmount?.value > 0"
+      <div *ngIf="installmentControl.value && +installmentControl.value > 1 && totalAmount?.value != 0"
         class="installment-summary">
         <h3>Resumo das Parcelas</h3>
         <table mat-table [dataSource]="installments?.value" class="mat-elevation-z8">
