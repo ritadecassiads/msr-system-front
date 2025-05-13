@@ -26,6 +26,8 @@ import { ClientService } from "../../../services/client.service";
 import { AuthService } from "../../../services/auth.service";
 import { ModalMessageService } from "../../../services/modal-message.service";
 import { SharedService } from "../../../shared/services/shared.service";
+import { CommonModule } from "@angular/common";
+import { NgxMaskDirective, NgxMaskPipe } from "ngx-mask";
 
 @Component({
     selector: "app-client-register",
@@ -44,6 +46,9 @@ import { SharedService } from "../../../shared/services/shared.service";
         ReactiveFormsModule,
         RouterModule,
         MatCardSubtitle,
+        CommonModule,
+        // NgxMaskPipe,
+        NgxMaskDirective
     ]
 })
 export class ClientRegisterComponent {
@@ -76,16 +81,20 @@ export class ClientRegisterComponent {
   }
 
   onSubmit() {
+    const client: Client = this.clientForm.value;
+    
+    client.birthDate = this.sharedService.convertToDate(client.birthDate.toString());
+
     if (this.clientForm.valid) {
       if (this.isEditing) {
         const updatedClient = {
           ...this.clientToEdit,
-          ...this.clientForm.value,
+          ...client,
         };
 
         this.updateClient(updatedClient);
       } else {
-        this.createClient();
+        this.createClient(client);
       }
     } else {
       this.modalService.showMessage(
@@ -95,9 +104,7 @@ export class ClientRegisterComponent {
     }
   }
 
-  createClient() {
-    const client: Client = this.clientForm.value;
-
+  createClient(client: Client) {
     client.createdByEmployee = this.idUserLogged;
 
     this.clientService.saveClient(client).subscribe({
@@ -141,14 +148,13 @@ export class ClientRegisterComponent {
     this.clientForm = this.fb.group({
       name: [client?.name ?? "", Validators.required],
       birthDate: [
-        client?.birthDate
-          ? this.sharedService.formatDate(client.birthDate)
-          : "",
+        client?.birthDate ? this.sharedService.formatDate(client?.birthDate) : "",
         Validators.required,
       ],
       cpf: [client?.cpf || "", Validators.required],
       rg: [client?.rg || ""],
-      phone: [client?.phone || "", Validators.required],
+      phone: [client?.phone || "", 
+        [Validators.required]],
       email: [client?.email || "", [Validators.email]],
       purchaseLimit: [client?.purchaseLimit || 10000],
       notes: [client?.notes || ""],

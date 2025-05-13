@@ -26,6 +26,7 @@ import { Sale } from "../../../models/sale";
 import { MatDialog } from "@angular/material/dialog";
 import { PaymentDialogComponent } from "../../../components/dialog/payment-dialog/payment-dialog.component";
 import { ModalMessageService } from "../../../services/modal-message.service";
+import { SharedService } from "../../../shared/services/shared.service";
 
 @Component({
   selector: "app-client-list",
@@ -68,34 +69,26 @@ export class ClientListComponent implements OnInit {
 
   installments!: { saleCode: string; installmentNumber: number; dueDate: string; amount: number; status: string; }[];
 
-  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService) { }
+  constructor(private clientService: ClientService, private router: Router, private saleService: SaleService, public dialog: MatDialog, private modalService: ModalMessageService, private sharedService: SharedService) { }
 
   ngOnInit() {
     this.loadClients();
-
-    this.installments = [
-      {
-        saleCode: 'VENDA001',
-        installmentNumber: 1,
-        dueDate: '2025-06-10',
-        amount: 120,
-        status: 'pending'
-      },
-      {
-        saleCode: 'VENDA001',
-        installmentNumber: 2,
-        dueDate: '2025-07-10',
-        amount: 120,
-        status: 'paid'
-      }
-    ]
   }
 
   loadClients() {
-    this.clientService.getAllClients().subscribe((data: Client[]) => {
-      this.clientsList = data;
-      this.filteredClients = data;
+    this.clientService.getAllClients().subscribe((clients: Client[]) => {
+      this.formatClientPhoneNumber(clients);
+      this.clientsList = clients;
+      this.filteredClients = clients;
+
     });
+  }
+
+  formatClientPhoneNumber(clients: Client[]): void {
+    clients.forEach((client) => {
+      client.phone = this.sharedService.formatPhoneNumber(client.phone);
+      console.log("client.phone", client.phone);
+    }) 
   }
 
   initiatePayment(clientId: string, installment: Installment): void {
@@ -105,9 +98,10 @@ export class ClientListComponent implements OnInit {
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
       height: '310px',
-      data: { installment: installment,
+      data: {
+        installment: installment,
         saleId: sale
-       }
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -186,7 +180,7 @@ export class ClientListComponent implements OnInit {
   getInstallments(clientId: string, sales: Sale[]) {
     const allInstallments: Installment[] = [];
 
-    if(sales.length > 0) {
+    if (sales.length > 0) {
       sales.forEach((sale) => {
         allInstallments.push(...(sale.installments ?? []));
       })
@@ -202,10 +196,10 @@ export class ClientListComponent implements OnInit {
 
     sales.forEach((sale) => {
       if (sale.installments?.some(inst => inst._id === installment._id)) {
-          saleId = sale._id ?? '';
+        saleId = sale._id ?? '';
       }
     })
-  
+
     return saleId;
   }
 }

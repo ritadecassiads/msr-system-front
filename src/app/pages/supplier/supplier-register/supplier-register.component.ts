@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatIconModule } from "@angular/material/icon";
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: "app-supplier-register",
@@ -36,6 +37,8 @@ import { MatIconModule } from "@angular/material/icon";
     MatCheckboxModule,
     MatRadioModule,
     MatIconModule,
+    NgxMaskDirective
+
   ],
   templateUrl: "./supplier-register.component.html",
   styleUrl: "./supplier-register.component.css"
@@ -113,6 +116,8 @@ export class SupplierRegisterComponent implements OnInit {
       } else {
         this.createSupplier(supplier);
       }
+    } else {
+      this.modalService.showMessage("Por favor, preencha todos os campos obrigatórios antes de continuar.", "alert");
     }
   }
 

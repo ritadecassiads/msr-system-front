@@ -21,9 +21,6 @@
               formControlName="totalAmount"
               name="totalAmount"
               required
-              mask="separator.2"
-              thousandSeparator="."
-              decimalMarker=","
             />
             <!-- <input matInput placeholder="Digite o total a pagar" formControlName="totalAmount" name="totalAmount"
               required /> -->
@@ -42,12 +39,14 @@
         <div class="div-flex">
           <mat-form-field appearance="outline" class="product-form-input">
             <mat-label>Data de emissão</mat-label>
-            <input matInput formControlName="issueDate" placeholder="Digite a data de emissão" name="issueDate" />
+            <input matInput formControlName="issueDate" placeholder="Digite a data de emissão" name="issueDate" mask="00/00/0000"
+            placeholder="dd/mm/aaaa" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="product-form-input">
             <mat-label>Data de vencimento</mat-label>
-            <input matInput formControlName="dueDate" placeholder="Digite a data de vencimento" name="dueDate" />
+            <input matInput formControlName="dueDate" placeholder="Digite a data de vencimento" name="dueDate" mask="00/00/0000"
+            placeholder="dd/mm/aaaa" />
           </mat-form-field>
         </div>
 

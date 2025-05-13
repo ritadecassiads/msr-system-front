@@ -88,7 +88,7 @@
           <mat-label>Valor recebido:</mat-label>
           <input matInput [(ngModel)]="amountReceived" (input)="calculateChange()" />
         </mat-form-field>
-        <p>Troco: {{ change | currency }}</p>
+        <p>Troco: {{ change | currency : "BRL" : "symbol" : "1.2-2" }}</p>
       </div>
 
       <div class="select-installments m-l-25" *ngIf="selectedPaymentMethod == 'client-account'">
@@ -157,14 +157,14 @@
     </div>
 
     <div class="list-container list-container-summary m-t-3" *ngIf="
-        selectedClient.name &&
+        selectedClient?.name &&
         selectedPaymentMethod == 'client-account' &&
         installmentControl.value
       ">
       <mat-card-subtitle class="m-b-10">Resumo</mat-card-subtitle>
       <div class="client-summary">
         <div>
-          <p>Venda incluída na conta de: <b>{{ selectedClient.name }}</b> </p>
+          <p>Venda incluída na conta de: <b>{{ selectedClient?.name }}</b> </p>
           <p>Parcelas a pagar: {{ installmentControl.value }}</p>
           <p>
             Valor de cada parcela:

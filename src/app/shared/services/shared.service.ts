@@ -24,10 +24,18 @@ export class SharedService {
   }
 
   convertToDate(dateString: string): Date {
-    const [day, month, year] = dateString.split("/").map(Number);
-    const date = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
-    return date;
+  const cleanedDate = dateString.replace(/\//g, '');
+
+  if (cleanedDate.length === 8) {
+    const day = parseInt(cleanedDate.substring(0, 2), 10);
+    const month = parseInt(cleanedDate.substring(2, 4), 10) - 1; // Meses começam do 0
+    const year = parseInt(cleanedDate.substring(4, 8), 10);
+
+    return new Date(year, month, day);
+  } else {
+    throw new Error('Formato de data inválido');
   }
+}
 
   formatCpf(value: string): string {
     let cpf = value.replace(/\D/g, '');
@@ -48,10 +56,14 @@ export class SharedService {
     return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`;
   }
 
-  validateCpf(cpf: string): boolean {
+  isCpfValid(cpf: string): boolean {
     cpf = cpf.replace(/[^\d]+/g, '');
 
+    console.log("cpf", cpf);
+
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+    console.log("false", cpf);
+
       return false;
     }
 
@@ -85,5 +97,17 @@ export class SharedService {
     }
 
     return true;
+  }
+
+  formatPhoneNumber(phone: string): string {
+    const cleaned = phone.replace(/\D/g, '');
+  
+    if (cleaned.length === 11) {
+      return cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (cleaned.length === 10) {
+      return cleaned.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
+    }
+  
+    return phone;
   }
 }

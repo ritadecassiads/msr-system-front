@@ -29,7 +29,7 @@
               Vendedor
             </th>
             <td mat-cell *matCellDef="let sale">
-              {{ sale.openedByEmployee.name }}
+              {{ sale.openedByEmployee.name ? sale.openedByEmployee.name : "Não encontrado" }}
             </td>
           </ng-container>
 
