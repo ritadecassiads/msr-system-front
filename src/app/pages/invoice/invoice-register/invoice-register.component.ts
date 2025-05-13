@@ -111,14 +111,16 @@ export class InvoiceRegisterComponent implements OnInit {
   initializeForm(invoice?: Invoice) {
     this.invoiceForm = this.fb.group({
       totalAmount: [
-        invoice?.totalAmount,
+        invoice?.totalAmount
+        ? invoice.totalAmount.toString().replace('.', ',')
+        : "",
         [Validators.required],
       ],
       issueDate: [
-        invoice?.issueDate ? new Date(invoice.issueDate).toISOString().substring(0, 10) : "",
+        invoice?.issueDate ? this.sharedService.formatDate(invoice?.issueDate) : "",
       ],
       dueDate: [
-        invoice?.dueDate ? new Date(invoice.dueDate).toISOString().substring(0, 10) : "",
+        invoice?.dueDate ? this.sharedService.formatDate(invoice?.dueDate) : "",
       ],
       supplierId: [invoice?.supplierId || null],
       installments: [invoice?.installments || []],

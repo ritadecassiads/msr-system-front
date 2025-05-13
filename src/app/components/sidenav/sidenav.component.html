@@ -35,6 +35,17 @@
       </div>
     </a>
 
+    <a mat-list-item routerLink="client" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
+      <div mat-button [matMenuTriggerFor]="menuClient" class="item">
+        <mat-icon class="icon"> person </mat-icon>
+        <span class="menu-text">Clientes</span>
+        <mat-menu #menuClient="matMenu">
+          <button mat-menu-item routerLink="/client/list">Consultar</button>
+          <button mat-menu-item routerLink="/client/register">Cadastrar</button>
+        </mat-menu>
+      </div>
+    </a>
+
     <a mat-list-item routerLink="product" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
       <div mat-button [matMenuTriggerFor]="menuProduct" class="item">
         <mat-icon class="icon"> inventory </mat-icon>
@@ -48,13 +59,13 @@
       </div>
     </a>
 
-    <a mat-list-item routerLink="client" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">
-      <div mat-button [matMenuTriggerFor]="menuClient" class="item">
-        <mat-icon class="icon"> person </mat-icon>
-        <span class="menu-text">Clientes</span>
-        <mat-menu #menuClient="matMenu">
-          <button mat-menu-item routerLink="/client/list">Consultar</button>
-          <button mat-menu-item routerLink="/client/register">Cadastrar</button>
+    <a mat-list-item routerLink="/invoice" routerLinkActive="active-link">
+      <div mat-button [matMenuTriggerFor]="menuInvoice" class="item">
+        <mat-icon class="icon"> description </mat-icon>
+        <span class="menu-text">Contas a pagar</span>
+        <mat-menu #menuInvoice="matMenu">
+          <button mat-menu-item routerLink="invoice/list">Consultar</button>
+          <button mat-menu-item routerLink="invoice/register">Cadastrar</button>
         </mat-menu>
       </div>
     </a>
@@ -68,17 +79,6 @@
           <button mat-menu-item routerLink="employee/register">
             Cadastrar
           </button>
-        </mat-menu>
-      </div>
-    </a>
-
-    <a mat-list-item routerLink="/invoice" routerLinkActive="active-link">
-      <div mat-button [matMenuTriggerFor]="menuInvoice" class="item">
-        <mat-icon class="icon"> description </mat-icon>
-        <span class="menu-text">Contas a pagar</span>
-        <mat-menu #menuInvoice="matMenu">
-          <button mat-menu-item routerLink="invoice/list">Consultar</button>
-          <button mat-menu-item routerLink="invoice/register">Cadastrar</button>
         </mat-menu>
       </div>
     </a>
