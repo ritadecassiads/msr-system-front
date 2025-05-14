@@ -105,8 +105,6 @@ export class SupplierRegisterComponent implements OnInit {
       const supplier: Supplier = this.supplierForm.value;
 
       if (this.isEditing) {
-        console.log(supplier);
-
         const updatedSupplier: Supplier = {
           ...this.supplierToEdit,
           ...supplier,

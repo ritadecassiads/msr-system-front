@@ -134,7 +134,6 @@ export class ProductListComponent {
     // afterClosed retorna um Observable que é chamado quando o modal é fechado, result é o valor passado no close da modal
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.deleteProduct(product);
       }
     });
