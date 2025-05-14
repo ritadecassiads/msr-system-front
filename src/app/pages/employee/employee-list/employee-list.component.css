@@ -43,3 +43,12 @@
 .icon{
     margin: 0px !important;
 }
+
+
+.error-message {
+  /* color: #b80505; */
+  font-size: 12px;
+  margin-top: -20px;
+  display: flex;
+  justify-content: end;
+}
