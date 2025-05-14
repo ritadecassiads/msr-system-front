@@ -15,7 +15,7 @@
         </mat-select-trigger>
         <mat-option *ngFor="let status of statusList" [value]="status">{{
           statusMap[status]
-        }}</mat-option>
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -25,8 +25,10 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon *ngIf="invoice.status == 'paid'" class="icon icon-paid"> done </mat-icon>
-            <mat-icon *ngIf="invoice.status == 'pending'" class="icon icon-pending"> pending_actions
-            </mat-icon> 
+            <mat-icon *ngIf="invoice.status == 'pending'" class="icon icon-pending"> pending_actions </mat-icon>
+            <mat-icon *ngIf="invoice.status == 'overdue'" class="icon" color="warn">report_problem</mat-icon>
+
+
             {{ invoice.supplierId ? invoice.supplierId.name : invoice.description }}
           </mat-panel-title>
 
@@ -42,7 +44,7 @@
         <div class="invoice-infos">
           <div class="col col1">
             <div *ngIf="invoice.description">
-             Descrição: <span class="font-bold">{{ invoice.description }}</span>
+              Descrição: <span class="font-bold">{{ invoice.description }}</span>
             </div>
             <div>
               Código: <span class="font-bold">{{ invoice.code }}</span>
@@ -67,10 +69,12 @@
                       <mat-icon *ngIf="installment.status == 'pending'" class="icon icon-pending"> pending_actions
                       </mat-icon>
                       <span>{{ installment ? (installment.amount | currency : "BRL" : "symbol" : "1.2-2") : "" }} -
-                        <span class="font-bold"> {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }} </span>
+                        <span class="font-bold"> {{ installment ? ( installment.dueDate | date : "dd/MM/yyyy") : "" }}
+                        </span>
                       </span>
-                      <button *ngIf="installment.status == 'pending'" mat-raised-button class="icon-button m-l-20 m-r-10"
-                        title="Marcar como pago" type="button" (click)="maskInstallmentAsPaid(invoice, installment)">
+                      <button *ngIf="installment.status == 'pending'" mat-raised-button
+                        class="icon-button m-l-20 m-r-10" title="Marcar como pago" type="button"
+                        (click)="maskInstallmentAsPaid(invoice, installment)">
                         <mat-icon class="icon"> done </mat-icon>
                       </button>
 
@@ -84,8 +88,8 @@
 
           <div class="col col2">
             <div class="div-button m-t-10">
-              <button *ngIf="invoice.installments?.length == 0 && invoice.status != 'paid' " mat-raised-button class="icon-button m-r-10" title="Marcar como pago" type="button"
-                (click)="maskAsPaid(invoice)">
+              <button *ngIf="invoice.installments?.length == 0 && invoice.status != 'paid' " mat-raised-button
+                class="icon-button m-r-10" title="Marcar como pago" type="button" (click)="maskAsPaid(invoice)">
                 <mat-icon class="icon"> done </mat-icon>
               </button>
 

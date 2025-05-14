@@ -73,9 +73,12 @@
       <h6>Contas a pagar</h6>
 
       <mat-accordion *ngFor="let invoice of invoiceList">
-        <mat-expansion-panel *ngIf="invoice.status == 'pending'">
+        <mat-expansion-panel *ngIf="invoice.status == 'pending' || invoice.status == 'overdue'">
           <mat-expansion-panel-header>
             <mat-panel-title>
+              <mat-icon *ngIf="invoice.status == 'pending'" class="icon-pending"> pending_actions </mat-icon>
+              <mat-icon *ngIf="invoice.status == 'overdue'" class="icon-overdue" color="warn">report_problem</mat-icon>
+
               {{
               invoice.supplierId
               ? invoice.supplierId.name
@@ -134,7 +137,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="div-button">
                 <button *ngIf="invoice.installments?.length == 0" mat-raised-button class="icon-button m-r-10"
                   title="Marcar como pago" type="button" (click)="maskAsPaid(invoice)">

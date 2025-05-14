@@ -149,7 +149,7 @@ export class InvoiceListComponent {
   deleteInvoice(idInvoice: string) {
     this.invoiceService.deleteInvoice(idInvoice).subscribe({
       next: () => {
-        this.modalService.showMessage("Nota fiscal excluída com sucesso.", "success");
+        this.modalService.showMessage("Conta excluída com sucesso.", "success");
         this.loadInvoices();
       },
       error: (err) => {

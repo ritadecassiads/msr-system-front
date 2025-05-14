@@ -215,12 +215,11 @@
   margin-bottom: 8px;
 } 
 
-.icon-paid {
-  color: green;
-  margin: 10px !important;
+.icon-pending {
+  color: rgb(238 153 9);
+  margin-right: 10px !important;
 }
 
-.icon-pending {
-  color: rgb(171, 7, 7);
-  margin: 10px !important;
+.icon-overdue{
+  margin-right: 10px !important;
 }

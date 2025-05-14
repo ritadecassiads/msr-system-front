@@ -134,6 +134,7 @@ export class DashboardComponent implements OnInit {
     this.invoiceService.getInvoices().subscribe({
       next: (invoices) => {
         this.invoiceList = invoices;
+        this.sortInvoicesByDate();
       },
       error: (err) => {
         console.error(err);
@@ -188,5 +189,29 @@ export class DashboardComponent implements OnInit {
     if(titulo === "Fechar caixa"){
       this.modalService.showMessage(`Módulo em construção...`, "alert");
     }
+  }
+
+  sortInvoicesByDate(): void {
+    this.invoiceList = [...this.invoiceList].sort((a, b) => {
+      const statusPriority = this.getStatusPriority(a.status) - this.getStatusPriority(b.status);
+  
+      if (statusPriority !== 0) {
+        return statusPriority;
+      }
+  
+      const dateA = new Date(a.createdAt ?? 0).getTime();
+      const dateB = new Date(b.createdAt ?? 0).getTime();
+      return dateB - dateA;
+    });
+  }
+
+  getStatusPriority(status: string): number {
+    const priorityMap: { [key: string]: number } = {
+      overdue: 1,
+      pending: 2,
+      paid: 3,    
+    };
+  
+    return priorityMap[status] ?? 4;
   }
 }
