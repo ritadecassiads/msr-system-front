@@ -28,9 +28,10 @@
   width: 100%;
 }
 
-.icon {
-  margin: 0px !important;
-  color: #0d47a1;
+.icon{
+  /* margin: 0px !important; */
+  /* color: #0d47a1; */
+  /* font-size: 20px; */
 }
 
 .icon-button{
@@ -40,12 +41,14 @@
 .sales-table th {
   background-color: rgb(48 62 185);
   color: white;
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  
 }
 
 .sales-table td {
   background-color: #ffffff;
   padding: 10px;
+  text-align: center !important;
 }
 
 .sales-table tbody tr {

@@ -54,6 +54,7 @@
             <td mat-cell *matCellDef="let sale">
               <button title="Fechar venda" *ngIf="sale.status == 'open'" mat-raised-button
                 (click)="navigateToCloseSale(sale._id!)">
+                Fechar
                 <mat-icon class="icon">arrow_forward</mat-icon>
               </button>
             </td>
