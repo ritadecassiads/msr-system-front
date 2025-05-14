@@ -232,6 +232,23 @@ export class CloseSaleComponent implements OnInit {
   }
 
   private generateInstallments(count: number, value: number): Installment[] {
+    // Para criar parcelas vencidas
+    // const baseDate = new Date();
+    // baseDate.setMonth(baseDate.getMonth() - 6);
+
+    // const installments: Installment[] = [];
+
+    // for (let i = 0; i < count; i++) {
+    //   const dueDate = new Date(baseDate);
+    //   dueDate.setMonth(baseDate.getMonth() + i + 1);
+
+    //   installments.push({
+    //     dueDate: new Date(dueDate.toISOString().substring(0, 10)),
+    //     amount: parseFloat(value.toFixed(2)),
+    //     status: "overdue",
+    //   });
+    // }
+
     const today = new Date();
     const installments: Installment[] = [];
 
@@ -242,7 +259,7 @@ export class CloseSaleComponent implements OnInit {
       installments.push({
         dueDate: new Date(dueDate.toISOString().substring(0, 10)),
         amount: parseFloat(value.toFixed(2)),
-        status: "pending",
+        status: "overdue",
       });
     }
 

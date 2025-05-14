@@ -87,13 +87,11 @@ export class ClientListComponent implements OnInit {
   formatClientPhoneNumber(clients: Client[]): void {
     clients.forEach((client) => {
       client.phone = this.sharedService.formatPhoneNumber(client.phone);
-      console.log("client.phone", client.phone);
     }) 
   }
 
   initiatePayment(clientId: string, installment: Installment): void {
     let sale = this.getSaleIdFromInstallment(clientId, installment);
-    console.log('Sale ID: ', sale);
 
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '600px',
@@ -169,7 +167,6 @@ export class ClientListComponent implements OnInit {
       next: (sales) => {
         this.salesByClient[clientId] = sales;
 
-        console.log("salesByClient: ", this.salesByClient);
         this.getInstallments(clientId, sales);
       },
       error: (error) => {

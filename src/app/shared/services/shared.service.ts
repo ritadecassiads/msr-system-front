@@ -59,11 +59,7 @@ export class SharedService {
   isCpfValid(cpf: string): boolean {
     cpf = cpf.replace(/[^\d]+/g, '');
 
-    console.log("cpf", cpf);
-
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
-    console.log("false", cpf);
-
       return false;
     }
 

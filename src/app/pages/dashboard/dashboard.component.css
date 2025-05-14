@@ -28,13 +28,13 @@
   width: 100%;
 }
 
-.icon{
-  /* margin: 0px !important; */
-  /* color: #0d47a1; */
+.icon {
+  margin: 0px !important;
+  color: #0d47a1;
   /* font-size: 20px; */
 }
 
-.icon-button{
+.icon-button {
   margin-right: 10px !important;
 }
 
@@ -42,7 +42,7 @@
   background-color: rgb(48 62 185);
   color: white;
   /* border-radius: 10px; */
-  
+
 }
 
 .sales-table td {
@@ -186,7 +186,7 @@
   text-align: center !important;
 }
 
-.mat-expansion-panel-header-description{
+.mat-expansion-panel-header-description {
   flex-grow: 0 !important;
   flex-basis: auto !important;
 }
@@ -195,13 +195,13 @@
   flex-basis: auto !important;
 } */
 
-.board-button{
+.board-button {
   width: 45%;
 }
 
-.div-board-buttons{
+.div-board-buttons {
   display: flex;
-    justify-content: space-around;
+  justify-content: space-around;
 }
 
 .installments-list {
@@ -216,13 +216,18 @@
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 8px;
-} 
+}
+
+.icon-paid {
+  color: green;
+  margin-right: 10px !important;
+}
 
 .icon-pending {
   color: rgb(238 153 9);
   margin-right: 10px !important;
 }
 
-.icon-overdue{
+.icon-overdue {
   margin-right: 10px !important;
 }
